@@ -1,11 +1,8 @@
-import Head from "next/head";
+import { Layout } from "@/components/layout";
 
 export default function Home() {
   return (
-    <div>
-      <Head>
-        <title>kigox</title>
-      </Head>
+    <Layout hasGnbMenu>
       <div className="flex flex-col gap-2">
         <div className="mx-2">
           <div className="flex border-b-2 items-center justify-between h-12">
@@ -86,6 +83,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }
