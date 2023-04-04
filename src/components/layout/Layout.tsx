@@ -17,7 +17,7 @@ const Layout = (props: LayoutProps) => {
         <title>kigox</title>
       </Head>
       <Header {...headerProps} />
-      <div>{children}</div>
+      <div className="pt-12 pb-24">{children}</div>
       {hasGnbMenu && <GnbBar />}
     </>
   );

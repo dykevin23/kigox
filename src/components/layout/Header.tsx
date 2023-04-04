@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import Box from "@components/layout/Box";
 
 export interface HeaderProps {
   goBack?: boolean;
@@ -10,13 +11,13 @@ export interface HeaderProps {
 const Header = (props: HeaderProps) => {
   const { goBack, title = "", left, right } = props;
   return (
-    <div className="mx-2">
-      <div className="flex border-b-2 items-center justify-start h-12">
+    <Box>
+      <div className="flex bg-white w-full max-w-xl fixed top-0 border-b-2 items-center justify-start h-12">
         <div className="flex w-1/3">{goBack ? <GoBack /> : left}</div>
         <div className="flex justify-center w-1/3">{title}</div>
         <div className="flex justify-end w-1/3">{right}</div>
       </div>
-    </div>
+    </Box>
   );
 };
 
