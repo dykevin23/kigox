@@ -1,16 +1,17 @@
 import { Layout } from "@components/layout";
 
-const Store = () => {
+const Search = () => {
   return (
     <Layout
       hasGnbMenu
       headerProps={{
-        title: "KIGOX STORE",
+        title: <input />,
+        goBack: true,
       }}
     >
-      <div>Store</div>
+      <div>search</div>
     </Layout>
   );
 };
 
-export default Store;
+export default Search;

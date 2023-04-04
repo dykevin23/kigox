@@ -1,8 +1,14 @@
-import { Layout } from "@/components/layout";
+import { Layout, Search } from "@components/layout";
 
 const Profile = () => {
   return (
-    <Layout hasGnbMenu>
+    <Layout
+      hasGnbMenu
+      headerProps={{
+        title: "PROFILE",
+        right: <Search />,
+      }}
+    >
       <div>Profile</div>
     </Layout>
   );

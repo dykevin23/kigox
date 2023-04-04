@@ -1,8 +1,13 @@
-import { Layout } from "@/components/layout";
+import { Layout } from "@components/layout";
 
 const Chat = () => {
   return (
-    <Layout hasGnbMenu>
+    <Layout
+      hasGnbMenu
+      headerProps={{
+        title: "CHAT",
+      }}
+    >
       <div>Chat</div>
     </Layout>
   );

@@ -1,22 +1,22 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import GnbBar from "@/components/layout/GnbBar";
+import GnbBar from "@components/layout/GnbBar";
+import Header, { HeaderProps } from "./Header";
 
 interface LayoutProps {
-  title?: string;
+  headerProps: HeaderProps;
   children: React.ReactNode;
   hasGnbMenu: boolean;
 }
 
 const Layout = (props: LayoutProps) => {
-  const { title = "", children, hasGnbMenu = false } = props;
+  const { headerProps, children, hasGnbMenu = false } = props;
 
   return (
     <>
       <Head>
         <title>kigox</title>
       </Head>
+      <Header {...headerProps} />
       <div>{children}</div>
       {hasGnbMenu && <GnbBar />}
     </>

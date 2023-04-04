@@ -1,8 +1,13 @@
-import { Layout } from "@/components/layout";
+import { Layout } from "@components/layout";
 
 const Social = () => {
   return (
-    <Layout hasGnbMenu>
+    <Layout
+      hasGnbMenu
+      headerProps={{
+        title: "SOCIAL",
+      }}
+    >
       <div>social</div>
     </Layout>
   );
