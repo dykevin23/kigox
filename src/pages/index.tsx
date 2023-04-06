@@ -1,7 +1,9 @@
 import { Layout, Box, Like, Search } from "@components/layout";
 import Product from "@components/products/product";
+import firebase from "../fbaseConfig";
 
 export default function Home() {
+  console.log(firebase);
   return (
     <Layout
       hasGnbMenu
