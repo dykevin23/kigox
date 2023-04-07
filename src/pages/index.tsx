@@ -14,7 +14,7 @@ export default function Home() {
       <div className="flex flex-col gap-2">
         <Box>
           <div className="flex items-center justify-center bg-slate-400 h-40">
-            slide 영역
+            slide 영역123
           </div>
         </Box>
 
