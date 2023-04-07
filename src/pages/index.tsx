@@ -1,9 +1,7 @@
 import { Layout, Box, Like, Search } from "@components/layout";
 import Product from "@components/products/product";
-import firebase from "../fbaseConfig";
 
 export default function Home() {
-  console.log(firebase);
   return (
     <Layout
       hasGnbMenu
@@ -16,7 +14,7 @@ export default function Home() {
       <div className="flex flex-col gap-2">
         <Box>
           <div className="flex items-center justify-center bg-slate-400 h-40">
-            slide 영역123123
+            slide 영역
           </div>
         </Box>
 
