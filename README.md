@@ -23,10 +23,14 @@ validation: React-hook-form
 ### Devleop log
 
 ```
+2023년 5월 23일
+firebase auth setting
+
+2023년 5월 22일
+firebase install
+
 ~2023년 4월
 KIGOX Front-end project setup
 KIGOX-NATIVE project setup
 
-2023년 5월 22일
-firebase install
 ```
