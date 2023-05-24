@@ -11,7 +11,7 @@ export default function Home() {
     authService.onAuthStateChanged((user) => {
       if (!user) router.push("/auth/login");
     });
-  }, []);
+  }, [router]);
 
   return (
     <Layout
