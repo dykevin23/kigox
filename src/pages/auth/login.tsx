@@ -1,4 +1,11 @@
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+
 const Login = () => {
+  const { query } = useRouter();
+  useEffect(() => {
+    console.log("### query => ", query);
+  }, [query]);
   return (
     <div className="bg-yellow-300 h-screen max-h-screen">
       <div className="flex justify-center items-center pt-48 pb-48">
