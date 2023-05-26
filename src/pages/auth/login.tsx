@@ -22,7 +22,7 @@ const Login = () => {
       </div>
       <div className="flex flex-col justify-center items-center gap-2">
         <a
-          href={`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=N6weV1qTYc31RnlUnLxH&redirect_uri=https://kigox.vercel.app/api/hello&state=state`}
+          href={`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=N6weV1qTYc31RnlUnLxH&redirect_uri=https://kigox.vercel.app/auth/login&state=state`}
         >
           <button className="bg-green-400 w-28 rounded-lg">네이버</button>
         </a>
