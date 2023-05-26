@@ -1,11 +1,20 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { useQuery } from "react-query";
+import { getHello } from "services/hello";
 
 const Login = () => {
   const { query } = useRouter();
   useEffect(() => {
     console.log("### query => ", query);
   }, [query]);
+
+  const { data, isSuccess } = useQuery("hello", getHello);
+
+  useEffect(() => {
+    console.log("### data / isSuccess => ", data, isSuccess);
+  }, [data, isSuccess]);
+
   return (
     <div className="bg-yellow-300 h-screen max-h-screen">
       <div className="flex justify-center items-center pt-48 pb-48">
