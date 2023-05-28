@@ -1,18 +1,38 @@
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { getToken, getTokenProps } from "services/auth";
 import { getHello } from "services/hello";
+
+const naverURL = "https://nid.naver.com/oauth2.0/authorize";
+const naverClientId = process.env.NEXT_PUBLIC_AUTH_NAVER_CLIENT_ID;
+const naverRedirectURL = process.env.NEXT_PUBLIC_AUTH_NAVER_REDIRECT_URL;
 
 const Login = () => {
   const { query } = useRouter();
+  const [naverAuthorize, setNaverAuthorize] = useState<getTokenProps>({
+    code: "",
+    state: "",
+  });
+
+  const { data, isSuccess } = useQuery(
+    "getToken",
+    () => getToken({ code: naverAuthorize.code, state: naverAuthorize.state }),
+    {
+      enabled: Boolean(naverAuthorize.code) && Boolean(naverAuthorize.state),
+    }
+  );
+
   useEffect(() => {
     console.log("### query => ", query);
+    const { code, state } = query;
+    if (code && state) {
+      setNaverAuthorize({ code: code as string, state: state as string });
+    }
   }, [query]);
 
-  const { data, isSuccess } = useQuery("hello", getHello);
-
   useEffect(() => {
-    console.log("### data / isSuccess => ", data, isSuccess);
+    console.log(data, isSuccess);
   }, [data, isSuccess]);
 
   return (
@@ -22,7 +42,7 @@ const Login = () => {
       </div>
       <div className="flex flex-col justify-center items-center gap-2">
         <a
-          href={`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=N6weV1qTYc31RnlUnLxH&redirect_uri=https://kigox.vercel.app/auth/login&state=state`}
+          href={`${naverURL}?response_type=code&client_id=${naverClientId}&redirect_uri=${naverRedirectURL}&state=state`}
         >
           <button className="bg-green-400 w-28 rounded-lg">네이버</button>
         </a>

@@ -23,6 +23,12 @@ validation: React-hook-form
 ### Devleop log
 
 ```
+2023년 5월 29일
+네이버 접근 토큰 발급 요청 테스트
+
+~2023년 5월 28일
+네이버 로그인 연동 URL생성
+
 2023년 5월 23일
 firebase auth setting
 
