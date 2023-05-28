@@ -27,9 +27,7 @@ const Login = () => {
   const { data: profileData, isSuccess: isSuccessProfile } = useQuery(
     "getProfile",
     getProfile,
-    {
-      enabled: isAccessToken,
-    }
+    { enabled: isAccessToken }
   );
 
   useEffect(() => {
@@ -45,6 +43,7 @@ const Login = () => {
     if (isSuccess) {
       if (data.status === 200) {
         localStorage.setItem("access_token", data.data.access_token);
+        setIsAccessToken(true);
       }
     }
   }, [data, isSuccess]);
