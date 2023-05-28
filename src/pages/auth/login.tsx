@@ -15,7 +15,7 @@ const Login = () => {
     state: "",
   });
 
-  const { data, isSuccess } = useQuery(
+  const { data, isSuccess, isFetched } = useQuery(
     "getToken",
     () => getToken({ code: naverAuthorize.code, state: naverAuthorize.state }),
     {
@@ -34,6 +34,10 @@ const Login = () => {
   useEffect(() => {
     console.log(data, isSuccess);
   }, [data, isSuccess]);
+
+  useEffect(() => {
+    if (isFetched) setNaverAuthorize({ code: "", state: "" });
+  }, [isFetched]);
 
   return (
     <div className="bg-yellow-300 h-screen max-h-screen">
