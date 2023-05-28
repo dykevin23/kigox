@@ -20,7 +20,7 @@ export default async function handler(
     params: body,
   });
 
-  console.log("### result => ", result);
+  console.log("### result => ", result.data);
 
-  res.status(200).json(result);
+  res.status(200).json({ data: result.data });
 }
