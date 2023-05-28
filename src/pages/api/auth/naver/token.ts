@@ -14,7 +14,7 @@ export default async function handler(
 
   const { data } = await axios({
     url: "https://nid.naver.com/oauth2.0/token",
-    method,
+    method: "GET",
     params: body,
   });
 
