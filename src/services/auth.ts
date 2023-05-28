@@ -7,7 +7,7 @@ export interface getTokenProps {
 
 export const getToken = ({ code, state }: getTokenProps) => {
   return axios({
-    url: "/api/auth/login/naver",
+    url: "/api/auth/naver/getToken",
     method: "POST",
     data: {
       grant_type: "authorization_code",
