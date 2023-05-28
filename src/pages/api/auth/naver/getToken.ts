@@ -17,7 +17,11 @@ export default async function handler(
   const result = await axios({
     url: "https://nid.naver.com/oauth2.0/token",
     method: "POST",
-    data: { ...body },
+    data: {
+      grant_type: "authorization_code",
+      client_id: process.env.NEXT_PUBLIC_AUTH_NAVER_CLIENT_ID,
+      client_secret: process.env.NEXT_PUBLIC_AUTH_NAVER_CLIENT_SECRET,
+    },
   });
 
   console.log("### result => ", result);
