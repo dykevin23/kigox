@@ -17,8 +17,8 @@ export default async function handler(
   const result = await axios({
     url: "https://nid.naver.com/oauth2.0/token",
     method,
-    data: JSON.stringify(body),
+    data: body,
   });
 
-  res.status(200).json({ data: result });
+  res.status(200).json({ data: JSON.stringify(result) });
 }
