@@ -22,5 +22,5 @@ export default async function handler(
 
   console.log("### result => ", result);
 
-  res.status(200).json({ ...body });
+  res.status(200).json(result);
 }
