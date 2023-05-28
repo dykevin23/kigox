@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { getToken, getTokenProps } from "services/auth";
+import { getProfile, getToken, getTokenProps } from "services/auth";
 import { getHello } from "services/hello";
 
 const naverURL = "https://nid.naver.com/oauth2.0/authorize";
@@ -14,12 +14,21 @@ const Login = () => {
     code: "",
     state: "",
   });
+  const [isAccessToken, setIsAccessToken] = useState(false);
 
   const { data, isSuccess, isFetched } = useQuery(
     "getToken",
     () => getToken({ code: naverAuthorize.code, state: naverAuthorize.state }),
     {
       enabled: Boolean(naverAuthorize.code) && Boolean(naverAuthorize.state),
+    }
+  );
+
+  const { data: profileData, isSuccess: isSuccessProfile } = useQuery(
+    "getProfile",
+    getProfile,
+    {
+      enabled: isAccessToken,
     }
   );
 
@@ -33,7 +42,18 @@ const Login = () => {
 
   useEffect(() => {
     console.log(data, isSuccess);
+    if (isSuccess) {
+      if (data.status === 200) {
+        localStorage.setItem("access_token", data.data.access_token);
+      }
+    }
   }, [data, isSuccess]);
+
+  useEffect(() => {
+    if (isSuccessProfile) {
+      console.log("### profileData => ", profileData);
+    }
+  }, [isSuccessProfile, profileData]);
 
   useEffect(() => {
     if (isFetched) setNaverAuthorize({ code: "", state: "" });

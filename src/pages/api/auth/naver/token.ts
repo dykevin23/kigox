@@ -12,13 +12,11 @@ export default async function handler(
 ) {
   const { method, body } = req;
 
-  console.log("### success call api => ", body);
-
   const { data } = await axios({
     url: "https://nid.naver.com/oauth2.0/token",
-    method: "GET",
+    method,
     params: body,
   });
 
-  res.status(200).json({ data });
+  res.status(200).json(data);
 }
