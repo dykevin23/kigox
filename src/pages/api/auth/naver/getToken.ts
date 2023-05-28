@@ -14,13 +14,13 @@ export default async function handler(
 
   console.log("### success call api => ", body);
 
-  // const result = await axios({
-  //   url: "https://nid.naver.com/oauth2.0/token",
-  //   method,
-  //   data: body,
-  // });
+  const result = await axios({
+    url: "https://nid.naver.com/oauth2.0/token",
+    method: "POST",
+    data: { ...body },
+  });
 
-  // console.log("### result => ", result);
+  console.log("### result => ", result);
 
   res.status(200).json({ ...body });
 }
