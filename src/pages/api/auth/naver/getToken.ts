@@ -20,5 +20,7 @@ export default async function handler(
     data: body,
   });
 
-  res.status(200).json({ data: JSON.stringify(result) });
+  console.log("### result => ", result);
+
+  res.status(200).json(result);
 }
