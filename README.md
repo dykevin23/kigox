@@ -5,10 +5,10 @@
 ```
 - Native: React-Native
 - Front-end: React.js (Typescirpt)
-- Back-end: Next.js (OR Next.js)
+- Back-end: Next.js (OR Nest.js)
 - CSS: tailwindCSS or styled-components
 - Database: prisma or firebase DB
-- auth: firebase auth
+- auth: firebase auth or NextAuth.js(naver, kakao)
 - image:
 - deployment: Vercel
 
