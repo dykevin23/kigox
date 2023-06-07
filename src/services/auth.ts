@@ -1,4 +1,5 @@
 import axios from "axios";
+import { sendApi } from "common/utils/axiosInstances";
 
 export interface getTokenProps {
   code: string;
@@ -20,7 +21,7 @@ export const getToken = ({ code, state }: getTokenProps) => {
 };
 
 export const getProfile = () => {
-  return axios({
+  return sendApi({
     url: "/api/auth/naver/profile",
     method: "GET",
   });

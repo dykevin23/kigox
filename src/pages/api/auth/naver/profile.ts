@@ -1,6 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import axios from "axios";
-import { sendApi } from "common/utils/axiosInstances";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type Data = {
@@ -11,12 +10,19 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const { method, body } = req;
+  const { method, body, headers } = req;
 
-  const { data } = await sendApi({
+  console.log("### profile headers => ", headers);
+
+  const result = await axios({
     url: "https://openapi.naver.com/v1/nid/me",
     method: "GET",
+    headers: {
+      Authorization: headers.authorization,
+    },
   });
 
-  res.status(200).json(data);
+  console.log("### profile result => ", result);
+
+  res.status(200).json(result.data);
 }

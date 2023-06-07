@@ -49,6 +49,7 @@ const Login = () => {
   }, [data, isSuccess]);
 
   useEffect(() => {
+    console.log("### profileData => ", profileData);
     if (isSuccessProfile) {
       console.log("### profileData => ", profileData);
     }

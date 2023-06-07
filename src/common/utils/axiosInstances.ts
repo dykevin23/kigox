@@ -2,12 +2,16 @@ import axios from "axios";
 import type { AxiosRequestConfig } from "axios";
 
 const beforeRequest = (config: any) => {
-  const token = localStorage.getItem("access_token");
+  try {
+    const token = localStorage.getItem("access_token");
 
-  if (token) {
-    config.headers["Authorization"] = `Bearer ${token}`;
-  } else {
-    throw new Error("required authorization token");
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    } else {
+      throw new Error("required authorization token");
+    }
+  } catch (error) {
+    console.log("### error => ", error);
   }
 
   return config;
