@@ -23,6 +23,8 @@ validation: React-hook-form
 ### Devleop log
 
 ```
+2023년 6월 8일
+
 2023년 5월 29일
 네이버 접근 토큰 발급 요청 테스트
 
