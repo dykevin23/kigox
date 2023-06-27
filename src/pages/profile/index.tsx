@@ -1,4 +1,5 @@
 import { Layout, Search } from "@components/layout";
+import { signOut } from "next-auth/react";
 
 const Profile = () => {
   return (
@@ -9,7 +10,10 @@ const Profile = () => {
         right: <Search />,
       }}
     >
-      <div>Profile</div>
+      <div>
+        Profile
+        <button onClick={() => signOut()}>로그아웃</button>
+      </div>
     </Layout>
   );
 };

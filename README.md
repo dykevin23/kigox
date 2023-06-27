@@ -5,10 +5,10 @@
 ```
 - Native: React-Native
 - Front-end: React.js (Typescirpt)
-- Back-end: Next.js (OR Nest.js)
+- Back-end: Next.js
 - CSS: tailwindCSS or styled-components
-- Database: prisma or firebase DB
-- auth: firebase auth or NextAuth.js(naver, kakao)
+- Database: prisma
+- auth: NextAuth.js(naver, kakao)
 - image:
 - deployment: Vercel
 
@@ -23,6 +23,11 @@ validation: React-hook-form
 ### Devleop log
 
 ```
+2023년 6월 28일
+NextAuth.js 사용하여 auth처리
+네이버 로그인 성공
+middleware.ts에서 세션 체크
+
 2023년 6월 8일
 commit
 

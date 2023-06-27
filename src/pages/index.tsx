@@ -1,18 +1,9 @@
 import { Layout, Box, Like, Search } from "@components/layout";
 import Product from "@components/products/product";
 import { useEffect } from "react";
-import { authService } from "../firebase";
 import { useRouter } from "next/router";
 
 export default function Home() {
-  const router = useRouter();
-
-  useEffect(() => {
-    authService.onAuthStateChanged((user) => {
-      if (!user) router.push("/auth/login");
-    });
-  }, [router]);
-
   return (
     <Layout
       hasGnbMenu
