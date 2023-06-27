@@ -9,19 +9,19 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token }) {
+    async jwt({ token }: any) {
       // console.log("### token => ", token);
       return token;
     },
     // async signIn({ user, account, profile, email, credentials }) {
     //   return true;
     // },
-    async redirect({ url, baseUrl }) {
+    async redirect({ url, baseUrl }: any) {
       // console.log("### redirect url => ", url);
       // console.log("### redirect baseUrl => ", baseUrl);
       return baseUrl;
     },
-    async session({ session }) {
+    async session({ session }: any) {
       console.log("### session => ", session);
       return session;
     },
