@@ -11,13 +11,13 @@ const Login = () => {
       <div className="flex flex-col justify-center items-center gap-2">
         <button
           className="bg-green-400 w-28 rounded-lg"
-          onClick={() => signIn()}
+          onClick={() => signIn("naver")}
         >
           네이버
         </button>
         <button
           className="bg-yellow-200 w-28 rounded-lg"
-          onClick={() => signOut()}
+          onClick={() => signIn("kakao")}
         >
           카카오
         </button>
