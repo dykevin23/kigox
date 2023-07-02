@@ -7,7 +7,8 @@
 - Front-end: React.js (Typescirpt)
 - Back-end: Next.js
 - CSS: tailwindCSS or styled-components
-- Database: prisma
+- Database: mySQL planetScale
+- ORM: prisma
 - auth: NextAuth.js(naver, kakao)
 - image:
 - deployment: Vercel
@@ -23,6 +24,12 @@ validation: React-hook-form
 ### Devleop log
 
 ```
+2023년 7월 3일
+planet scale prisma database 생성
+
+2023년 6월 30일
+카카오 로그인 성공
+
 2023년 6월 28일
 NextAuth.js 사용하여 auth처리
 네이버 로그인 성공
