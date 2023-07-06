@@ -1,22 +1,25 @@
-import { getToken } from "next-auth/jwt";
+import client from "common/utils/server/client";
+import { getServerSession } from "next-auth";
+import { decode, getToken } from "next-auth/jwt";
 import { NextFetchEvent, NextRequest, NextResponse } from "next/server";
 
 export async function middleware(req: NextRequest, event: NextFetchEvent) {
-  const session = await getToken({
+  const token = await getToken({
     req,
     secret: process.env.NEXTAUTH_SECRET,
     raw: true,
   });
-
-  if (session) {
+  if (token) {
     if (req.nextUrl.pathname.includes("/auth/login")) {
       req.nextUrl.pathname = "/";
       return NextResponse.redirect(req.nextUrl);
     }
   } else {
-    if (!req.nextUrl.pathname.includes("/auth/login")) {
-      req.nextUrl.pathname = "/auth/login";
-      return NextResponse.redirect(req.nextUrl);
+    if (!req.nextUrl.pathname.includes("/auth/apply")) {
+      if (!req.nextUrl.pathname.includes("/auth/login")) {
+        req.nextUrl.pathname = "/auth/login";
+        return NextResponse.redirect(req.nextUrl);
+      }
     }
   }
 }
