@@ -24,6 +24,11 @@ validation: React-hook-form
 ### Devleop log
 
 ```
+2023년 7월 7일
+sns 로그인 관련 화면로직 완료
+User, Child 테이블 생성
+vercel 배포버전 planetScale prisma DB 연결 테스트
+
 2023년 7월 3일
 planet scale prisma database 생성
 
