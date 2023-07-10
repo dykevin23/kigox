@@ -52,7 +52,7 @@ export const authOptions = {
     //   return "http://localhost:3000/profile";
     // },
 
-    async session({ session, token }: Session) {
+    async session({ session, token }: any) {
       console.log("### async session / session => ", session);
       console.log("### async session / token => ", token);
 
