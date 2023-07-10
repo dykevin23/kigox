@@ -16,30 +16,33 @@ export const authOptions = {
   ],
   callbacks: {
     async jwt({ token, account, profile }: any) {
-      console.log("######## jwt");
-      console.log("### token => ", token);
-      console.log("### account => ", account);
-      console.log("### profile => ", profile);
+      console.log("### async token / token => ", token);
+      console.log("### async token / account => ", account);
+      console.log("### async token / profile => ", profile);
       return token;
     },
-    async signIn(props: any) {
-      console.log("### signIn => ", props);
-      const { user, account, profile, email, credentials } = props;
+    // async signIn(props: any) {
+    //   console.log("### signIn => ", props);
+    //   const { user, account, profile, email, credentials } = props;
 
-      const userInfo = await client.user.findFirst({
-        where: {
-          email: user?.email,
-        },
-      });
+    //   const userInfo = await client.user.findFirst({
+    //     where: { email: user?.email },
+    //   });
 
-      console.log("### userInfo => ", userInfo);
+    //   console.log("### userInfo => ", userInfo);
+    //   if (!userInfo) {
+    //     await client.user.create({
+    //       data: {
+    //         name: user?.name,
+    //         email: user?.email,
+    //         avatar: user?.image,
+    //         provider: account.provider,
+    //       },
+    //     });
+    //   }
 
-      if (userInfo) {
-        return true;
-      } else {
-        return "/auth/apply";
-      }
-    },
+    //   return true;
+    // },
     // async redirect({ url, baseUrl }: any) {
     //   console.log("### redirect => ", url, baseUrl);
     //   // Allows relative callback URLs
@@ -49,19 +52,42 @@ export const authOptions = {
     //   return "http://localhost:3000/profile";
     // },
 
-    async session({ session, token }: any) {
-      console.log("### session => ", session);
-      // console.log("### token => ", token);
+    async session({ session, token }: Session) {
+      console.log("### async session / session => ", session);
+      console.log("### async session / token => ", token);
 
-      // const result = await client.user.findUnique({
-      //   where: {
-      //     email: session?.user?.email,
-      //   },
-      // });
+      const userInfo = await client.user.findUnique({
+        where: {
+          email: session?.user?.email,
+        },
+        include: { Child: true, Profile: true },
+      });
 
-      // console.log("### result => ", result);
+      console.log("### userInfo => ", userInfo);
 
-      return session;
+      if (userInfo) {
+        const { Child, Profile, ...user } = userInfo;
+        return {
+          ...session,
+          user: {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            avatar: user.avatar,
+            provider: user.provider,
+            nickname: Profile[0]?.nickname,
+            birthday: Profile[0]?.birthday,
+            gender: Profile[0]?.gender,
+            mobile: Profile[0]?.mobile,
+            zonecode: Profile[0]?.zonecode,
+            address: Profile[0]?.address,
+            detailAddress: Profile[0]?.detailAddress,
+            children: Child,
+          },
+        };
+      } else {
+        return session;
+      }
     },
     // async jwt({ token, user, account, profile, isNewUser }) {
     //   return token;

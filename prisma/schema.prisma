@@ -12,16 +12,30 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  nickname  String
-  email     String   @unique
-  birthday  String
-  gender    String
+  id        Int       @id @default(autoincrement())
+  name      String
+  email     String    @unique
   avatar    String?
   provider  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   Child     Child[]
+  Profile   Profile[]
+}
+
+model Profile {
+  id            Int      @id @default(autoincrement())
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        Int
+  nickname      String   @unique
+  birthday      String
+  gender        String
+  mobile        String
+  zonecode      Int
+  address       String
+  detailAddress String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 model Child {

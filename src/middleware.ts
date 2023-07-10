@@ -1,6 +1,6 @@
 import client from "common/utils/server/client";
 import { getServerSession } from "next-auth";
-import { decode, getToken } from "next-auth/jwt";
+import { getToken } from "next-auth/jwt";
 import { NextFetchEvent, NextRequest, NextResponse } from "next/server";
 
 export async function middleware(req: NextRequest, event: NextFetchEvent) {
@@ -9,6 +9,7 @@ export async function middleware(req: NextRequest, event: NextFetchEvent) {
     secret: process.env.NEXTAUTH_SECRET,
     raw: true,
   });
+  console.log("### middleware token => ", token);
   if (token) {
     if (req.nextUrl.pathname.includes("/auth/login")) {
       req.nextUrl.pathname = "/";
