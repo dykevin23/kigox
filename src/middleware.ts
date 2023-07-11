@@ -16,7 +16,7 @@ export async function middleware(req: NextRequest, event: NextFetchEvent) {
       return NextResponse.redirect(req.nextUrl);
     }
   } else {
-    if (!req.nextUrl.pathname.includes("/auth/apply")) {
+    if (!req.nextUrl.pathname.includes("/auth/join")) {
       if (!req.nextUrl.pathname.includes("/auth/login")) {
         req.nextUrl.pathname = "/auth/login";
         return NextResponse.redirect(req.nextUrl);

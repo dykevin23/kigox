@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { AxiosRequestConfig } from "axios";
+import type { AxiosRequestConfig, AxiosResponse } from "axios";
 
 const beforeRequest = (config: any) => {
   try {
@@ -24,9 +24,15 @@ const axiosInstance = axios.create({
     Authorization: "",
   },
 });
-axiosInstance.interceptors.request.use(beforeRequest);
+// axiosInstance.interceptors.request.use(beforeRequest);
+axiosInstance.interceptors.response.use((response) => {
+  return {
+    status: response.status,
+    data: response.data,
+  };
+});
 
-export const sendApi = async ({
+export const callApi = async ({
   url,
   method,
   data,

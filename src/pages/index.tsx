@@ -12,7 +12,7 @@ export default function Enter() {
       if (user?.nickname) {
         router.push("/home");
       } else {
-        router.push("/auth/apply");
+        router.push("/auth/join");
       }
     }
   }, [session]);
