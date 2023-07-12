@@ -1,5 +1,5 @@
 import { JoinRequestBody } from "@pages/api/users/join";
-import { callApi } from "common/utils/client/axiosInstances";
+import { callApi } from "@common/utils/client/axiosInstances";
 
 export const duplicateCheckNickName = async (nickName: string) => {
   return await callApi({

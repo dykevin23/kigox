@@ -1,7 +1,7 @@
 import NextAuth from "next-auth/next";
 import NaverProvider from "next-auth/providers/naver";
 import KakaoProvider from "next-auth/providers/kakao";
-import client from "common/utils/server/client";
+import client from "@common/utils/server/client";
 
 export const authOptions = {
   providers: [

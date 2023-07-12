@@ -1,6 +1,6 @@
-import withHandler, { ResponseType } from "common/utils/server/withHandler";
+import withHandler, { ResponseType } from "@common/utils/server/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
-import client from "common/utils/server/client";
+import client from "@common/utils/server/client";
 
 async function handler(
   req: NextApiRequest,

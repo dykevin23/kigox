@@ -1,4 +1,4 @@
-import client from "common/utils/server/client";
+import client from "@common/utils/server/client";
 import { getServerSession } from "next-auth";
 import { getToken } from "next-auth/jwt";
 import { NextFetchEvent, NextRequest, NextResponse } from "next/server";
