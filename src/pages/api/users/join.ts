@@ -1,16 +1,20 @@
 import withHandler, { ResponseType } from "@common/utils/server/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
 import client from "@common/utils/server/client";
+import { IChild } from "@components/common/Child";
+import { AddressCoords } from "@components/common/PostCode";
 
 export interface JoinRequestBody {
   userId: number;
   nickname: string;
   birthday: string;
-  //   gender: string;
-  //   mobile: string;
-  //   zonecode: number;
-  //   address: string;
-  //   detailAddress: string;
+  gender: string;
+  zonecode: string;
+  address: string;
+  detailAddress: string;
+  addressCoords: AddressCoords;
+  incomeRange: string;
+  children: IChild[];
 }
 
 async function handler(
@@ -24,11 +28,14 @@ async function handler(
     data: {
       nickname: body.nickname,
       birthday: body.birthday,
-      gender: "MALE",
+      gender: body.gender,
       mobile: "01099683613",
-      zonecode: 123456,
-      address: "서울시 강남구",
-      detailAddress: "101동 101호",
+      zonecode: body.zonecode,
+      address: body.address,
+      detailAddress: body.detailAddress,
+      longitude: body.addressCoords.longitude,
+      latitude: body.addressCoords.latitude,
+      incomeRange: body.incomeRange,
       user: {
         connect: {
           id: body.userId,
@@ -36,6 +43,22 @@ async function handler(
       },
     },
   });
+
+  if (body.children.length > 0) {
+    for (var child of body.children) {
+      await client.child.create({
+        data: {
+          birthday: child.birthday,
+          gender: child.birthday,
+          user: {
+            connect: {
+              id: body.userId,
+            },
+          },
+        },
+      });
+    }
+  }
 
   res.json({ ok: true });
 }

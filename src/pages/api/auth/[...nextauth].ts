@@ -21,28 +21,28 @@ export const authOptions = {
       console.log("### async token / profile => ", profile);
       return token;
     },
-    // async signIn(props: any) {
-    //   console.log("### signIn => ", props);
-    //   const { user, account, profile, email, credentials } = props;
+    async signIn(props: any) {
+      console.log("### signIn => ", props);
+      const { user, account, profile, email, credentials } = props;
 
-    //   const userInfo = await client.user.findFirst({
-    //     where: { email: user?.email },
-    //   });
+      const userInfo = await client.user.findFirst({
+        where: { email: user?.email },
+      });
 
-    //   console.log("### userInfo => ", userInfo);
-    //   if (!userInfo) {
-    //     await client.user.create({
-    //       data: {
-    //         name: user?.name,
-    //         email: user?.email,
-    //         avatar: user?.image,
-    //         provider: account.provider,
-    //       },
-    //     });
-    //   }
+      console.log("### signIn userInfo => ", userInfo);
+      if (!userInfo) {
+        await client.user.create({
+          data: {
+            name: user?.name,
+            email: user?.email,
+            avatar: user?.image,
+            provider: account.provider,
+          },
+        });
+      }
 
-    //   return true;
-    // },
+      return true;
+    },
     // async redirect({ url, baseUrl }: any) {
     //   console.log("### redirect => ", url, baseUrl);
     //   // Allows relative callback URLs
@@ -63,7 +63,7 @@ export const authOptions = {
         include: { Child: true, Profile: true },
       });
 
-      console.log("### userInfo => ", userInfo);
+      console.log("### session userInfo => ", userInfo);
 
       if (userInfo) {
         const { Child, Profile, ...user } = userInfo;

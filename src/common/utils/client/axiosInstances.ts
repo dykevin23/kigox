@@ -25,11 +25,11 @@ const axiosInstance = axios.create({
   },
 });
 // axiosInstance.interceptors.request.use(beforeRequest);
-axiosInstance.interceptors.response.use((response) => {
+axiosInstance.interceptors.response.use((response: AxiosResponse<any, any>) => {
   return {
     status: response.status,
     data: response.data,
-  };
+  } as AxiosResponse<any, any>;
 });
 
 export const callApi = async ({

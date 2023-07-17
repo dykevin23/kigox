@@ -31,9 +31,12 @@ model Profile {
   birthday      String
   gender        String
   mobile        String
-  zonecode      Int
+  zonecode      String
   address       String
   detailAddress String
+  latitude      String
+  longitude     String
+  incomeRange   String
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
