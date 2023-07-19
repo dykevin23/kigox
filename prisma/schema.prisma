@@ -17,10 +17,12 @@ model User {
   email     String    @unique
   avatar    String?
   provider  String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
   Child     Child[]
   Profile   Profile[]
+  Product   Product[]
+  Buy       Buy[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Profile {
@@ -34,8 +36,8 @@ model Profile {
   zonecode      String
   address       String
   detailAddress String
-  latitude      String
-  longitude     String
+  latitude      Float?
+  longitude     Float?
   incomeRange   String
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
@@ -49,4 +51,60 @@ model Child {
   gender    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model StandardData {
+  id           Int     @id @default(autoincrement())
+  key          String
+  standardType String
+  min          String?
+  max          String?
+  value        String?
+  unit         String
+  score        Int
+}
+
+model Product {
+  id             Int      @id @default(autoincrement())
+  title          String
+  mainCategory   String
+  middleCategory String
+  price          String
+  tradeMethod    String
+  tradeRegion    String
+  recommedAge    String
+  gender         String
+  description    String   @db.MediumText
+  status         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         Int
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  Buy            Buy[]
+}
+
+model MainCategory {
+  id             Int              @id @default(autoincrement())
+  category       String
+  name           String
+  isUse          Boolean
+  MiddleCategory MiddleCategory[]
+}
+
+model MiddleCategory {
+  id             Int          @id @default(autoincrement())
+  category       String
+  name           String
+  mainCategory   MainCategory @relation(fields: [mainCategoryId], references: [id], onDelete: Cascade)
+  mainCategoryId Int
+  isUse          Boolean
+}
+
+model Buy {
+  id        Int      @id @default(autoincrement())
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  boughtAt  DateTime @default(now())
 }
