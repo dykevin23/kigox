@@ -22,7 +22,16 @@ export const MATURITY: { [key: string]: number[] } = {
   "4": [37],
 };
 
-// 표준화 기준
+/**
+ * 표준화 기준
+ * age          사용자 나이
+ * gender       사용자 성별
+ * distance     주소(주소간 거리)
+ * childAge     자녀 나이
+ * childGender  자녀 성별
+ * incomeRange  소득구간
+ * maturity     자녀 성숙도
+ */
 export const STANDARD_DATA: { [key: string]: string } = {
   age: "age",
   gender: "gender",
@@ -31,6 +40,17 @@ export const STANDARD_DATA: { [key: string]: string } = {
   childGender: "childGender",
   incomeRange: "incomeRange",
   maturity: "maturity",
+};
+
+export const STANDARD_TYPE: { [key: string]: string } = {
+  range: "range",
+  fixed: "fixed",
+};
+
+export const STANDARD_UNIT: { [key: string]: string } = {
+  "0": "km",
+  "1": "개월",
+  "2": "만원",
 };
 
 /*****************************************************************
