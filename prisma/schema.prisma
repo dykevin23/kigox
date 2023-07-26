@@ -62,6 +62,7 @@ model StandardData {
   value        String?
   unit         String?
   score        Int
+  weight       Float?
 }
 
 model Product {
@@ -85,7 +86,7 @@ model Product {
 
 model MainCategory {
   id             Int              @id @default(autoincrement())
-  category       String
+  category       String           @unique
   name           String
   isUse          Boolean
   MiddleCategory MiddleCategory[]
@@ -93,7 +94,7 @@ model MainCategory {
 
 model MiddleCategory {
   id             Int          @id @default(autoincrement())
-  category       String
+  category       String       @unique
   name           String
   mainCategory   MainCategory @relation(fields: [mainCategoryId], references: [id], onDelete: Cascade)
   mainCategoryId Int

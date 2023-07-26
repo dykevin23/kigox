@@ -1,7 +1,4 @@
-export interface IChild {
-  birthday: string;
-  gender: string;
-}
+import { IChild } from "types/userTypes";
 
 interface ChildProps extends IChild {
   [key: string]: any;

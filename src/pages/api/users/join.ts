@@ -1,8 +1,9 @@
-import withHandler, { ResponseType } from "@common/utils/server/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
+
+import withHandler, { ResponseType } from "@common/utils/server/withHandler";
 import client from "@common/utils/server/client";
-import { IChild } from "@components/common/Child";
 import { AddressCoords } from "@components/common/PostCode";
+import { IChild } from "types/userTypes";
 
 export interface JoinRequestBody {
   userId: number;

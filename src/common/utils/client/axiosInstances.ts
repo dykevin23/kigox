@@ -1,5 +1,6 @@
 import axios from "axios";
 import type { AxiosRequestConfig, AxiosResponse } from "axios";
+import { ResponseType } from "../server/withHandler";
 
 const beforeRequest = (config: any) => {
   try {
@@ -25,19 +26,16 @@ const axiosInstance = axios.create({
   },
 });
 // axiosInstance.interceptors.request.use(beforeRequest);
-axiosInstance.interceptors.response.use((response: AxiosResponse<any, any>) => {
-  return {
-    status: response.status,
-    data: response.data,
-  } as AxiosResponse<any, any>;
+axiosInstance.interceptors.response.use((response: AxiosResponse<any>) => {
+  return response.data;
 });
 
-export const callApi = async ({
+export const callApi = async <T>({
   url,
   method,
   data,
   params,
-}: AxiosRequestConfig) => {
+}: AxiosRequestConfig): Promise<T> => {
   return await axiosInstance({
     url,
     method,

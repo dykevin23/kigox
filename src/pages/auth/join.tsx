@@ -1,10 +1,12 @@
-import { INCOME_RANGE } from "@common/constants/server";
-import Child, { IChild } from "@components/common/Child";
-import PostCode, { AddressCoords } from "@components/common/PostCode";
-import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import { useMutation, useQuery } from "react-query";
-import { duplicateCheckNickName, join } from "services/auth";
+
+import { INCOME_RANGE } from "@common/constants/server";
+import Child from "@components/common/Child";
+import PostCode, { AddressCoords } from "@components/common/PostCode";
+import { duplicateCheckNickName, join } from "@services/auth";
+import { IChild } from "types/userTypes";
 
 const Join = () => {
   const { data: session } = useSession();
