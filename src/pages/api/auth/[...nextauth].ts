@@ -16,20 +16,20 @@ export const authOptions = {
   ],
   callbacks: {
     async jwt({ token, account, profile }: any) {
-      console.log("### async token / token => ", token);
-      console.log("### async token / account => ", account);
-      console.log("### async token / profile => ", profile);
+      // console.log("### async token / token => ", token);
+      // console.log("### async token / account => ", account);
+      // console.log("### async token / profile => ", profile);
       return token;
     },
     async signIn(props: any) {
-      console.log("### signIn => ", props);
+      // console.log("### signIn => ", props);
       const { user, account, profile, email, credentials } = props;
 
       const userInfo = await client.user.findFirst({
         where: { email: user?.email },
       });
 
-      console.log("### signIn userInfo => ", userInfo);
+      // console.log("### signIn userInfo => ", userInfo);
       if (!userInfo) {
         await client.user.create({
           data: {

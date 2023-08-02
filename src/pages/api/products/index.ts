@@ -1,5 +1,6 @@
-import withHandler, { ResponseType } from "@common/utils/server/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
+
+import withHandler, { ResponseType } from "@common/utils/server/withHandler";
 import client from "@common/utils/server/client";
 import {
   calculateAge,
@@ -30,9 +31,6 @@ async function handler(
   const {
     query: { childId },
   } = req;
-
-  console.log("### get session => ", session);
-  console.log("### get products query childId => ", childId);
 
   const result = await client.child.findMany({
     select: {

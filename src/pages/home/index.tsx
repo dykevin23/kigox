@@ -1,11 +1,12 @@
-import { Layout, Box, Like, Search } from "@components/layout";
-import Product from "@components/products/product";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { activeChildAtom } from "@recoil/atoms/users";
 import { useQuery } from "react-query";
-import { products } from "@services/products";
 import { useSession } from "next-auth/react";
+
+import { Layout, Box, Like, Search } from "@components/layout";
+import Product from "@components/products/product";
+import { activeChildAtom } from "@recoil/atoms/users";
+import { products } from "@services/products";
 import { IChild } from "types/userTypes";
 
 export default function Home() {
