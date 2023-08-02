@@ -24,6 +24,14 @@ validation: React-hook-form
 ### Devleop log
 
 ```
+2023년 8월 2일
+- server 세션정보 추가
+- recoil 추가(활성자녀 atom추가)
+- 로그인시 localstorage에 현재 자녀 정보 추가(임시)
+- 추천상품목록 조회 api 개발중(사용자간 괴리율 계산까지)
+- 회원가입(자녀정보입력) 후 라우팅
+- typescript type관리
+
 2023년 7월 26일
 카카오 우편번호 검색 팝업
 카카오 주소검색 api => 위도/경도 정보

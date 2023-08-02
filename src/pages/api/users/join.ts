@@ -23,8 +23,6 @@ async function handler(
   res: NextApiResponse<ResponseType>
 ) {
   const { body } = req;
-  console.log("### body => ", body);
-
   await client.profile.create({
     data: {
       nickname: body.nickname,
@@ -34,8 +32,8 @@ async function handler(
       zonecode: body.zonecode,
       address: body.address,
       detailAddress: body.detailAddress,
-      longitude: body.addressCoords.longitude,
-      latitude: body.addressCoords.latitude,
+      longitude: parseFloat(body.addressCoords.longitude),
+      latitude: parseFloat(body.addressCoords.latitude),
       incomeRange: body.incomeRange,
       user: {
         connect: {
@@ -50,7 +48,7 @@ async function handler(
       await client.child.create({
         data: {
           birthday: child.birthday,
-          gender: child.birthday,
+          gender: child.gender,
           user: {
             connect: {
               id: body.userId,

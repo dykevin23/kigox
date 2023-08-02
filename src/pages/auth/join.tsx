@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useMutation, useQuery } from "react-query";
+import { useRouter } from "next/router";
 
 import { INCOME_RANGE } from "@common/constants/server";
 import Child from "@components/common/Child";
@@ -10,6 +11,7 @@ import { IChild } from "types/userTypes";
 
 const Join = () => {
   const { data: session } = useSession();
+  const router = useRouter();
 
   useEffect(() => {
     console.log("### session => ", session);
@@ -47,33 +49,26 @@ const Join = () => {
     { label: string; value: any }[]
   >([{ label: "", value: "" }]);
 
-  const {
-    isSuccess: isSuccessNickNameDuplicateCheck,
-    data: duplicateCheckNickNameData,
-  } = useQuery(
-    ["duplicate/check/nickName", nickName],
-    () => duplicateCheckNickName(nickName),
-    { enabled: !!nickName }
-  );
+  // const {
+  //   isSuccess: isSuccessNickNameDuplicateCheck,
+  //   data: duplicateCheckNickNameData,
+  // } = useQuery(
+  //   ["duplicate/check/nickName", nickName],
+  //   () => duplicateCheckNickName(nickName),
+  //   { enabled: !!nickName }
+  // );
 
   const {
     mutate: mutateJoin,
     isLoading: isLoadingJoin,
     isSuccess: isSuccessJoin,
-    data: joinData,
   } = useMutation("join", join);
 
   useEffect(() => {
-    console.log(
-      "### nickname duplicate check => ",
-      isSuccessNickNameDuplicateCheck,
-      duplicateCheckNickNameData
-    );
-  }, [isSuccessNickNameDuplicateCheck, duplicateCheckNickNameData]);
-
-  useEffect(() => {
-    console.log("### join => ", isSuccessJoin, joinData);
-  }, [isSuccessJoin, joinData]);
+    if (isSuccessJoin) {
+      router.push("/", undefined, { shallow: true });
+    }
+  }, [isSuccessJoin]);
 
   const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();

@@ -1,9 +1,51 @@
 import { Layout, Box, Like, Search } from "@components/layout";
 import Product from "@components/products/product";
 import { useEffect } from "react";
-import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
+import { activeChildAtom } from "@recoil/atoms/users";
+import { useQuery } from "react-query";
+import { products } from "@services/products";
+import { useSession } from "next-auth/react";
+import { IChild } from "types/userTypes";
 
 export default function Home() {
+  const { data: session } = useSession();
+  const [activeChild, setActiveChild] = useRecoilState<IChild>(activeChildAtom);
+
+  const { isSuccess, data } = useQuery<any>(
+    "products",
+    () => products({ childId: String(activeChild.id) }),
+    { enabled: Boolean(activeChild.id) }
+  );
+
+  useEffect(() => {
+    if (session && !activeChild.id) {
+      const activeChildId = localStorage.getItem("activeChildId");
+      if (activeChildId) {
+        setActiveChild(
+          session?.user.children.find(
+            (child: IChild) => String(child.id) === activeChildId
+          ) as IChild
+        );
+      } else {
+        setActiveChild(session?.user.children[0]);
+      }
+    }
+  }, [activeChild, session]);
+
+  useEffect(() => {
+    // console.log("### data => ", data);
+    console.log(
+      "### result => ",
+      data?.children.map((item: any) => {
+        return {
+          childId: item.childId,
+          sum: item.sum,
+        };
+      })
+    );
+  }, [data]);
+
   return (
     <Layout
       hasGnbMenu

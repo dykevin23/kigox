@@ -20,7 +20,8 @@
       "@components/*": ["components/*"],
       "@pages/*": ["pages/*"],
       "@services/*": ["services/*"],
-      "@utils/*": ["utils/*"]
+      "@utils/*": ["utils/*"],
+      "@recoil/*": ["recoil/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

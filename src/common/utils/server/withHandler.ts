@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { getSession } from "next-auth/react";
 
 export interface ResponseType {
   ok: boolean;
@@ -9,7 +10,7 @@ type method = "GET" | "POST" | "DELETE" | "PUT" | "PATCH";
 
 interface ConfigType {
   methods: method[];
-  handler: (req: NextApiRequest, res: NextApiResponse) => void;
+  handler: (req: NextApiRequest, res: NextApiResponse, session: any) => void;
   isPrivate?: boolean;
 }
 
@@ -29,7 +30,12 @@ export default function withHandler({
     //   return res.status(401).json({ ok: false });
     // }
     try {
-      await handler(req, res);
+      const session = await getSession({ req });
+      if (!session) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      await handler(req, res, session);
     } catch (error) {
       console.log(error);
       return res.status(500).json({ error });

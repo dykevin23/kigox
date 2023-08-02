@@ -53,8 +53,8 @@ export const authOptions = {
     // },
 
     async session({ session, token }: any) {
-      console.log("### async session / session => ", session);
-      console.log("### async session / token => ", token);
+      // console.log("### async session / session => ", session);
+      // console.log("### async session / token => ", token);
 
       const userInfo = await client.user.findUnique({
         where: {
@@ -63,7 +63,7 @@ export const authOptions = {
         include: { Child: true, Profile: true },
       });
 
-      console.log("### session userInfo => ", userInfo);
+      // console.log("### session userInfo => ", userInfo);
 
       if (userInfo) {
         const { Child, Profile, ...user } = userInfo;
