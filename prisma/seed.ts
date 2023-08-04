@@ -34,9 +34,10 @@ async function main() {
         },
       });
 
-      user.children.forEach(async (child: Child) => {
+      user.children.forEach(async (child: Child, index: number) => {
         await client.child.create({
           data: {
+            nickname: `자녀${index}`,
             birthday: child.birthday,
             gender: child.gender,
             user: {
