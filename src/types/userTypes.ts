@@ -5,6 +5,7 @@ export interface IUser {
 export interface IChild {
   id?: number;
   userId?: number;
+  nickname: string;
   birthday: string;
   gender: string;
   createAt?: string;

@@ -24,6 +24,12 @@ validation: React-hook-form
 ### Devleop log
 
 ```
+2023년 8월 4일
+공통컴포넌트 element 작업
+- input, button, form, radio, select
+- 회원가입 폼 수정적용
+- react-hook-form 적용
+
 2023년 8월 2일
 - server 세션정보 추가
 - recoil 추가(활성자녀 atom추가)

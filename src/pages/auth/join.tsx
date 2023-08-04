@@ -2,12 +2,33 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useMutation, useQuery } from "react-query";
 import { useRouter } from "next/router";
+import { FieldErrors, useFieldArray, useForm } from "react-hook-form";
 
 import { INCOME_RANGE } from "@common/constants/server";
-import Child from "@components/common/Child";
 import PostCode, { AddressCoords } from "@components/common/PostCode";
 import { duplicateCheckNickName, join } from "@services/auth";
 import { IChild } from "types/userTypes";
+import {
+  Input,
+  Form,
+  Button,
+  Radio,
+  Select,
+} from "@components/common/elements";
+import { SelectOptions } from "@components/common/elements/Select";
+import Children from "@components/auth/Children";
+
+export interface JoinForm extends AddressCoords {
+  nickname: string;
+  email: string;
+  birthday: string;
+  gender: string;
+  zonecode: string;
+  address: string;
+  detailAddress: string;
+  incomeRange: string;
+  children: IChild[];
+}
 
 const Join = () => {
   const { data: session } = useSession();
@@ -26,28 +47,35 @@ const Join = () => {
       };
     });
 
-    setIncomeRangeOptions([{ label: "없음", value: "-1" }].concat(incomeRange));
+    setIncomeRangeOptions([{ label: "없음", value: "" }].concat(incomeRange));
   }, []);
 
-  const [nickName, setNickName] = useState<string>("");
-  const [birthday, setBirthday] = useState<string>("");
-  const [gender, setGender] = useState<string>("male");
-  const [zonecode, setZonecode] = useState<string>("");
-  const [address, setAddress] = useState<string>("");
-  const [detailAddress, setDetailAddress] = useState<string>("");
-  const [addressCoords, setAddressCoords] = useState<AddressCoords>({
-    latitude: null,
-    longitude: null,
-  });
-  const [incomeRange, setIncomeRange] = useState<string>("-1");
-  const [children, setChildren] = useState<IChild[]>([
-    { birthday: "", gender: "male" },
-  ]);
+  useEffect(() => {
+    if (session) {
+      setValue("email", session?.user?.email);
+    }
+  }, [session]);
 
-  const [isOpenPostCode, setIsOpenPostCode] = useState<boolean>(false);
-  const [incomeRangeOptions, setIncomeRangeOptions] = useState<
-    { label: string; value: any }[]
-  >([{ label: "", value: "" }]);
+  const {
+    control,
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<JoinForm>();
+  const childrenFields = useFieldArray<JoinForm>({ control, name: "children" });
+
+  const onValid = (value: JoinForm) => {
+    console.log("### onValid => ", value);
+  };
+
+  const onInvalid = (errors: FieldErrors) => {
+    console.log("### onInvalid => ", errors);
+  };
+
+  const [incomeRangeOptions, setIncomeRangeOptions] = useState<SelectOptions[]>(
+    [{ label: "", value: "" }]
+  );
 
   // const {
   //   isSuccess: isSuccessNickNameDuplicateCheck,
@@ -70,138 +98,89 @@ const Join = () => {
     }
   }, [isSuccessJoin]);
 
-  const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  // const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
 
-    if (!isLoadingJoin) {
-      mutateJoin({
-        userId: session?.user?.id as number,
-        nickname: nickName,
-        birthday,
-        gender,
-        zonecode,
-        address,
-        detailAddress,
-        addressCoords,
-        incomeRange,
-        children,
-      });
-    }
-  };
+  //   if (!isLoadingJoin) {
+  //     mutateJoin({
+  //       userId: session?.user?.id as number,
+  //       nickname: nickName,
+  //       birthday,
+  //       gender,
+  //       zonecode,
+  //       address,
+  //       detailAddress,
+  //       addressCoords,
+  //       incomeRange,
+  //       children,
+  //     });
+  //   }
+  // };
 
-  const handleChildChange = (index: number) => (value: IChild) => {
-    setChildren(
-      children.map((child: IChild, childIndex: number) => {
-        return childIndex === index ? value : child;
-      })
-    );
-  };
+  ////////////////////////////////////////
 
   return (
     <>
-      <div className="bg-yellow-300 h-screen max-h-screen">
-        <form onSubmit={handleSubmit}>
-          <div className="flex flex-col pt-3 m-3 gap-2">
-            <input
-              value={nickName}
-              type="text"
-              placeholder="닉네임을 입력해주세요.(10자 이내)"
-              onChange={(e) => setNickName(e.target.value)}
-            />
-            <input
-              value={session?.user?.email}
-              readOnly
-              placeholder="이메일을 입력해주세요."
-            />
-            <input
-              type="date"
-              value={birthday}
-              placeholder="생년월일(YYYY-MM-DD)"
-              onChange={(e) => setBirthday(e.target.value)}
-            />
-            <div>
-              <input
-                type="radio"
-                name="gender"
-                value="male"
-                checked={gender === "male"}
-                onChange={(e) => setGender(e.target.value)}
-              />{" "}
-              남자
-              <input
-                type="radio"
-                name="gender"
-                value="female"
-                checked={gender === "female"}
-                onChange={(e) => setGender(e.target.value)}
-              />{" "}
-              여자
-            </div>
-            <PostCode
-              onComplete={(data) => {
-                setZonecode(data.zonecode);
-                setAddress(data.address);
-                setAddressCoords({
-                  latitude: data.latitude,
-                  longitude: data.longitude,
-                });
-              }}
-            />
-            <input
-              type="text"
-              value={address}
-              placeholder="도로명주소"
-              readOnly
-            />
-            <input
-              type="text"
-              value={detailAddress}
-              placeholder="상세주소"
-              readOnly={address === ""}
-              onChange={(e) => setDetailAddress(e.target.value)}
-            />
-            <select
-              value={incomeRange}
-              onChange={(e) => setIncomeRange(e.target.value)}
-            >
-              {incomeRangeOptions.map((item, index) => {
-                return (
-                  <option key={index} value={item.value}>
-                    {item.label}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <div>
-            {children.map((child, index) => {
-              return (
-                <>
-                  <Child
-                    key={index}
-                    {...child}
-                    childIndex={index}
-                    onChange={handleChildChange(index)}
-                  />
-                  {children.length - 1 === index && (
-                    <button
-                      onClick={() => {
-                        setChildren(
-                          children.concat({ birthday: "", gender: "male" })
-                        );
-                      }}
-                    >
-                      자녀추가
-                    </button>
-                  )}
-                </>
-              );
+      <div className="h-screen max-h-screen">
+        <Form>
+          <Input
+            register={register("nickname", {
+              required: "닉네임을 입력해주세요.(10자 이내)",
             })}
+            name="nickname"
+            placeholder="닉네임을 입력해주세요.(10자 이내)"
+            error={errors.nickname}
+          />
+          <Input register={register("email")} name="email" readonly={true} />
+          <div className="flex justify-between">
+            <Input
+              register={register("birthday", {
+                required: "생년월일을 입력해주세요.",
+              })}
+              name="birthday"
+              placeholder="생년월일(YYYY-MM-DD)"
+              error={errors.birthday}
+            />
+            <Radio
+              register={register("gender")}
+              name="gender"
+              options={[
+                { label: "남자", value: "male" },
+                { label: "여자", value: "female" },
+              ]}
+              defaultValue="male"
+            />
           </div>
-          <div>
-            <input type="submit" value="회원가입" />
-          </div>
-        </form>
+
+          <PostCode
+            onComplete={(data) => {
+              setValue("zonecode", data.zonecode);
+              setValue("address", data.address);
+              setValue("longitude", data.longitude);
+              setValue("latitude", data.latitude);
+            }}
+            register={register}
+            errors={errors}
+          />
+
+          <Select
+            name="incomeRange"
+            options={incomeRangeOptions}
+            register={register("incomeRange", {
+              required: "월간 소득금액을 선택해주세요.",
+            })}
+            error={errors.incomeRange}
+          />
+
+          <Children childrens={childrenFields} register={register} />
+        </Form>
+      </div>
+      <div
+        className="flex items-center justify-center cursor-pointer pt-3 pb-3 border-t bg-yellow-300 fixed bottom-0 w-full max-w-xl"
+        onClick={handleSubmit(onValid, onInvalid)}
+      >
+        회원가입
+        {/* <Button label="회원가입" type="submit" /> */}
       </div>
       {/* {isOpenPostCode && <PostCode onClose={() => setIsOpenPostCode(false)} />} */}
     </>

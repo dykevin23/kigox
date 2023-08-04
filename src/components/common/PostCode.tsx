@@ -1,5 +1,9 @@
-import { kakaoApi } from "@common/utils/client/kakaoInstances";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
 import DaumPostCode, { useDaumPostcodePopup } from "react-daum-postcode";
+
+import { kakaoApi } from "@common/utils/client/kakaoInstances";
+import { Button, Input } from "@components/common/elements";
+import { JoinForm } from "@pages/auth/join";
 
 export interface AddressCoords {
   longitude: string | null;
@@ -13,9 +17,13 @@ interface PostCodeResponse extends AddressCoords {
 
 interface PostCodeProps {
   onComplete: (data: PostCodeResponse) => void;
+  register: UseFormRegister<JoinForm>;
+  errors: FieldErrors<JoinForm>;
 }
 
-const PostCode = ({ onComplete }: PostCodeProps) => {
+const PostCode = (props: PostCodeProps) => {
+  const { onComplete, register, errors } = props;
+
   const open = useDaumPostcodePopup(
     "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
   );
@@ -44,9 +52,31 @@ const PostCode = ({ onComplete }: PostCodeProps) => {
   const handleClick = () => open({ onComplete: handleComplete });
 
   return (
-    <button type="button" onClick={handleClick}>
-      우편번호 검색
-    </button>
+    <div className="flex flex-col gap-2">
+      <div className="flex justify-center items-center gap-2">
+        <Input
+          name="zonecode"
+          register={register("zonecode")}
+          readonly={true}
+          placeholder="우편번호"
+        />
+        <Button label="우편번호 검색" onClick={handleClick} />
+      </div>
+      <Input
+        name="address"
+        register={register("address")}
+        readonly
+        placeholder="주소 입력"
+      />
+      <Input
+        name="detailAddress"
+        register={register("detailAddress", {
+          required: "상세주소를 입력하세요.",
+        })}
+        placeholder="상세주소 입력"
+        error={errors.detailAddress}
+      />
+    </div>
   );
 };
 
