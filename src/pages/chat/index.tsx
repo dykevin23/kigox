@@ -2,12 +2,7 @@ import { Layout } from "@components/layout";
 
 const Chat = () => {
   return (
-    <Layout
-      hasGnbMenu
-      headerProps={{
-        title: "CHAT",
-      }}
-    >
+    <Layout hasGnbMenu headerProps={{ left: "childSelector" }}>
       <div>Chat</div>
     </Layout>
   );

@@ -2,12 +2,7 @@ import { Layout } from "@components/layout";
 
 const Social = () => {
   return (
-    <Layout
-      hasGnbMenu
-      headerProps={{
-        title: "SOCIAL",
-      }}
-    >
+    <Layout hasGnbMenu headerProps={{ left: "childSelector" }}>
       <div>social</div>
     </Layout>
   );

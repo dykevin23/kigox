@@ -51,9 +51,13 @@ export default function Home() {
     <Layout
       hasGnbMenu
       headerProps={{
-        title: "KIGOX",
-        left: <Like />,
-        right: <Search />,
+        left: "childSelector",
+        right: (
+          <>
+            <Like />
+            <Search />
+          </>
+        ),
       }}
     >
       <div className="flex flex-col gap-2">

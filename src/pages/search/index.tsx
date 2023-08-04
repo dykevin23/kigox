@@ -2,13 +2,7 @@ import { Layout } from "@components/layout";
 
 const Search = () => {
   return (
-    <Layout
-      hasGnbMenu
-      headerProps={{
-        title: <input />,
-        goBack: true,
-      }}
-    >
+    <Layout hasGnbMenu headerProps={{ left: "goBack" }}>
       <div>search</div>
     </Layout>
   );

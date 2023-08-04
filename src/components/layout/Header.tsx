@@ -1,21 +1,37 @@
 import { useRouter } from "next/router";
-import Box from "@components/layout/Box";
+
+import ChildSelector from "@components/common/ChildSelector";
+import Box from "./Box";
+
+type HeaderLeft = "childSelector" | "goBack";
 
 export interface HeaderProps {
-  goBack?: boolean;
-  title: string | React.ReactNode;
-  left?: React.ReactNode;
+  custom?: React.ReactNode;
+  left?: HeaderLeft;
+  center?: React.ReactNode;
   right?: React.ReactNode;
 }
 
 const Header = (props: HeaderProps) => {
-  const { goBack, title = "", left, right } = props;
+  const { left, center, right, custom } = props;
+
   return (
     <Box>
       <div className="flex bg-white w-full max-w-xl fixed top-0 border-b-2 items-center justify-start h-12">
-        <div className="flex w-1/3">{goBack ? <GoBack /> : left}</div>
-        <div className="flex justify-center w-1/3">{title}</div>
-        <div className="flex justify-end w-1/3">{right}</div>
+        {custom ? (
+          <div className="flex justify-center w-full">{custom}</div>
+        ) : (
+          <>
+            <div className="flex justify-start w-full  bg-red-500">
+              {left === "childSelector" && <ChildSelector />}
+              {left === "goBack" && <GoBack />}
+            </div>
+            <div className="flex justify-center w-full  bg-blue-500">
+              {center}
+            </div>
+            <div className="flex justify-end w-full  bg-green-500">{right}</div>
+          </>
+        )}
       </div>
     </Box>
   );
@@ -23,7 +39,6 @@ const Header = (props: HeaderProps) => {
 
 const GoBack = () => {
   const router = useRouter();
-
   const goBack = () => router.back();
 
   return (
