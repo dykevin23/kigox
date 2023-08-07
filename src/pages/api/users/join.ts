@@ -47,6 +47,7 @@ async function handler(
     for (var child of body.children) {
       await client.child.create({
         data: {
+          nickname: child.nickname,
           birthday: child.birthday,
           gender: child.gender,
           user: {

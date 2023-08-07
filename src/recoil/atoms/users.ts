@@ -6,6 +6,7 @@ export const activeChildAtom = atom<IChild>({
   default: {
     id: 0,
     userId: 0,
+    nickname: "",
     birthday: "",
     gender: "",
     createAt: "",
