@@ -31,7 +31,7 @@ export default function withHandler({
     // }
     try {
       const session = await getSession({ req });
-      if (!session) {
+      if (isPrivate && !session) {
         return res.status(401).json({ error: "Unauthorized" });
       }
 

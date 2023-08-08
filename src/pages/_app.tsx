@@ -4,6 +4,8 @@ import type { AppProps } from "next/app";
 import { SessionProvider } from "next-auth/react";
 import { RecoilRoot } from "recoil";
 
+import { LayerModalProvider } from "@common/hooks/useLayerModal";
+
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
@@ -20,9 +22,11 @@ export default function App({
     <SessionProvider session={session}>
       <RecoilRoot>
         <QueryClientProvider client={queryClient}>
-          <div className="w-full max-w-lg mx-auto">
-            <Component {...pageProps} />
-          </div>
+          <LayerModalProvider>
+            <div className="w-full max-w-lg mx-auto">
+              <Component {...pageProps} />
+            </div>
+          </LayerModalProvider>
         </QueryClientProvider>
       </RecoilRoot>
     </SessionProvider>

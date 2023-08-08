@@ -1,7 +1,6 @@
-import { Button, Input, Radio } from "@components/common/elements";
+import { Button, Input, RadioGroup } from "@components/common/elements";
 import { JoinForm } from "@pages/auth/join";
 import { UseFieldArrayReturn, UseFormRegister } from "react-hook-form";
-import { IChild } from "types/userTypes";
 
 interface ChildrenProps {
   childrens: UseFieldArrayReturn<JoinForm>;
@@ -53,7 +52,7 @@ const Child = (props: ChildProps) => {
           name="birthday"
           placeholder="생년월일(YYYY-MM-DD)"
         />
-        <Radio
+        <RadioGroup
           register={register(`children.${childIndex}.gender`)}
           name="gender"
           options={[

@@ -32,4 +32,5 @@ async function handler(
 export default withHandler({
   methods: ["PUT"],
   handler,
+  isPrivate: false,
 });

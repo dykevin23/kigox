@@ -14,9 +14,9 @@ export default function Home() {
   const [activeChild, setActiveChild] = useRecoilState<IChild>(activeChildAtom);
 
   const { isSuccess, data } = useQuery<any>(
-    "products",
+    ["products", activeChild.id],
     () => products({ childId: String(activeChild.id) }),
-    { enabled: Boolean(activeChild.id) }
+    { enabled: Boolean(activeChild?.id) }
   );
 
   useEffect(() => {

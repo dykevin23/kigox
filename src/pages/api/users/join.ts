@@ -5,7 +5,7 @@ import client from "@common/utils/server/client";
 import { AddressCoords } from "@components/common/PostCode";
 import { IChild } from "types/userTypes";
 
-export interface JoinRequestBody {
+export interface JoinRequestBody extends AddressCoords {
   userId: number;
   nickname: string;
   birthday: string;
@@ -13,7 +13,6 @@ export interface JoinRequestBody {
   zonecode: string;
   address: string;
   detailAddress: string;
-  addressCoords: AddressCoords;
   incomeRange: string;
   children: IChild[];
 }
@@ -32,8 +31,8 @@ async function handler(
       zonecode: body.zonecode,
       address: body.address,
       detailAddress: body.detailAddress,
-      longitude: parseFloat(body.addressCoords.longitude),
-      latitude: parseFloat(body.addressCoords.latitude),
+      longitude: parseFloat(body.longitude),
+      latitude: parseFloat(body.latitude),
       incomeRange: body.incomeRange,
       user: {
         connect: {
@@ -66,4 +65,5 @@ async function handler(
 export default withHandler({
   methods: ["POST"],
   handler,
+  isPrivate: false,
 });

@@ -8,13 +8,7 @@ import { INCOME_RANGE } from "@common/constants/server";
 import PostCode, { AddressCoords } from "@components/common/PostCode";
 import { duplicateCheckNickName, join } from "@services/auth";
 import { IChild } from "types/userTypes";
-import {
-  Input,
-  Form,
-  Button,
-  Radio,
-  Select,
-} from "@components/common/elements";
+import { Input, Form, RadioGroup, Select } from "@components/common/elements";
 import { SelectOptions } from "@components/common/elements/Select";
 import Children from "@components/auth/Children";
 
@@ -66,7 +60,9 @@ const Join = () => {
   const childrenFields = useFieldArray<JoinForm>({ control, name: "children" });
 
   const onValid = (value: JoinForm) => {
-    console.log("### onValid => ", value);
+    if (!isLoadingJoin) {
+      mutateJoin({ userId: session?.user?.id as number, ...value });
+    }
   };
 
   const onInvalid = (errors: FieldErrors) => {
@@ -141,7 +137,7 @@ const Join = () => {
               placeholder="생년월일(YYYY-MM-DD)"
               error={errors.birthday}
             />
-            <Radio
+            <RadioGroup
               register={register("gender")}
               name="gender"
               options={[
