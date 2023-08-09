@@ -14,6 +14,7 @@
     "@types/react": "18.0.32",
     "@types/react-dom": "18.0.11",
     "axios": "^1.4.0",
+    "camelcase-keys": "^8.0.2",
     "eslint": "8.37.0",
     "eslint-config-next": "13.2.4",
     "firebase": "^9.16.0",

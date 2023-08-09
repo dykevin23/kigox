@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { AxiosRequestConfig, AxiosResponse } from "axios";
-import { ResponseType } from "../server/withHandler";
+import camelcaseKeys from "camelcase-keys";
 
 const beforeRequest = (config: any) => {
   try {
@@ -27,7 +27,7 @@ const axiosInstance = axios.create({
 });
 // axiosInstance.interceptors.request.use(beforeRequest);
 axiosInstance.interceptors.response.use((response: AxiosResponse<any>) => {
-  return response.data;
+  return camelcaseKeys(response.data, { deep: true });
 });
 
 export const callApi = async <T>({
