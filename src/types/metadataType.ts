@@ -10,3 +10,16 @@ export interface IStandard {
   score: number;
   weight?: number;
 }
+
+interface ICategory {
+  id: number;
+  category: string;
+  name: string;
+}
+
+export interface IMiddleCategory extends ICategory {
+  mainCategoryId: number;
+}
+export interface IMainCategory extends ICategory {
+  middleCategory: IMiddleCategory[];
+}
