@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import withHandler, { ResponseType } from "@common/utils/server/withHandler";
+import withHandler from "@common/utils/server/withHandler";
 import client from "@common/utils/server/client";
 import { AddressCoords } from "@components/common/PostCode";
 
@@ -9,10 +9,7 @@ export interface UserAddressRequestBody extends AddressCoords {
   zonecode: string;
 }
 
-async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<ResponseType>
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { body } = req;
 
   const result = await client.profile.update({

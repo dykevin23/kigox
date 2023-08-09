@@ -25,7 +25,7 @@ export interface IStandardChild {
 
 async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseType>,
+  res: NextApiResponse<ResponseType<any>>,
   session: any
 ) {
   const {

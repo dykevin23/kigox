@@ -4,7 +4,7 @@ import client from "@common/utils/server/client";
 
 async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseType>
+  res: NextApiResponse<ResponseType<any>>
 ) {
   const {
     query: { nickName },

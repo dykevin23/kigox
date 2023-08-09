@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
 
-export interface ResponseType {
+export interface ResponseType<T> {
   ok: boolean;
   [key: string]: any;
 }

@@ -1,10 +1,11 @@
 import withHandler, { ResponseType } from "@common/utils/server/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
 import client from "@common/utils/server/client";
+import { UserListResponse } from "@services/users";
 
 async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseType>
+  res: NextApiResponse<ResponseType<UserListResponse>>
 ) {
   const { body } = req;
 

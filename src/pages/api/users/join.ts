@@ -17,10 +17,7 @@ export interface JoinRequestBody extends AddressCoords {
   children: IChild[];
 }
 
-async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<ResponseType>
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { body } = req;
   await client.profile.create({
     data: {
