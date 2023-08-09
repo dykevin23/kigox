@@ -1,4 +1,5 @@
 type StandardType = "range" | "fixed";
+export type TradeMethodType = "direct" | "delivery";
 
 export interface IStandard {
   key: string;
