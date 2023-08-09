@@ -1,8 +1,7 @@
 import { activeChildAtom } from "@recoil/atoms/users";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import LayerModal from "./elements/LayerModal";
+import { useRecoilState } from "recoil";
 import useLayerModal from "@common/hooks/useLayerModal";
 import { IChild } from "types/userTypes";
 import { Radio } from "./elements";

@@ -27,10 +27,7 @@ export const LayerModalProvider = ({ children }: LayerModalProviderProps) => {
   });
 
   const handleCloseModal = () => {
-    setModal({
-      visible: false,
-      component: null,
-    });
+    setModal({ visible: false, component: null });
   };
 
   return (
@@ -43,9 +40,6 @@ export const LayerModalProvider = ({ children }: LayerModalProviderProps) => {
       }}
     >
       {children}
-      {modal.visible && (
-        <div className="z-40 flex w-full h-full bg-gray-400">dim</div>
-      )}
       {modal.visible && (
         <LayerModal onClose={handleCloseModal}>{modal.component}</LayerModal>
       )}
