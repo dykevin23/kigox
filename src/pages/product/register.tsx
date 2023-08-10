@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+import { useMutation } from "react-query";
 import { useForm } from "react-hook-form";
 
 import { GENDER, RECOMMEND_AGE, TRADE_METHOD } from "@common/constants/server";
@@ -10,8 +13,9 @@ import {
   Select,
   TextArea,
 } from "@components/common/elements";
-import { Box, Layout } from "@components/layout";
+import { Layout } from "@components/layout";
 import { IMiddleCategory, TradeMethodType } from "types/metadataType";
+import { registProduct } from "@services/products";
 
 export interface ProductRegisterForm {
   title: string;
@@ -26,6 +30,7 @@ export interface ProductRegisterForm {
 }
 
 const Register = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -35,15 +40,26 @@ const Register = () => {
     watch,
   } = useForm<ProductRegisterForm>();
 
+  const { mutate, isLoading, isSuccess } = useMutation(
+    "registProduct",
+    registProduct
+  );
+
   const handleChangeCategory = (value: IMiddleCategory) => {
-    console.log("### handleChangeCategory => ", value);
     setValue("mainCategory", String(value.mainCategoryId));
     setValue("middleCategory", String(value.id));
   };
 
   const onValid = (data: ProductRegisterForm) => {
-    console.log("### onValid => ", data);
+    if (isLoading) return;
+    mutate(data);
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      router.push("/", undefined, { shallow: true });
+    }
+  }, [isSuccess]);
 
   return (
     <Layout

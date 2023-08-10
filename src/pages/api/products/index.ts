@@ -23,6 +23,18 @@ export interface IStandardChild {
   childGender: number;
 }
 
+export interface ProductRequestBody {
+  title: string;
+  mainCategory: string;
+  middleCategory: string;
+  price: string;
+  tradeMethod: string;
+  tradeRegion: string;
+  recommendAge: string;
+  gender: string;
+  description: string;
+}
+
 async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType<any>>,
@@ -30,71 +42,104 @@ async function handler(
 ) {
   const {
     query: { childId },
+    body,
+    method,
   } = req;
 
-  const result = await client.child.findMany({
-    select: {
-      id: true,
-      user: {
-        select: {
-          Profile: {
-            select: {
-              birthday: true,
-              gender: true,
-              incomeRange: true,
+  if (method === "GET") {
+    const result = await client.child.findMany({
+      select: {
+        id: true,
+        user: {
+          select: {
+            Profile: {
+              select: {
+                birthday: true,
+                gender: true,
+                incomeRange: true,
+              },
             },
           },
         },
+        birthday: true,
+        gender: true,
       },
-      birthday: true,
-      gender: true,
-    },
-  });
+    });
 
-  const standardData = (await client.standardData.findMany({})) as IStandard[];
+    const standardData = (await client.standardData.findMany(
+      {}
+    )) as IStandard[];
 
-  const allChildList: IStandardChild[] = result.map((item) => {
-    const { birthday, gender, incomeRange } = item.user.Profile[0];
-    return {
-      childId: item.id,
-      parentAge: getStandardData(
-        "age",
-        String(calculateAge(birthday)),
-        standardData
-      ),
-      parentGender: getStandardData("gender", gender, standardData),
-      incomeRange: parseInt(incomeRange as string),
-      childAge: getStandardData(
-        "childAge",
-        String(calculateAge(item.birthday)),
-        standardData
-      ),
-      childGender: getStandardData("childGender", item.gender, standardData),
-    };
-  });
+    const allChildList: IStandardChild[] = result.map((item) => {
+      const { birthday, gender, incomeRange } = item.user.Profile[0];
+      return {
+        childId: item.id,
+        parentAge: getStandardData(
+          "age",
+          String(calculateAge(birthday)),
+          standardData
+        ),
+        parentGender: getStandardData("gender", gender, standardData),
+        incomeRange: parseInt(incomeRange as string),
+        childAge: getStandardData(
+          "childAge",
+          String(calculateAge(item.birthday)),
+          standardData
+        ),
+        childGender: getStandardData("childGender", item.gender, standardData),
+      };
+    });
 
-  const standardDataWithWeight = getMaxStandardData(allChildList, standardData);
+    const standardDataWithWeight = getMaxStandardData(
+      allChildList,
+      standardData
+    );
 
-  const me = allChildList.find(
-    (child) => child.childId === parseInt(childId as string)
-  ) as IStandardChild;
-  const children = allChildList.filter(
-    (child) => child.childId !== parseInt(childId as string)
-  );
+    const me = allChildList.find(
+      (child) => child.childId === parseInt(childId as string)
+    ) as IStandardChild;
+    const children = allChildList.filter(
+      (child) => child.childId !== parseInt(childId as string)
+    );
 
-  const disparityRateResult = calculateDisparityRate({
-    me,
-    children,
-    standard: standardDataWithWeight,
-  });
-  // const me = children.find();
+    const disparityRateResult = calculateDisparityRate({
+      me,
+      children,
+      standard: standardDataWithWeight,
+    });
+    // const me = children.find();
 
-  //   console.log("### result => ", result, children);
+    //   console.log("### result => ", result, children);
 
-  res.json({ ok: true, result, children: disparityRateResult });
+    res.json({ ok: true, result, children: disparityRateResult });
+  }
+
+  if (method === "POST") {
+    await client.product.create({
+      data: {
+        title: body.title,
+        mainCategory: body.mainCategory,
+        middleCategory: body.middleCategory,
+        price: body.price,
+        tradeMethod: body.tradeMethod,
+        tradeRegion: body.tradeRegion,
+        recommedAge: body.recommendAge,
+        gender: body.gender,
+        description: body.description,
+        status: "sale",
+        child: {
+          connect: {
+            id: session.activeChildId,
+          },
+        },
+      },
+    });
+
+    res.json({ ok: true });
+  }
 }
 
 export default withHandler({
-  methods: ["GET"],
+  methods: ["GET", "POST"],
   handler,
 });

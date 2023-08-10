@@ -1,6 +1,6 @@
 import { callApi } from "@common/utils/client/axiosInstances";
 import { ResponseType } from "@common/utils/server/withHandler";
-import { ProductsRequestParams } from "@pages/api/products";
+import { ProductRequestBody, ProductsRequestParams } from "@pages/api/products";
 import { IMainCategory } from "types/metadataType";
 
 export const products = async ({ childId }: ProductsRequestParams) => {
@@ -17,5 +17,13 @@ export const category = async () => {
     method: "GET",
   });
 
-  return result.result
+  return result.result;
+};
+
+export const registProduct = async (data: ProductRequestBody) => {
+  return await callApi({
+    url: "/api/products",
+    method: "POST",
+    data,
+  });
 };
