@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
+
+import { authOptions } from "@pages/api/auth/[...nextauth]";
 
 export interface ResponseType<T> {
   ok: boolean;
@@ -26,11 +28,9 @@ export default function withHandler({
     if (req.method && !methods.includes(req.method as any)) {
       return res.status(405).end();
     }
-    // if (isPrivate && !req.session.user) {
-    //   return res.status(401).json({ ok: false });
-    // }
+
     try {
-      const session = await getSession({ req });
+      const session = await getServerSession(req, res, authOptions);
       if (isPrivate && !session) {
         return res.status(401).json({ error: "Unauthorized" });
       }
