@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 
 import ChildSelector from "@components/common/ChildSelector";
 import Box from "./Box";
+import { useSession } from "next-auth/react";
 
 type HeaderLeft = "childSelector" | "goBack";
 
@@ -15,6 +16,8 @@ export interface HeaderProps {
 const Header = (props: HeaderProps) => {
   const { left, center, right, custom } = props;
 
+  const { data: session } = useSession();
+
   return (
     <Box>
       <div className="flex bg-white w-full max-w-xl fixed top-0 border-b-2 items-center justify-start h-12">
@@ -23,7 +26,9 @@ const Header = (props: HeaderProps) => {
         ) : (
           <>
             <div className="flex justify-start w-full  bg-red-500">
-              {left === "childSelector" && <ChildSelector />}
+              {left === "childSelector" && session?.activeChildId && (
+                <ChildSelector />
+              )}
               {left === "goBack" && <GoBack />}
             </div>
             <div className="flex justify-center w-full  bg-blue-500">

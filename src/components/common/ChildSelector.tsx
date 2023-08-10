@@ -29,27 +29,25 @@ const ChildSelector = () => {
     hide();
   };
 
-  return (
-    session?.activeChildId && (
-      <>
-        <div
-          onClick={() => {
-            if (isCanChange) {
-              show(
-                <SelectChildren
-                  childrens={session?.user.children as IChild[]}
-                  activeChildId={session.activeChildId}
-                  onChange={handleChangeChild}
-                />
-              );
-            }
-          }}
-        >
-          {session.activeChildId}
-        </div>
-      </>
-    )
-  );
+  return session?.activeChildId ? (
+    <>
+      <div
+        onClick={() => {
+          if (isCanChange) {
+            show(
+              <SelectChildren
+                childrens={session?.user.children as IChild[]}
+                activeChildId={session.activeChildId}
+                onChange={handleChangeChild}
+              />
+            );
+          }
+        }}
+      >
+        {session.activeChildId}
+      </div>
+    </>
+  ) : null;
 };
 
 interface SelectChildrenProps {
