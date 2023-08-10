@@ -17,5 +17,6 @@ declare module "next-auth" {
       detailAddress: string;
       children: any;
     };
+    activeChildId: string;
   }
 }

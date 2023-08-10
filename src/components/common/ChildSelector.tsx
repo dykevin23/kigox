@@ -1,14 +1,12 @@
-import { activeChildAtom } from "@recoil/atoms/users";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+
 import useLayerModal from "@common/hooks/useLayerModal";
 import { IChild } from "types/userTypes";
 import { Radio } from "./elements";
 
 const ChildSelector = () => {
-  const { data: session } = useSession();
-  const [child, setChild] = useRecoilState<IChild>(activeChildAtom);
+  const { data: session, update } = useSession();
   const [isCanChange, setIsCanChange] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const { show, hide } = useLayerModal();
@@ -18,49 +16,50 @@ const ChildSelector = () => {
       const { user } = session;
       if (user.children.length === 1) setIsCanChange(false);
     }
-  }, [child, session]);
+  }, [session]);
 
   const handleChangeChild = (childId: string) => {
     const getChild = session?.user.children.find(
       (child: IChild) => child.id === parseInt(childId)
     );
     if (getChild) {
-      setChild(getChild);
-      localStorage.setItem("activeChildId", childId);
+      update({ activeChildId: getChild.id });
     }
 
     hide();
   };
 
   return (
-    <>
-      <div
-        onClick={() => {
-          if (isCanChange) {
-            show(
-              <SelectChildren
-                childrens={session?.user.children as IChild[]}
-                selectedChild={child}
-                onChange={handleChangeChild}
-              />
-            );
-          }
-        }}
-      >
-        {child.id}
-      </div>
-    </>
+    session?.activeChildId && (
+      <>
+        <div
+          onClick={() => {
+            if (isCanChange) {
+              show(
+                <SelectChildren
+                  childrens={session?.user.children as IChild[]}
+                  activeChildId={session.activeChildId}
+                  onChange={handleChangeChild}
+                />
+              );
+            }
+          }}
+        >
+          {session.activeChildId}
+        </div>
+      </>
+    )
   );
 };
 
 interface SelectChildrenProps {
   childrens: IChild[];
-  selectedChild: IChild;
+  activeChildId: string;
   onChange: Function;
 }
 const SelectChildren = ({
   childrens,
-  selectedChild,
+  activeChildId,
   onChange,
 }: SelectChildrenProps) => {
   return (
@@ -69,7 +68,7 @@ const SelectChildren = ({
         <Child
           key={index}
           child={child}
-          isSelected={child.id === selectedChild.id}
+          isSelected={child.id === parseInt(activeChildId)}
           onChange={onChange}
         />
       ))}

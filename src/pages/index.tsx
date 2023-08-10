@@ -1,50 +1,27 @@
+import { useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useQuery } from "react-query";
+
 import FloatingButton from "@components/common/elements/FloatingButton";
 import { Box, Layout, Like, Search } from "@components/layout";
 import Product from "@components/products/product";
-import { activeChildAtom } from "@recoil/atoms/users";
 import { products } from "@services/products";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { useQuery } from "react-query";
-import { useRecoilState } from "recoil";
-import { IChild } from "types/userTypes";
 
 export default function Home() {
   const { data: session } = useSession();
   const router = useRouter();
 
-  const [activeChild, setActiveChild] = useRecoilState<IChild>(activeChildAtom);
-
   const { isSuccess, data } = useQuery<any>(
-    ["products", activeChild.id],
-    () => products({ childId: String(activeChild.id) }),
-    { enabled: Boolean(activeChild.id !== 0) }
+    ["products", session?.activeChildId],
+    () => products({ childId: String(session?.activeChildId) }),
+    { enabled: Boolean(session?.activeChildId) }
   );
 
   useEffect(() => {
     if (session) {
       const { user } = session;
       if (user?.nickname) {
-        const getLocalStorageChildId = localStorage.getItem("activeChildId");
-        if (activeChild.id === 0) {
-          if (user.children.length > 0) {
-            if (getLocalStorageChildId) {
-              setActiveChild(
-                user.children.find(
-                  (child: IChild) =>
-                    child.id === parseInt(getLocalStorageChildId)
-                )
-              );
-            } else {
-              setActiveChild(user.children[0]);
-              localStorage.setItem("activeChildId", user.children[0].id);
-            }
-          } else {
-            if (!getLocalStorageChildId)
-              localStorage.removeItem("activeChildId");
-          }
-        }
       } else {
         router.push("/auth/join");
       }

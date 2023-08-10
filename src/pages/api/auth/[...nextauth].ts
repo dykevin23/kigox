@@ -15,10 +15,14 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, account, profile }: any) {
+    async jwt({ token, trigger, session }: any) {
       // console.log("### async token / token => ", token);
-      // console.log("### async token / account => ", account);
-      // console.log("### async token / profile => ", profile);
+      // console.log("### async token / trigger => ", trigger);
+      // console.log("### async token / session => ", session);
+
+      if (trigger === "update" && session?.activeChildId) {
+        token.activeChildId = session.activeChildId;
+      }
       return token;
     },
     async signIn(props: any) {
@@ -54,6 +58,8 @@ export const authOptions = {
 
     async session({ session, token }: any) {
       // console.log("### async session / session => ", session);
+      // console.log("### async session / trigger => ", trigger);
+      // console.log("### async session / newSession => ", newSession);
       // console.log("### async session / token => ", token);
 
       const userInfo = await client.user.findUnique({
@@ -84,6 +90,11 @@ export const authOptions = {
             detailAddress: Profile[0]?.detailAddress,
             children: Child,
           },
+          activeChildId: token?.activeChildId
+            ? token.activeChildId
+            : Child.length > 0
+            ? String(Child[0].id)
+            : "",
         };
       } else {
         return session;
