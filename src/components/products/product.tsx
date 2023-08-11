@@ -1,11 +1,28 @@
-const Product = () => {
+import { TRADE_METHOD } from "@common/constants/server";
+import { IProduct } from "types/productTypes";
+
+interface ProductProps {
+  product: IProduct;
+  onClick?: (productId: string) => void;
+}
+const Product = (props: ProductProps) => {
+  const {
+    product: { id, title, price, tradeMethod },
+    onClick,
+  } = props;
+
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    onClick?.(id + "");
+  };
+
   return (
-    <div className="flex gap-5 pt-3">
+    <div className="flex gap-5 pt-3" onClick={handleClick}>
       <div className="bg-slate-300 h-28 w-28 rounded-md" />
       <div className="flex flex-col w-96">
-        <span>유모차 팔아요</span>
-        <span>1,000,000원</span>
-        <span>직거래 (판매중)</span>
+        <span>{title}</span>
+        <span>{price}원</span>
+        <span>{TRADE_METHOD[tradeMethod]} (판매중)</span>
         <div className="flex justify-between pt-4">
           <div className="flex items-center gap-1">
             <svg
