@@ -61,13 +61,15 @@ export default function Home() {
           </div>
         </Box>
 
-        <Box>
+        {/* <Box>
           <div className="flex flex-col space-y-3 divide-y">
             {[1, 2, 3, 4, 5, 6, 7, 8].map((_, index) => (
-              <Product key={index} />
+              <div key={index}>
+                <Product product={null} />
+              </div>
             ))}
           </div>
-        </Box>
+        </Box> */}
       </div>
 
       <FloatingButton href="/product/register">

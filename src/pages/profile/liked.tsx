@@ -10,9 +10,10 @@ const Liked = () => {
       }}
     >
       <Box>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((_, index) => (
+        <div>좋아요</div>
+        {/* {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((_, index) => (
           <Product key={index} />
-        ))}
+        ))} */}
       </Box>
     </Layout>
   );
