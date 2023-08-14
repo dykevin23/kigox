@@ -24,6 +24,12 @@ validation: React-hook-form
 ### Devleop log
 
 ```
+2023년 8월 14일
+- 이미지 업로드 컴포넌트 추가
+- 파일(이미지) 업로드 firebase storage 이용
+- 데이터베이스 파일 테이블 추가
+- 상품 상세, 판매상품목록 이미지 등록 & 조회 작업
+
 2023년 8월 10일
 - 상품등록 추가
 - 활성화 자녀 계정 recoil에서 session으로 수정

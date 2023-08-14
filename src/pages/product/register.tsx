@@ -9,6 +9,7 @@ import Region from "@components/common/Region";
 import {
   Button,
   Form,
+  ImageUpload,
   Input,
   Select,
   TextArea,
@@ -16,8 +17,11 @@ import {
 import { Layout } from "@components/layout";
 import { IMiddleCategory, TradeMethodType } from "types/metadataType";
 import { registProduct } from "@services/products";
+import { uploadImageFiles } from "@common/utils/helper/fileHelper";
 
 export interface ProductRegisterForm {
+  images: FileList;
+  imageUrl: string;
   title: string;
   mainCategory: string;
   middleCategory: string;
@@ -26,7 +30,7 @@ export interface ProductRegisterForm {
   tradeRegion: string;
   recommendAge: string;
   gender: string;
-  description: string;
+  description?: string;
 }
 
 const Register = () => {
@@ -50,9 +54,27 @@ const Register = () => {
     setValue("middleCategory", String(value.id));
   };
 
-  const onValid = (data: ProductRegisterForm) => {
+  const onValid = async (data: ProductRegisterForm) => {
     if (isLoading) return;
-    mutate(data);
+
+    const getImageUrl = await uploadImageFiles(data.images);
+
+    if (getImageUrl) {
+      mutate({
+        imageUrl: getImageUrl?.metadata?.fullPath as string,
+        title: data.title,
+        mainCategory: data.mainCategory,
+        middleCategory: data.middleCategory,
+        tradeMethod: data.tradeMethod,
+        tradeRegion: data.tradeRegion,
+        price: data.price,
+        recommendAge: data.recommendAge,
+        gender: data.gender,
+        description: data.description,
+      });
+    }
+
+    // mutate(data);
   };
 
   useEffect(() => {
@@ -61,6 +83,10 @@ const Register = () => {
     }
   }, [isSuccess]);
 
+  const handleImageChange = (file: FileList) => {
+    setValue("images", file);
+  };
+
   return (
     <Layout
       hasGnbMenu={false}
@@ -68,6 +94,7 @@ const Register = () => {
     >
       <div className="flex flex-col gap-2 ">
         <Form onSubmit={handleSubmit(onValid)}>
+          <ImageUpload onChange={handleImageChange} />
           <Input
             name="title"
             register={register("title", { required: true })}

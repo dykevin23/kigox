@@ -24,6 +24,7 @@ export interface IStandardChild {
 }
 
 export interface ProductRequestBody {
+  imageUrl: string;
   title: string;
   mainCategory: string;
   middleCategory: string;
@@ -32,7 +33,7 @@ export interface ProductRequestBody {
   tradeRegion: string;
   recommendAge: string;
   gender: string;
-  description: string;
+  description?: string;
 }
 
 async function handler(
@@ -115,7 +116,7 @@ async function handler(
   }
 
   if (method === "POST") {
-    await client.product.create({
+    const product = await client.product.create({
       data: {
         title: body.title,
         mainCategory: body.mainCategory,
@@ -130,6 +131,18 @@ async function handler(
         child: {
           connect: {
             id: session.activeChildId,
+          },
+        },
+      },
+    });
+
+    await client.file.create({
+      data: {
+        filePath: body.imageUrl,
+        type: "image",
+        product: {
+          connect: {
+            id: product.id,
           },
         },
       },

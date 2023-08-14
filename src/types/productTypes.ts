@@ -10,4 +10,6 @@ export interface IProduct {
   gender: string;
   description: string;
   status: string;
+  childId: number;
+  image: string;
 }
