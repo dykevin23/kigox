@@ -83,6 +83,7 @@ model Product {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   Buy            Buy[]
+  File           File[]
 }
 
 model MainCategory {
@@ -109,4 +110,12 @@ model Buy {
   child     Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
   childId   Int
   boughtAt  DateTime @default(now())
+}
+
+model File {
+  id        Int     @id @default(autoincrement())
+  filePath  String
+  type      String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
 }
