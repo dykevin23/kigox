@@ -74,15 +74,15 @@ const ImageUpload = (props: ImageUploadProps) => {
               strokeLinejoin="round"
             />
           </svg>
+          <input
+            ref={inputRef}
+            accept="image/*"
+            className="hidden"
+            type="file"
+            onChange={handleChange}
+          />
         </label>
       )}
-      <input
-        ref={inputRef}
-        accept="image/*"
-        className="hidden"
-        type="file"
-        onChange={handleChange}
-      />
     </>
   );
 };
