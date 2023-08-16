@@ -1,5 +1,5 @@
-import { ChangeEventHandler, useState } from "react";
-import { FieldError, UseFormRegisterReturn } from "react-hook-form";
+import { useState } from "react";
+import { useFormContext } from "react-hook-form";
 
 import { cls } from "@utils/index";
 
@@ -12,26 +12,30 @@ export interface SelectOptions {
 interface SelectProps {
   name: string;
   options: SelectOptions[];
-  register?: UseFormRegisterReturn;
-  error?: FieldError;
-
+  required?: boolean;
   value?: any;
-  onChange?: ChangeEventHandler<HTMLSelectElement>;
+  onChange?: React.ChangeEventHandler<HTMLSelectElement>;
 }
 
 const Select = (props: SelectProps) => {
-  const { options, register, error, value, onChange } = props;
+  const { name, options, required = false, value, onChange } = props;
+
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
 
   const [initOption] = useState<SelectOptions[]>([
     { label: "선택하세요.", value: "" },
   ]);
+
   return (
     <div className="flex flex-col gap-1">
       <select
-        {...register}
+        {...register(name, { required: required })}
         className={cls(
           "appearance-none w-full px-3 py-2 border rounded-md shadow-sm border-gray-300 ",
-          error
+          errors[name]
             ? "focus:outline-none focus:ring-red-500 focus:border-red-500 border-red-500 placeholder-red-500"
             : "focus:outline-none focus:ring-yellow-300 focus:border-yellow-300"
         )}
@@ -46,9 +50,9 @@ const Select = (props: SelectProps) => {
           );
         })}
       </select>
-      {error && (
+      {errors[name] && (
         <span className="flex items-start text-xs text-red-500">
-          {error?.message}
+          <>{errors[name]?.message}</>
         </span>
       )}
     </div>
