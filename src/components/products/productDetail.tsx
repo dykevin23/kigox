@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import Image from "next/image";
 
 import { Button } from "@components/common/elements";
 import { IProduct } from "types/productTypes";
 import { IChild } from "types/userTypes";
+import ImageView from "@components/common/elements/ImageView";
 
 interface ProductDetailProps {
   product?: IProduct;
@@ -32,13 +32,8 @@ const ProductDetail = (props: ProductDetailProps) => {
 
   return (
     <div className="flex flex-col gap-2">
-      <Image
-        alt="images"
-        src={product?.image ?? ""}
-        width={100}
-        height={100}
-        className="w-full text-gray-600 rounded-md"
-      />
+      <ImageView imagePath={product?.image} />
+
       <div className="w-full h-40 bg-yellow-300 px-3 py-2">
         <div className="flex">
           <span>

@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import withHandler, { ResponseType } from "@common/utils/server/withHandler";
 import client from "@common/utils/server/client";
-import { downloadImagesUrl } from "@common/utils/helper/fileHelper";
 import { IProduct } from "types/productTypes";
 
 async function handler(
@@ -25,10 +24,6 @@ async function handler(
 
   let list: IProduct[] = [];
   for (var product of products) {
-    const imageUrl = await downloadImagesUrl(
-      product?.File[0].filePath as string
-    );
-
     list.push({
       id: product.id,
       title: product.title,
@@ -42,7 +37,7 @@ async function handler(
       description: product.description,
       status: product.status,
       childId: product.childId,
-      image: imageUrl,
+      image: product?.File[0].filePath,
     });
   }
 

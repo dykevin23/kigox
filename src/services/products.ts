@@ -29,6 +29,17 @@ export const registProduct = async (data: ProductRequestBody) => {
   });
 };
 
+export const modifyProduct = async (
+  productId: string,
+  data: ProductRequestBody
+) => {
+  return await callApi({
+    url: `/api/products/${productId}`,
+    method: "PUT",
+    data,
+  });
+};
+
 export const productDetail = async (productId: string) => {
   const { product } = await callApi<ResponseType<IProduct>>({
     url: `/api/products/${productId}`,

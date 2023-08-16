@@ -1,7 +1,6 @@
-import Image from "next/image";
-
 import { TRADE_METHOD } from "@common/constants/server";
 import { IProduct } from "types/productTypes";
+import ImageView from "@components/common/elements/ImageView";
 
 interface ProductProps {
   product: IProduct;
@@ -20,13 +19,9 @@ const Product = (props: ProductProps) => {
 
   return (
     <div className="flex gap-2 pt-3 w-full" onClick={handleClick}>
-      <Image
-        alt="images"
-        src={image}
-        width={100}
-        height={100}
-        className="bg-slate-300 h-28 w-28 rounded-md"
-      />
+      <div className="bg-slate-300 h-28 w-28 rounded-md">
+        <ImageView imagePath={image} />
+      </div>
       <div className="flex flex-col w-64">
         <span>{title}</span>
         <span>{price}원</span>

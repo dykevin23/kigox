@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-
 import { downloadImagesUrl } from "@common/utils/helper/fileHelper";
 
 interface ImageUploadProps {
@@ -40,7 +39,6 @@ const ImageUpload = (props: ImageUploadProps) => {
   const getImageUrl = async (url: string) => {
     const result = await downloadImagesUrl(url);
     if (result) {
-      console.log("### result => ", result);
       setPreviewImage(result);
     }
   };
@@ -59,7 +57,12 @@ const ImageUpload = (props: ImageUploadProps) => {
           }}
         />
       ) : (
-        <label className="w-full cursor-pointer text-gray-600 hover:border-orange-500 hover:text-orange-500 flex items-center justify-center border-2 border-dashed border-gray-300 h-48 rounded-md">
+        <label
+          onClick={() => {
+            inputRef.current?.click();
+          }}
+          className="w-full cursor-pointer text-gray-600 hover:border-orange-500 hover:text-orange-500 flex items-center justify-center border-2 border-dashed border-gray-300 h-48 rounded-md"
+        >
           <svg
             className="h-12 w-12"
             stroke="currentColor"
@@ -74,15 +77,16 @@ const ImageUpload = (props: ImageUploadProps) => {
               strokeLinejoin="round"
             />
           </svg>
-          <input
-            ref={inputRef}
-            accept="image/*"
-            className="hidden"
-            type="file"
-            onChange={handleChange}
-          />
         </label>
       )}
+
+      <input
+        ref={inputRef}
+        accept="image/*"
+        className="hidden"
+        type="file"
+        onChange={handleChange}
+      />
     </>
   );
 };

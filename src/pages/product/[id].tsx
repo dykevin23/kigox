@@ -6,6 +6,7 @@ import { Layout } from "@components/layout";
 import ProductDetail from "@components/products/productDetail";
 import { productDetail } from "@services/products";
 import { IProduct } from "types/productTypes";
+import Edit from "@components/layout/Edit";
 
 const Product = () => {
   const router = useRouter();
@@ -20,11 +21,20 @@ const Product = () => {
     if (isSuccess) console.log("### product => ", product);
   }, [product, isSuccess]);
 
+  const moveProductEdit = () => {
+    router.push(`/product/register/${router.query.id}`);
+  };
+
   return (
     <Layout
       hasGnbMenu={false}
       headerProps={{
         left: "goBack",
+        right: (
+          <>
+            <Edit onClick={moveProductEdit} />
+          </>
+        ),
       }}
     >
       <div className="flex flex-col gap-2 ">
