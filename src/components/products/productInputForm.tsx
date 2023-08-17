@@ -56,6 +56,7 @@ const ProductInputForm = () => {
           return { label: TRADE_METHOD[key], value: key };
         })}
         required
+        useInitOption
       />
 
       <Region name="tradeRegion" required={true} />
@@ -66,6 +67,7 @@ const ProductInputForm = () => {
         options={Object.keys(RECOMMEND_AGE).map((key) => {
           return { label: RECOMMEND_AGE[key], value: key };
         })}
+        useInitOption
       />
 
       <Select

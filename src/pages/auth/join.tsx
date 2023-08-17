@@ -68,8 +68,7 @@ const Join = () => {
   const onValid = (value: JoinForm) => {
     if (isLoadingJoin) return;
 
-    console.log("### join => ", value);
-    // mutateJoin({ userId: session?.user?.id as number, ...value });
+    mutateJoin({ userId: session?.user?.id as number, ...value });
   };
 
   const onInvalid = (errors: FieldErrors) => {
@@ -96,27 +95,6 @@ const Join = () => {
       router.push("/", undefined, { shallow: true });
     }
   }, [isSuccessJoin]);
-
-  // const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-
-  //   if (!isLoadingJoin) {
-  //     mutateJoin({
-  //       userId: session?.user?.id as number,
-  //       nickname: nickName,
-  //       birthday,
-  //       gender,
-  //       zonecode,
-  //       address,
-  //       detailAddress,
-  //       addressCoords,
-  //       incomeRange,
-  //       children,
-  //     });
-  //   }
-  // };
-
-  ////////////////////////////////////////
 
   return (
     <>

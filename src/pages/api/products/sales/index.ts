@@ -11,7 +11,7 @@ async function handler(
 ) {
   const products = await client.product.findMany({
     where: {
-      childId: session.activeChildId,
+      childId: parseInt(session.activeChildId),
     },
     include: {
       File: {

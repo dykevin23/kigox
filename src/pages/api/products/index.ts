@@ -130,7 +130,7 @@ async function handler(
         status: "sale",
         child: {
           connect: {
-            id: session.activeChildId,
+            id: parseInt(session.activeChildId),
           },
         },
       },

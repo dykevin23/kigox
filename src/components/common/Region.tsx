@@ -68,6 +68,7 @@ const Region = ({ name, required = false }: RegionProps) => {
             }) ?? []
           }
           onChange={handleChangeSido}
+          useInitOption
         />
       </div>
 
@@ -82,6 +83,7 @@ const Region = ({ name, required = false }: RegionProps) => {
                 return { label: item.name.split(" ")[1], value: item.name };
               }) ?? []
           }
+          useInitOption
         />
       </div>
     </div>
