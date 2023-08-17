@@ -1,21 +1,33 @@
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useQuery } from "react-query";
+import { useInfiniteQuery } from "react-query";
 
 import { Box, Layout, Like, Search } from "@components/layout";
 import Product from "@components/products/product";
 import { products } from "@services/products";
-import { FloatingButton } from "@components/common/elements";
+import { Button, FloatingButton } from "@components/common/elements";
+import { IProduct } from "types/productTypes";
 
 export default function Home() {
   const { data: session } = useSession();
   const router = useRouter();
 
-  const { isSuccess, data } = useQuery<any>(
+  const {
+    data: productList,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery<IProduct[]>(
     ["products", session?.activeChildId],
-    () => products({ childId: String(session?.activeChildId) }),
-    { enabled: Boolean(session?.activeChildId) }
+    ({ pageParam = 1 }) => products({ pageNo: pageParam }),
+    {
+      enabled: Boolean(session?.activeChildId),
+      getNextPageParam: (lastPage, pages) => {
+        const lastPageLength = lastPage.length;
+        return lastPageLength > 0 ? pages.length + 1 : false;
+      },
+    }
   );
 
   useEffect(() => {
@@ -28,18 +40,9 @@ export default function Home() {
     }
   }, [session]);
 
-  useEffect(() => {
-    // console.log("### data => ", data);
-    console.log(
-      "### result => ",
-      data?.children.map((item: any) => {
-        return {
-          childId: item.childId,
-          sum: item.sum,
-        };
-      })
-    );
-  }, [data]);
+  const handleClick = (productId: string) => {
+    router.push(`/product/${productId}`);
+  };
 
   return (
     <Layout
@@ -61,15 +64,27 @@ export default function Home() {
           </div>
         </Box>
 
-        {/* <Box>
+        <Box>
           <div className="flex flex-col space-y-3 divide-y">
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((_, index) => (
-              <div key={index}>
-                <Product product={null} />
-              </div>
-            ))}
+            {productList?.pages
+              .flatMap((page) => page)
+              ?.map((product) => (
+                <Product
+                  key={product.id}
+                  product={product}
+                  onClick={handleClick}
+                />
+              ))}
           </div>
-        </Box> */}
+          {hasNextPage && (
+            <Button
+              type="button"
+              label="more"
+              onClick={() => fetchNextPage()}
+              disabled={isFetchingNextPage}
+            />
+          )}
+        </Box>
       </div>
 
       <FloatingButton href="/product/register">

@@ -4,12 +4,14 @@ import { ProductRequestBody, ProductsRequestParams } from "@pages/api/products";
 import { IMainCategory } from "types/metadataType";
 import { IProduct } from "types/productTypes";
 
-export const products = async ({ childId }: ProductsRequestParams) => {
-  return await callApi({
+export const products = async ({ pageNo = 1 }: ProductsRequestParams) => {
+  const { products } = await callApi<ResponseType<IProduct[]>>({
     url: "/api/products",
     method: "GET",
-    params: { childId },
+    params: { pageNo },
   });
+
+  return products;
 };
 
 export const category = async () => {

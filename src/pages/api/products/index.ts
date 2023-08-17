@@ -11,7 +11,7 @@ import {
 import { IStandard } from "types/metadataType";
 
 export interface ProductsRequestParams {
-  childId: string;
+  pageNo: number;
 }
 
 export interface IStandardChild {
@@ -42,7 +42,7 @@ async function handler(
   session: any
 ) {
   const {
-    query: { childId },
+    query: { pageNo },
     body,
     method,
   } = req;
@@ -97,10 +97,10 @@ async function handler(
     );
 
     const me = allChildList.find(
-      (child) => child.childId === parseInt(childId as string)
+      (child) => child.childId === parseInt(session.activeChildId)
     ) as IStandardChild;
     const children = allChildList.filter(
-      (child) => child.childId !== parseInt(childId as string)
+      (child) => child.childId !== parseInt(session.activeChildId)
     );
 
     const disparityRateResult = calculateDisparityRate({
@@ -108,11 +108,20 @@ async function handler(
       children,
       standard: standardDataWithWeight,
     });
-    // const me = children.find();
 
-    //   console.log("### result => ", result, children);
+    const childIds = disparityRateResult.map((item) => item.childId);
+    const products = await client.$queryRaw`
+      SELECT
+        *,
+        (SELECT filePath 
+         FROM File B
+         WHERE B.productId = A.id) as image
+      FROM Product A
+      ORDER BY FIND_IN_SET(childId, ${childIds.join(",")})
+      LIMIT 5 OFFSET ${(parseInt(pageNo as string) - 1) * 5 + 1}
+    `;
 
-    res.json({ ok: true, result, children: disparityRateResult });
+    res.json({ ok: true, products });
   }
 
   if (method === "POST") {
