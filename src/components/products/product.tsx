@@ -1,6 +1,6 @@
 import { TRADE_METHOD } from "@common/constants/server";
+import { ImageView } from "@components/common/elements";
 import { IProduct } from "types/productTypes";
-import ImageView from "@components/common/elements/ImageView";
 
 interface ProductProps {
   product: IProduct;

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
-
-import { cls } from "@utils/index";
+import { cls } from "@common/utils/helper/utils";
 
 export interface SelectOptions {
   label: string;
@@ -12,22 +11,30 @@ export interface SelectOptions {
 interface SelectProps {
   name: string;
   options: SelectOptions[];
-  required?: boolean;
+  required?: boolean | string;
+  useInitOption?: boolean;
   value?: any;
   onChange?: React.ChangeEventHandler<HTMLSelectElement>;
 }
 
 const Select = (props: SelectProps) => {
-  const { name, options, required = false, value, onChange } = props;
+  const {
+    name,
+    options,
+    required = false,
+    useInitOption = false,
+    value,
+    onChange,
+  } = props;
 
   const {
     register,
     formState: { errors },
   } = useFormContext();
 
-  const [initOption] = useState<SelectOptions[]>([
-    { label: "선택하세요.", value: "" },
-  ]);
+  const [initOption] = useState<SelectOptions[]>(
+    useInitOption ? [{ label: "선택하세요.", value: "" }] : []
+  );
 
   return (
     <div className="flex flex-col gap-1">

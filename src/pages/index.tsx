@@ -3,10 +3,10 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
-import FloatingButton from "@components/common/elements/FloatingButton";
 import { Box, Layout, Like, Search } from "@components/layout";
 import Product from "@components/products/product";
 import { products } from "@services/products";
+import { FloatingButton } from "@components/common/elements";
 
 export default function Home() {
   const { data: session } = useSession();

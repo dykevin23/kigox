@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useMutation, useQuery } from "react-query";
 import { useRouter } from "next/router";
-import { FieldErrors, useFieldArray, useForm } from "react-hook-form";
+import {
+  FieldErrors,
+  FormProvider,
+  useFieldArray,
+  useForm,
+} from "react-hook-form";
 
 import { INCOME_RANGE } from "@common/constants/server";
 import PostCode, { AddressCoords } from "@components/common/PostCode";
@@ -28,6 +33,10 @@ const Join = () => {
   const { data: session } = useSession();
   const router = useRouter();
 
+  const [incomeRangeOptions, setIncomeRangeOptions] = useState<SelectOptions[]>(
+    [{ label: "", value: "" }]
+  );
+
   useEffect(() => {
     console.log("### session => ", session);
 
@@ -46,32 +55,26 @@ const Join = () => {
 
   useEffect(() => {
     if (session) {
-      setValue("email", session?.user?.email);
+      joinMethods.setValue("email", session?.user?.email);
     }
   }, [session]);
 
-  const {
-    control,
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<JoinForm>();
-  const childrenFields = useFieldArray<JoinForm>({ control, name: "children" });
+  const joinMethods = useForm<JoinForm>();
+  const childrenFields = useFieldArray<JoinForm>({
+    control: joinMethods.control,
+    name: "children",
+  });
 
   const onValid = (value: JoinForm) => {
-    if (!isLoadingJoin) {
-      mutateJoin({ userId: session?.user?.id as number, ...value });
-    }
+    if (isLoadingJoin) return;
+
+    console.log("### join => ", value);
+    // mutateJoin({ userId: session?.user?.id as number, ...value });
   };
 
   const onInvalid = (errors: FieldErrors) => {
     console.log("### onInvalid => ", errors);
   };
-
-  const [incomeRangeOptions, setIncomeRangeOptions] = useState<SelectOptions[]>(
-    [{ label: "", value: "" }]
-  );
 
   // const {
   //   isSuccess: isSuccessNickNameDuplicateCheck,
@@ -118,66 +121,54 @@ const Join = () => {
   return (
     <>
       <div className="h-screen max-h-screen">
-        <Form>
-          <Input
-            register={register("nickname", {
-              required: "닉네임을 입력해주세요.(10자 이내)",
-            })}
-            name="nickname"
-            placeholder="닉네임을 입력해주세요.(10자 이내)"
-            error={errors.nickname}
-          />
-          <Input register={register("email")} name="email" readonly={true} />
-          <div className="flex justify-between">
+        <FormProvider {...joinMethods}>
+          <Form>
             <Input
-              register={register("birthday", {
-                required: "생년월일을 입력해주세요.",
-              })}
-              name="birthday"
-              placeholder="생년월일(YYYY-MM-DD)"
-              error={errors.birthday}
+              name="nickname"
+              placeholder="닉네임을 입력해주세요.(10자 이내)"
+              required="닉네임을 입력해주세요.(10자 이내)"
             />
-            <RadioGroup
-              register={register("gender")}
-              name="gender"
-              options={[
-                { label: "남자", value: "male" },
-                { label: "여자", value: "female" },
-              ]}
-              defaultValue="male"
+            <Input name="email" readonly={true} />
+            <div className="flex justify-between">
+              <Input
+                name="birthday"
+                placeholder="생년월일(YYYY-MM-DD)"
+                required="생년월일을 입력해주세요."
+              />
+              <RadioGroup
+                name="gender"
+                options={[
+                  { label: "남자", value: "male" },
+                  { label: "여자", value: "female" },
+                ]}
+                defaultValue="male"
+              />
+            </div>
+
+            <PostCode
+              onComplete={(data) => {
+                joinMethods.setValue("zonecode", data.zonecode);
+                joinMethods.setValue("address", data.address);
+                joinMethods.setValue("longitude", data.longitude);
+                joinMethods.setValue("latitude", data.latitude);
+              }}
             />
-          </div>
 
-          <PostCode
-            onComplete={(data) => {
-              setValue("zonecode", data.zonecode);
-              setValue("address", data.address);
-              setValue("longitude", data.longitude);
-              setValue("latitude", data.latitude);
-            }}
-            register={register}
-            errors={errors}
-          />
+            <Select name="incomeRange" options={incomeRangeOptions} />
 
-          <Select
-            name="incomeRange"
-            options={incomeRangeOptions}
-            register={register("incomeRange", {
-              required: "월간 소득금액을 선택해주세요.",
-            })}
-            error={errors.incomeRange}
-          />
+            <Children childrens={childrenFields} />
 
-          <Children childrens={childrenFields} register={register} />
-        </Form>
+            <div
+              className="flex items-center justify-center cursor-pointer pt-3 pb-3 border-t bg-yellow-300 fixed bottom-0 w-full max-w-xl"
+              onClick={joinMethods.handleSubmit(onValid, onInvalid)}
+            >
+              회원가입
+              {/* <Button label="회원가입" type="submit" /> */}
+            </div>
+          </Form>
+        </FormProvider>
       </div>
-      <div
-        className="flex items-center justify-center cursor-pointer pt-3 pb-3 border-t bg-yellow-300 fixed bottom-0 w-full max-w-xl"
-        onClick={handleSubmit(onValid, onInvalid)}
-      >
-        회원가입
-        {/* <Button label="회원가입" type="submit" /> */}
-      </div>
+
       {/* {isOpenPostCode && <PostCode onClose={() => setIsOpenPostCode(false)} />} */}
     </>
   );

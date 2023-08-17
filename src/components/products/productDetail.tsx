@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 
-import { Button } from "@components/common/elements";
+import { Button, ImageView } from "@components/common/elements";
 import { IProduct } from "types/productTypes";
 import { IChild } from "types/userTypes";
-import ImageView from "@components/common/elements/ImageView";
 
 interface ProductDetailProps {
   product?: IProduct;

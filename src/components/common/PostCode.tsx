@@ -17,12 +17,10 @@ interface PostCodeResponse extends AddressCoords {
 
 interface PostCodeProps {
   onComplete: (data: PostCodeResponse) => void;
-  register: UseFormRegister<JoinForm>;
-  errors: FieldErrors<JoinForm>;
 }
 
 const PostCode = (props: PostCodeProps) => {
-  const { onComplete, register, errors } = props;
+  const { onComplete } = props;
 
   const open = useDaumPostcodePopup(
     "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
@@ -54,27 +52,14 @@ const PostCode = (props: PostCodeProps) => {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex justify-center items-center gap-2">
-        <Input
-          name="zonecode"
-          register={register("zonecode")}
-          readonly={true}
-          placeholder="우편번호"
-        />
+        <Input name="zonecode" readonly={true} placeholder="우편번호" />
         <Button label="우편번호 검색" onClick={handleClick} />
       </div>
-      <Input
-        name="address"
-        register={register("address")}
-        readonly
-        placeholder="주소 입력"
-      />
+      <Input name="address" readonly placeholder="주소 입력" />
       <Input
         name="detailAddress"
-        register={register("detailAddress", {
-          required: "상세주소를 입력하세요.",
-        })}
         placeholder="상세주소 입력"
-        error={errors.detailAddress}
+        required="상세주소를 입력하세요."
       />
     </div>
   );

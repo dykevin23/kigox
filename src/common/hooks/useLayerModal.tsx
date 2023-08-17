@@ -1,4 +1,4 @@
-import LayerModal from "@components/common/elements/LayerModal";
+import { LayerModal } from "@components/common/elements";
 import { createContext, useContext, useState } from "react";
 
 interface ContextProp {

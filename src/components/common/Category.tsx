@@ -1,8 +1,9 @@
-import useLayerModal from "@common/hooks/useLayerModal";
-import { category } from "@services/products";
-import { cls } from "@utils/index";
 import { MouseEvent, useEffect, useState } from "react";
 import { useQuery } from "react-query";
+
+import useLayerModal from "@common/hooks/useLayerModal";
+import { cls } from "@common/utils/helper/utils";
+import { category } from "@services/products";
 import { IMainCategory, IMiddleCategory } from "types/metadataType";
 
 interface CategoryProps {

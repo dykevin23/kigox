@@ -1,5 +1,6 @@
-import { useFormContext } from "react-hook-form";
-import { cls } from "@utils/index";
+import { FieldError, useFormContext } from "react-hook-form";
+import HelperText from "./HelperText";
+import { cls } from "@common/utils/helper/utils";
 
 type InputTypes = "textField" | "currency";
 interface InputProps {
@@ -8,7 +9,8 @@ interface InputProps {
   inputType?: InputTypes;
   placeholder?: string;
   readonly?: boolean;
-  required?: boolean;
+  required?: boolean | string;
+  errors?: FieldError;
 }
 
 const Input = (props: InputProps) => {
@@ -19,11 +21,12 @@ const Input = (props: InputProps) => {
     placeholder = "",
     readonly = false,
     required = false,
+    errors,
   } = props;
 
   const {
     register,
-    formState: { errors },
+    formState: { errors: fieldError },
   } = useFormContext();
 
   return (
@@ -40,8 +43,8 @@ const Input = (props: InputProps) => {
             readonly
               ? "focus:outline-none"
               : "focus:outline-none focus:ring-yellow-300 focus:border-yellow-300",
-            errors[name]
-              ? "focus:outline-none focus:ring-red-500 focus:border-red-500 border-red-500 placeholder-red-500"
+            errors || fieldError[name]
+              ? "focus:outline-none focus:ring-red-500 focus:border-red-500 border-red-500 "
               : "border-gray-300 placeholder-gray-400 ",
             ["currency"].includes(inputType) ? "text-right pr-8" : ""
           )}
@@ -52,10 +55,13 @@ const Input = (props: InputProps) => {
           </div>
         )}
       </div>
-      {errors[name]?.type !== "required" && (
-        <span className="flex items-start text-xs text-red-500">
-          <>{errors[name]?.message}</>
-        </span>
+      {(errors || fieldError[name]) && (
+        <HelperText
+          type="error"
+          message={
+            (errors?.message as string) || (fieldError[name]?.message as string)
+          }
+        />
       )}
     </div>
   );

@@ -1,6 +1,5 @@
 import { useFormContext } from "react-hook-form";
-
-import { cls } from "@utils/index";
+import { cls } from "@common/utils/helper/utils";
 
 interface TextAreaProps {
   name: string;

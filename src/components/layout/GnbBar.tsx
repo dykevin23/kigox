@@ -1,6 +1,6 @@
-import { cls } from "@utils/index";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { cls } from "@common/utils/helper/utils";
 
 const GnbBar = () => {
   const router = useRouter();
