@@ -1,7 +1,6 @@
 import { useFormContext } from "react-hook-form";
 
 import { GENDER, RECOMMEND_AGE, TRADE_METHOD } from "@common/constants/server";
-import Category from "@components/common/Category";
 import Region from "@components/common/Region";
 import {
   ImageUpload,
@@ -10,11 +9,13 @@ import {
   TextArea,
 } from "@components/common/elements";
 import { IMiddleCategory } from "types/metadataType";
+import { CategorySelector } from "@components/common/category";
 
 export interface IProductInputForm {
   images: FileList;
   imageUrl: string;
   title: string;
+  category: string;
   mainCategory: string;
   middleCategory: string;
   price: string;
@@ -42,7 +43,8 @@ const ProductInputForm = () => {
       <ImageUpload imageUrl={watch("imageUrl")} onChange={handleImageChange} />
       <Input name="title" placeholder="제목을 입력하세요." required />
 
-      <Category
+      <CategorySelector
+        name="category"
         mainCategory={watch("mainCategory")}
         middleCategory={watch("middleCategory")}
         onChange={handleChangeCategory}

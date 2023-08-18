@@ -11,6 +11,7 @@ interface InputProps {
   readonly?: boolean;
   required?: boolean | string;
   errors?: FieldError;
+  onClick?: () => void;
 }
 
 const Input = (props: InputProps) => {
@@ -22,6 +23,7 @@ const Input = (props: InputProps) => {
     readonly = false,
     required = false,
     errors,
+    onClick,
   } = props;
 
   const {
@@ -48,6 +50,7 @@ const Input = (props: InputProps) => {
               : "border-gray-300 placeholder-gray-400 ",
             ["currency"].includes(inputType) ? "text-right pr-8" : ""
           )}
+          onClick={onClick}
         />
         {["currency"].includes(inputType) && (
           <div className="absolute inset-y-0 flex right-3 items-center pl-3 pointer-events-none">
