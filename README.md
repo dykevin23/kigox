@@ -24,6 +24,9 @@ validation: React-hook-form
 ### Devleop log
 
 ```
+2023년 8월 18일
+- 상품검색 화면 및 api 개발중
+
 2023년 8월 17일
 - 이미지 코드 관련 정리
 - react-hook-form 관련 FormProvider적용으로 공통컴포넌트 수정

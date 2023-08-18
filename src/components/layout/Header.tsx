@@ -42,7 +42,7 @@ const Header = (props: HeaderProps) => {
   );
 };
 
-const GoBack = () => {
+export const GoBack = () => {
   const router = useRouter();
   const goBack = () => router.back();
 
