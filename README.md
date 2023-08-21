@@ -10,7 +10,7 @@
 - Database: mySQL planetScale
 - ORM: prisma
 - auth: NextAuth.js(naver, kakao)
-- image:
+- image: firebase storage
 - deployment: Vercel
 
 React library
