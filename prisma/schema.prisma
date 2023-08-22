@@ -42,17 +42,19 @@ model Profile {
 }
 
 model Child {
-  id        Int       @id @default(autoincrement())
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
-  nickname  String
-  birthday  String
-  gender    String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  Product   Product[]
-  Buy       Buy[]
-  Search    Search[]
+  id              Int       @id @default(autoincrement())
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          Int
+  nickname        String
+  birthday        String
+  gender          String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  Product         Product[]
+  Buy             Buy[]
+  Search          Search[]
+  createChannels  Channel[] @relation(name: "createChannels")
+  receiveChannels Channel[] @relation(name: "receiveChannels")
 }
 
 model StandardData {
@@ -127,4 +129,15 @@ model Search {
   child     Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
   childId   Int
   createdAt DateTime @default(now())
+}
+
+model Channel {
+  id          Int      @id @default(autoincrement())
+  createBy    Child    @relation(name: "createChannels", fields: [createById], references: [id], onDelete: Cascade)
+  createById  Int
+  createFor   Child    @relation(name: "receiveChannels", fields: [createForId], references: [id], onDelete: Cascade)
+  createForId Int
+  channelId   String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
