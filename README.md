@@ -24,6 +24,10 @@ validation: React-hook-form
 ### Devleop log
 
 ```
+2023년 8월 23일
+- 채팅기능 구현
+- firebase firestore이용
+
 2023년 8월 18일
 - 상품검색 화면 및 api 개발중
 
