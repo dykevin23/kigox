@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useMutation, useQuery } from "react-query";
 
 import { Button, ImageView } from "@components/common/elements";
 import { IProduct } from "types/productTypes";
 import { IChild } from "types/userTypes";
+import { selectChannel, createChannel } from "@services/chat";
+import { IChannel } from "types/chatTypes";
+import { useFirestoreMutation } from "@common/hooks";
 
 interface ProductDetailProps {
   product?: IProduct;
@@ -12,10 +17,27 @@ interface ProductDetailProps {
 const ProductDetail = (props: ProductDetailProps) => {
   const { product } = props;
 
+  const router = useRouter();
   const { data: session } = useSession();
 
   const [isEditable, setIsEditable] = useState(false);
   const [isChatable, setIsChatable] = useState(false);
+  const [partnerId, setPartnerId] = useState<string>("");
+
+  const { data, isSuccess } = useQuery<IChannel>(
+    ["selectChannel", partnerId],
+    () => selectChannel(partnerId),
+    { enabled: Boolean(partnerId) }
+  );
+
+  const {
+    mutate,
+    isLoading,
+    isSuccess: isSuccessCreateChannel,
+    variables,
+  } = useMutation("createChannel", createChannel);
+
+  const { mutateFb, isLoadingFb, isSuccessFb, id } = useFirestoreMutation();
 
   useEffect(() => {
     const isMyProduct =
@@ -28,6 +50,35 @@ const ProductDetail = (props: ProductDetailProps) => {
     setIsEditable(isMyProduct);
     setIsChatable(isOtherParent);
   }, [session, product]);
+
+  const handleChat = async () => {
+    setPartnerId(String(product?.childId));
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      if (data) {
+        router.push(`/chat/${data.channelId}`);
+      } else {
+        if (isLoadingFb) return;
+        mutateFb({ data: {}, dataPath: "channel" });
+      }
+    }
+  }, [data, isSuccess]);
+
+  useEffect(() => {
+    if (isSuccessFb) {
+      if (!isLoading) {
+        mutate({ channelId: id, createForId: partnerId });
+      }
+    }
+  }, [id, isSuccessFb]);
+
+  useEffect(() => {
+    if (isSuccessCreateChannel) {
+      router.push(`/chat/${variables?.channelId}`);
+    }
+  }, [isSuccessCreateChannel, variables]);
 
   return (
     <div className="flex flex-col gap-2">
@@ -50,7 +101,7 @@ const ProductDetail = (props: ProductDetailProps) => {
         <span>{product?.tradeRegion}</span>
       </div>
 
-      {isChatable && <Button label="채팅하기" />}
+      {isChatable && <Button label="채팅하기" onClick={handleChat} />}
       {isEditable && <Button label="수정하기" />}
     </div>
   );

@@ -4,7 +4,7 @@ import type { AppProps } from "next/app";
 import { SessionProvider } from "next-auth/react";
 import { RecoilRoot } from "recoil";
 
-import { LayerModalProvider } from "@common/hooks/useLayerModal";
+import { LayerModalProvider } from "@common/hooks";
 
 export default function App({
   Component,

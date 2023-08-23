@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
-import useLayerModal from "@common/hooks/useLayerModal";
+import { useLayerModal } from "@common/hooks";
 import { IChild } from "types/userTypes";
 import { Radio } from "./elements";
 

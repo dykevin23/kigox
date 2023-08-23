@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useQuery } from "react-query";
 import { useFormContext } from "react-hook-form";
 
-import useLayerModal from "@common/hooks/useLayerModal";
+import { useLayerModal } from "@common/hooks";
 import { Input } from "../elements";
 import CategoryList from "./CategoryList";
 import { IMainCategory, IMiddleCategory } from "types/metadataType";
