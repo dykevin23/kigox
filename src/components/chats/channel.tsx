@@ -16,7 +16,7 @@ const Channel = (props: ChannelProps) => {
     <div className="flex gap-2 pt-3 w-full" onClick={onClick}>
       <div className="bg-slate-300 h-10 w-10 rounded-md" />
       <div className="flex flex-col w-64">
-        <span>{partner.profile[0].nickname}</span>
+        <span>{partner?.profile[0].nickname}</span>
         <span>{lastMessage}</span>
         <span>{convertUtcToDate(lastUpdatedAt)}</span>
       </div>
