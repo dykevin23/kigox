@@ -9,6 +9,7 @@ import { IChild } from "types/userTypes";
 import { selectChannel, createChannel } from "@services/chat";
 import { IChannel } from "types/chatTypes";
 import { useFirestoreMutation } from "@common/hooks";
+import { favProduct } from "@services/products";
 
 interface ProductDetailProps {
   product?: IProduct;
@@ -36,6 +37,11 @@ const ProductDetail = (props: ProductDetailProps) => {
     isSuccess: isSuccessCreateChannel,
     variables,
   } = useMutation("createChannel", createChannel);
+  const {
+    mutate: mutateFavProduct,
+    isLoading: isLoadingFavProduct,
+    isSuccess: isSuccessFavProduct,
+  } = useMutation("favProduct", favProduct);
 
   const { mutateFb, isLoadingFb, isSuccessFb, id } = useFirestoreMutation();
 
@@ -51,8 +57,13 @@ const ProductDetail = (props: ProductDetailProps) => {
     setIsChatable(isOtherParent);
   }, [session, product]);
 
-  const handleChat = async () => {
+  const handleChat = () => {
     setPartnerId(String(product?.childId));
+  };
+
+  const handleFav = () => {
+    if (isLoadingFavProduct) return;
+    mutateFavProduct(String(product?.id));
   };
 
   useEffect(() => {
@@ -101,6 +112,7 @@ const ProductDetail = (props: ProductDetailProps) => {
         <span>{product?.tradeRegion}</span>
       </div>
 
+      <Button label="좋아요" onClick={handleFav} />
       {isChatable && <Button label="채팅하기" onClick={handleChat} />}
       {isEditable && <Button label="수정하기" />}
     </div>

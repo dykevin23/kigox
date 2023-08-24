@@ -4,7 +4,7 @@ const Like = () => {
   const router = useRouter();
 
   const handleLiked = () => {
-    router.push("/profile/liked");
+    router.push("/product/favs");
   };
 
   return (

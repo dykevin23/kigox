@@ -37,7 +37,9 @@ const Profile = () => {
         </div>
         <div>
           <ul>
-            <li>관심상품</li>
+            <Link href="/product/favs">
+              <li>관심상품</li>
+            </Link>
             <Link href="/product/sales">
               <li>판매상품</li>
             </Link>

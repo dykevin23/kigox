@@ -9,6 +9,7 @@ import {
   getStandardData,
 } from "@common/utils/helper/coreHelper";
 import { IStandard } from "types/metadataType";
+import { IProduct } from "types/productTypes";
 
 export interface ProductsRequestParams {
   pageNo: number;
@@ -38,7 +39,7 @@ export interface ProductRequestBody {
 
 async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseType<any>>,
+  res: NextApiResponse<ResponseType<IProduct[]>>,
   session: any
 ) {
   const {
@@ -110,18 +111,26 @@ async function handler(
     });
 
     const childIds = disparityRateResult.map((item) => item.childId);
-    const products = await client.$queryRaw`
+    const products: IProduct[] = await client.$queryRaw`
       SELECT
         *,
         (SELECT filePath 
          FROM File B
-         WHERE B.productId = A.id) as image
+         WHERE B.productId = A.id) as image,
+        (SELECT COUNT(*)
+         FROM Fav C
+         WHERE C.productId = A.id) as favCount
       FROM Product A
       ORDER BY FIND_IN_SET(childId, ${childIds.join(",")})
       LIMIT 5 OFFSET ${(parseInt(pageNo as string) - 1) * 5 + 1}
     `;
 
-    res.json({ ok: true, products });
+    res.json({
+      ok: true,
+      products: products.map((item) => {
+        return { ...item, favCount: Number(item.favCount) };
+      }),
+    });
   }
 
   if (method === "POST") {

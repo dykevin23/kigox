@@ -11,7 +11,11 @@ async function handler(
 ) {
   const products = await client.product.findMany({
     where: {
-      childId: parseInt(session.activeChildId),
+      Fav: {
+        some: {
+          childId: parseInt(session.activeChildId),
+        },
+      },
     },
     include: {
       _count: {

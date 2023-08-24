@@ -12,4 +12,5 @@ export interface IProduct {
   status: string;
   childId: number;
   image: string;
+  favCount?: number;
 }
