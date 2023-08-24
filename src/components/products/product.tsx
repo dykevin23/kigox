@@ -1,24 +1,18 @@
 import { TRADE_METHOD } from "@common/constants/server";
 import { ImageView } from "@components/common/elements";
+import Link from "next/link";
 import { IProduct } from "types/productTypes";
 
 interface ProductProps {
   product: IProduct;
-  onClick?: (productId: string) => void;
 }
 const Product = (props: ProductProps) => {
   const {
     product: { id, title, price, tradeMethod, image = "" },
-    onClick,
   } = props;
 
-  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    onClick?.(id + "");
-  };
-
   return (
-    <div className="flex gap-2 pt-3 w-full" onClick={handleClick}>
+    <Link href={`/product/${id}`} className="flex gap-2 pt-3 w-full">
       <div className="bg-slate-300 h-28 w-28 rounded-md">
         <ImageView imagePath={image} />
       </div>
@@ -49,7 +43,7 @@ const Product = (props: ProductProps) => {
           <span>11시간 전</span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

@@ -40,10 +40,6 @@ export default function Home() {
     }
   }, [session]);
 
-  const handleClick = (productId: string) => {
-    router.push(`/product/${productId}`);
-  };
-
   return (
     <Layout
       hasGnbMenu
@@ -69,11 +65,7 @@ export default function Home() {
             {productList?.pages
               .flatMap((page) => page)
               ?.map((product) => (
-                <Product
-                  key={product.id}
-                  product={product}
-                  onClick={handleClick}
-                />
+                <Product key={product.id} product={product} />
               ))}
           </div>
           {hasNextPage && (
