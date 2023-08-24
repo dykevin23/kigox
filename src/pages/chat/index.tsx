@@ -17,7 +17,7 @@ const Chat = () => {
 
   return (
     <Layout hasGnbMenu headerProps={{ left: "childSelector" }}>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 h-full">
         <Box>
           <div className="flex flex-col space-y-3 divide-y">
             {chatList?.map((chat) => (

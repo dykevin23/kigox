@@ -23,7 +23,7 @@ export default function App({
       <RecoilRoot>
         <QueryClientProvider client={queryClient}>
           <LayerModalProvider>
-            <div className="w-full max-w-lg mx-auto">
+            <div className="w-full max-w-lg mx-auto h-screen">
               <Component {...pageProps} />
             </div>
           </LayerModalProvider>

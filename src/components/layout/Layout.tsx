@@ -1,6 +1,7 @@
 import Head from "next/head";
 import GnbBar from "@components/layout/GnbBar";
 import Header, { HeaderProps } from "./Header";
+import { cls } from "@common/utils/helper/utils";
 
 interface LayoutProps {
   headerProps: HeaderProps;
@@ -17,7 +18,9 @@ const Layout = (props: LayoutProps) => {
         <title>kigox</title>
       </Head>
       <Header {...headerProps} />
-      <div className="pt-12 pb-24">{children}</div>
+      <div className={cls("pt-12 h-full", hasGnbMenu ? "pb-24" : "")}>
+        {children}
+      </div>
       {hasGnbMenu && <GnbBar />}
     </>
   );
