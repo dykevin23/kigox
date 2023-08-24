@@ -55,6 +55,7 @@ model Child {
   Search          Search[]
   createChannels  Channel[] @relation(name: "createChannels")
   receiveChannels Channel[] @relation(name: "receiveChannels")
+  Fav             Fav[]
 }
 
 model StandardData {
@@ -87,6 +88,7 @@ model Product {
   updatedAt      DateTime @updatedAt
   Buy            Buy[]
   File           File[]
+  Fav            Fav[]
 }
 
 model MainCategory {
@@ -140,4 +142,14 @@ model Channel {
   channelId   String   @unique
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model Fav {
+  id        Int      @id @default(autoincrement())
+  childId   Int
+  child     Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
