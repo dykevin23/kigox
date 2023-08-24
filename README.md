@@ -24,6 +24,7 @@ validation: React-hook-form
 ### Devleop log
 
 ```
+update
 2023년 8월 23일
 - 채팅기능 구현
 - firebase firestore이용
