@@ -1,3 +1,4 @@
+export { default as Accordion } from "@components/common/elements/Accordion";
 export { default as Button } from "@components/common/elements/Button";
 export { default as FloatingButton } from "@components/common/elements/FloatingButton";
 export { default as Form } from "@components/common/elements/Form";

@@ -1,15 +1,34 @@
-import { category } from "@services/products";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+
+import { category } from "@services/products";
 import { IMainCategory, IMiddleCategory } from "types/metadataType";
+import { Accordion } from "../elements";
 
 interface CategoryListProps {
   onSelect: (value: IMiddleCategory) => void;
 }
 const CategoryList = (props: CategoryListProps) => {
   const { onSelect } = props;
-  const { data } = useQuery<IMainCategory[]>("category", category);
 
-  const handleClick =
+  const [isActives, setIsActives] = useState<boolean[]>([false]);
+  const { data, isSuccess } = useQuery<IMainCategory[]>("category", category);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setIsActives(Array(data.length).fill(true));
+    }
+  }, [isSuccess, data]);
+
+  const handleClick = (index: number) => {
+    setIsActives(
+      isActives.map((item, itemIndex) => {
+        return itemIndex === index ? !item : item;
+      })
+    );
+  };
+
+  const handleSelectCategory =
     (selected: IMiddleCategory) =>
     (event: React.MouseEvent<HTMLDivElement>) => {
       event.preventDefault();
@@ -17,28 +36,31 @@ const CategoryList = (props: CategoryListProps) => {
     };
 
   return (
-    <div className="flex flex-col gap-2">
-      {data?.map((main) => {
+    <div className="flex flex-col gap-1">
+      {data?.map((main, index: number) => {
         return (
-          <div key={main.id} className="flex flex-col">
-            <div className="border-2 rounded-md p-2">
-              {" > "}
-              {main.name}
-            </div>
+          <Accordion
+            key={main.id}
+            label={main.name}
+            isActive={isActives[index]}
+            onClick={() => handleClick(index)}
+          >
             <div className="grid grid-cols-3 auto-cols-fr auto-rows-fr">
               {main.middleCategory.map((middle) => {
                 return (
                   <div
                     key={middle.id}
-                    className="flex items-center justify-center border"
-                    onClick={handleClick(middle)}
+                    className="flex h-6 items-center justify-center border "
+                    onClick={handleSelectCategory(middle)}
                   >
-                    <span>{middle.name}</span>
+                    <span className="text-sm font-medium text-gray-600">
+                      {middle.name}
+                    </span>
                   </div>
                 );
               })}
             </div>
-          </div>
+          </Accordion>
         );
       })}
     </div>

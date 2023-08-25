@@ -1,0 +1,26 @@
+/* styles/custom.css */
+@keyframes customSlideInUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes customSlideOutDown {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+.custom-slide-animation.animate__slideInUp {
+  animation: customSlideInUp 0.3s ease-out forwards;
+}
+
+.custom-slide-animation.animate__slideOutDown {
+  animation: customSlideOutDown 0.3s ease-out forwards;
+}

@@ -41,7 +41,9 @@ export const LayerModalProvider = ({ children }: LayerModalProviderProps) => {
     >
       {children}
       {modal.visible && (
-        <LayerModal onClose={handleCloseModal}>{modal.component}</LayerModal>
+        <LayerModal isOpen={modal.visible} onClose={handleCloseModal}>
+          {modal.component}
+        </LayerModal>
       )}
     </LayerModalContext.Provider>
   );
