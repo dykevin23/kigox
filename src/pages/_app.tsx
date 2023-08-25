@@ -4,7 +4,7 @@ import type { AppProps } from "next/app";
 import { SessionProvider } from "next-auth/react";
 import { RecoilRoot } from "recoil";
 
-import { LayerModalProvider } from "@common/hooks";
+import { LayerModalProvider, SpinnerProvider } from "@common/hooks";
 
 export default function App({
   Component,
@@ -22,11 +22,13 @@ export default function App({
     <SessionProvider session={session}>
       <RecoilRoot>
         <QueryClientProvider client={queryClient}>
-          <LayerModalProvider>
-            <div className="w-full max-w-lg mx-auto h-screen">
-              <Component {...pageProps} />
-            </div>
-          </LayerModalProvider>
+          <SpinnerProvider>
+            <LayerModalProvider>
+              <div className="w-full max-w-lg mx-auto h-screen">
+                <Component {...pageProps} />
+              </div>
+            </LayerModalProvider>
+          </SpinnerProvider>
         </QueryClientProvider>
       </RecoilRoot>
     </SessionProvider>
