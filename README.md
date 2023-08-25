@@ -24,7 +24,14 @@ validation: React-hook-form
 ### Devleop log
 
 ```
-update
+2023년 8월 25일
+- Spinner 추가
+
+2023년 8월 24일
+- 채팅 목록 구현
+- 채팅 불러오기
+- 채팅 기능 보완
+
 2023년 8월 23일
 - 채팅기능 구현
 - firebase firestore이용
