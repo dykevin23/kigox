@@ -26,6 +26,8 @@ validation: React-hook-form
 ```
 2023년 8월 25일
 - Spinner 추가
+- Slide modal 애니메이션 관련 animate.css 적용(모달 진행중)
+- 아코디언 컴포넌트 개발 및 카테고리 컴포넌트 적용
 
 2023년 8월 24일
 - 채팅 목록 구현
