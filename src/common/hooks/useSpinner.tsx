@@ -44,7 +44,7 @@ export const SpinnerProvider = ({
       }}
     >
       {children}
-      {(isShow || isFetching || isMutating) && <Spinner />}
+      {(isShow || isFetching > 0 || isMutating > 0) && <Spinner />}
     </SpinnerContext.Provider>
   );
 };
