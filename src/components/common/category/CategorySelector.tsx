@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useQuery } from "react-query";
 import { useFormContext } from "react-hook-form";
 
-import { useLayerModal } from "@common/hooks";
+import { useModal } from "@common/hooks";
 import { Input } from "../elements";
 import CategoryList from "./CategoryList";
 import { IMainCategory, IMiddleCategory } from "types/metadataType";
@@ -17,7 +17,7 @@ interface CategorySelectorProps {
 const CategorySelector = (props: CategorySelectorProps) => {
   const { name, mainCategory = "", middleCategory = "", onChange } = props;
 
-  const { show, hide } = useLayerModal();
+  const { show, hide } = useModal();
   const { setValue } = useFormContext();
 
   const { data } = useQuery<IMainCategory[]>("category", category);

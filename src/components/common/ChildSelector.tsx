@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
-import { useLayerModal } from "@common/hooks";
+import { useModal } from "@common/hooks";
 import { IChild } from "types/userTypes";
 import { Radio } from "./elements";
 
@@ -9,7 +9,7 @@ const ChildSelector = () => {
   const { data: session, update } = useSession();
   const [isCanChange, setIsCanChange] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
-  const { show, hide } = useLayerModal();
+  const { show, hide } = useModal();
 
   useEffect(() => {
     if (session) {

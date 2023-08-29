@@ -6,7 +6,7 @@ interface ContextProp {
   hide: () => void;
 }
 
-const LayerModalContext: React.Context<ContextProp> = createContext({
+const ModalContext: React.Context<ContextProp> = createContext({
   show: (component: React.ReactNode) => {},
   hide: () => {},
 });
@@ -16,11 +16,11 @@ interface IModal {
   component: React.ReactNode | null;
 }
 
-interface LayerModalProviderProps {
+interface ModalProviderProps {
   children: React.ReactNode;
 }
 
-export const LayerModalProvider = ({ children }: LayerModalProviderProps) => {
+export const ModalProvider = ({ children }: ModalProviderProps) => {
   const [modal, setModal] = useState<IModal>({
     visible: false,
     component: null,
@@ -31,7 +31,7 @@ export const LayerModalProvider = ({ children }: LayerModalProviderProps) => {
   };
 
   return (
-    <LayerModalContext.Provider
+    <ModalContext.Provider
       value={{
         show: (component: React.ReactNode) => {
           setModal({ visible: true, component });
@@ -45,10 +45,10 @@ export const LayerModalProvider = ({ children }: LayerModalProviderProps) => {
           {modal.component}
         </LayerModal>
       )}
-    </LayerModalContext.Provider>
+    </ModalContext.Provider>
   );
 };
 
-const useLayerModal = () => useContext(LayerModalContext);
+const useModal = () => useContext(ModalContext);
 
-export default useLayerModal;
+export default useModal;
