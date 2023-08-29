@@ -7,9 +7,8 @@ import { useSession } from "next-auth/react";
 import { Layout } from "@components/layout";
 import { channel } from "@services/chat";
 import { IChannel, IChat } from "types/chatTypes";
-import MessageInput from "@components/common/elements/MessageInput";
 import { useFirestoreQuery, useFirestoreMutation } from "@common/hooks";
-import Message from "@components/common/elements/Message";
+import { Message, MessageInput } from "@components/common/elements";
 
 const Channel = () => {
   const router = useRouter();
@@ -73,35 +72,6 @@ const Channel = () => {
         </div>
       </div>
     </Layout>
-    // <Layout
-    //   hasGnbMenu={false}
-    //   headerProps={{
-    //     left: "goBack",
-    //   }}
-    // >
-    //   <div className="h-full bg-yellow-300">
-    //     <div className="p-2 min-h-full">
-    //       <div className="flex flex-col w-full gap-3">
-    //         {chatList?.map((chat) => {
-    //           return (
-    //             <Message
-    //               key={chat.id}
-    //               message={chat.message}
-    //               isRead={chat.isRead}
-    //               reverse={
-    //                 chat.userId === parseInt(session?.activeChildId as string)
-    //               }
-    //               date={chat.createAt}
-    //             />
-    //           );
-    //         })}
-    //       </div>
-    //     </div>
-    //     <div className="fixed bottom-0 w-full p-2">
-    //       <MessageInput onSubmit={handleSubmit} />
-    //     </div>
-    //   </div>
-    // </Layout>
   );
 };
 

@@ -34,13 +34,16 @@ const ChildSelector = () => {
       <div
         onClick={() => {
           if (isCanChange) {
-            show(
-              <SelectChildren
-                childrens={session?.user.children as IChild[]}
-                activeChildId={session.activeChildId}
-                onChange={handleChangeChild}
-              />
-            );
+            show({
+              type: "slide",
+              component: (
+                <SelectChildren
+                  childrens={session?.user.children as IChild[]}
+                  activeChildId={session.activeChildId}
+                  onChange={handleChangeChild}
+                />
+              ),
+            });
           }
         }}
       >
