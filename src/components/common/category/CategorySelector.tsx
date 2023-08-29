@@ -45,7 +45,12 @@ const CategorySelector = (props: CategorySelectorProps) => {
   const handleClick = () => {
     show({
       type: "slide",
-      component: <CategoryList onSelect={handleSelect} />,
+      component: (
+        <CategoryList
+          onSelect={handleSelect}
+          selectedCategory={[parseInt(mainCategory), parseInt(middleCategory)]}
+        />
+      ),
     });
   };
 

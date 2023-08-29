@@ -4,12 +4,14 @@ import { useQuery } from "react-query";
 import { category } from "@services/products";
 import { IMainCategory, IMiddleCategory } from "types/metadataType";
 import { Accordion } from "../elements";
+import { cls } from "@common/utils/helper/utils";
 
 interface CategoryListProps {
+  selectedCategory?: number[];
   onSelect: (value: IMiddleCategory) => void;
 }
 const CategoryList = (props: CategoryListProps) => {
-  const { onSelect } = props;
+  const { selectedCategory, onSelect } = props;
 
   const [isActives, setIsActives] = useState<boolean[]>([false]);
   const { data, isSuccess } = useQuery<IMainCategory[]>("category", category);
@@ -50,7 +52,14 @@ const CategoryList = (props: CategoryListProps) => {
                 return (
                   <div
                     key={middle.id}
-                    className="flex h-6 items-center justify-center border "
+                    className={cls(
+                      "flex h-6 items-center justify-center border ",
+                      selectedCategory &&
+                        main.id === selectedCategory[0] &&
+                        middle.id === selectedCategory[1]
+                        ? "bg-yellow-400"
+                        : ""
+                    )}
                     onClick={handleSelectCategory(middle)}
                   >
                     <span className="text-sm font-medium text-gray-600">
