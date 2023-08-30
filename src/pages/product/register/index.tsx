@@ -1,15 +1,15 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useMutation } from "react-query";
-import { FormProvider, useForm } from "react-hook-form";
+import { FieldErrors, FormProvider, useForm } from "react-hook-form";
 
-import { Form } from "@components/common/elements";
 import { Layout } from "@components/layout";
 import { registProduct } from "@services/products";
 import { deleteFile, uploadImageFiles } from "@common/utils/helper/fileHelper";
 import ProductInputForm, {
   IProductInputForm,
 } from "@components/products/productInputForm";
+import { Form } from "@components/common/elements";
 
 const Register = () => {
   const router = useRouter();
@@ -19,6 +19,10 @@ const Register = () => {
     "registProduct",
     registProduct
   );
+
+  const onInValid = (error: FieldErrors) => {
+    console.log("### onInValid => ", error);
+  };
 
   const onValid = async (data: IProductInputForm) => {
     if (isLoading) return;
@@ -67,7 +71,10 @@ const Register = () => {
     >
       <div className="flex flex-col gap-2 ">
         <FormProvider {...registerMethods}>
-          <Form onSubmit={registerMethods.handleSubmit(onValid)} label="등록">
+          <Form
+            onSubmit={registerMethods.handleSubmit(onValid, onInValid)}
+            label="등록"
+          >
             <ProductInputForm />
           </Form>
         </FormProvider>

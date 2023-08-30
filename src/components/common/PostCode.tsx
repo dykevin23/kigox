@@ -52,10 +52,10 @@ const PostCode = (props: PostCodeProps) => {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex justify-center items-center gap-2">
-        <Input name="zonecode" readonly={true} placeholder="우편번호" />
+        <Input name="zonecode" readOnly placeholder="우편번호" />
         <Button label="우편번호 검색" onClick={handleClick} />
       </div>
-      <Input name="address" readonly placeholder="주소 입력" />
+      <Input name="address" readOnly placeholder="주소 입력" />
       <Input
         name="detailAddress"
         placeholder="상세주소 입력"

@@ -3,10 +3,10 @@ import { useQuery } from "react-query";
 import { useFormContext } from "react-hook-form";
 
 import { useModal } from "@common/hooks";
-import { Input } from "../elements";
 import CategoryList from "./CategoryList";
 import { IMainCategory, IMiddleCategory } from "types/metadataType";
 import { category } from "@services/products";
+import { Input } from "../elements";
 
 interface CategorySelectorProps {
   name: string;
@@ -73,7 +73,7 @@ const CategorySelector = (props: CategorySelectorProps) => {
     <Input
       name={name}
       placeholder="카테고리를 선택하세요."
-      readonly={true}
+      readOnly={true}
       onClick={handleClick}
       required="카테고리를 선택하세요."
     />

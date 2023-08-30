@@ -45,19 +45,14 @@ const Child = (props: ChildProps) => {
         name={`children.${childIndex}.nickname`}
         placeholder="닉네임을 입력해주세요.(10자 이내)"
         required="닉네임을 입력해주세요.(10자 이내)"
-        errors={getFieldArrayError(errors, "children", childIndex, "nickname")}
+        error={getFieldArrayError(errors, "children", childIndex, "nickname")}
       />
       <div className="flex justify-between">
         <Input
           name={`children.${childIndex}.birthday`}
           placeholder="생년월일(YYYY-MM-DD)"
           required="생년월일을 입력해주세요."
-          errors={getFieldArrayError(
-            errors,
-            "children",
-            childIndex,
-            "birthday"
-          )}
+          error={getFieldArrayError(errors, "children", childIndex, "birthday")}
         />
         <RadioGroup
           name={`children.${childIndex}.gender`}

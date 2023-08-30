@@ -1,30 +1,38 @@
-import React from "react";
-import { TextField } from "./fields";
+import { useFormContext } from "react-hook-form";
+import { TextField } from "../fields";
+import HelperText from "../HelperText";
 
+type InputTypes = "textField" | "currency";
 interface InputProps {
   name: string;
   type?: string;
-  value: any;
+  inputType?: InputTypes;
   placeholder?: string;
   readOnly?: boolean;
+  required?: boolean | string;
+  error?: string;
   prefix?: React.ReactNode;
   suffix?: React.ReactNode;
   onClick?: () => void;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
-
-const ControlledInput = (props: InputProps) => {
+const Input = (props: InputProps) => {
   const {
     name,
     type = "text",
-    value,
+    inputType = "textField",
     placeholder = "",
     readOnly = false,
+    required = false,
+    error = "",
     prefix,
     suffix,
     onClick,
-    onChange,
   } = props;
+
+  const {
+    register,
+    formState: { errors: fieldError },
+  } = useFormContext();
 
   return (
     <div className="flex flex-col gap-1">
@@ -36,21 +44,28 @@ const ControlledInput = (props: InputProps) => {
         ) : null}
         <TextField
           id={name}
-          value={value}
           type={type}
           placeholder={placeholder}
           readOnly={readOnly}
           onClick={onClick}
-          onChange={onChange}
+          error={fieldError[name]}
+          register={register(name, { required: required })}
+          className={["currency"].includes(inputType) ? "text-right pr-8" : ""}
         />
-        {suffix ? (
+        {suffix || ["currency"].includes(inputType) ? (
           <div className="absolute inset-y-0 flex right-3 items-center pl-3 pointer-events-none">
-            {suffix}
+            {suffix || <span>원</span>}
           </div>
         ) : null}
       </div>
+      {(error || fieldError[name]) && (
+        <HelperText
+          type="error"
+          message={error || (fieldError[name]?.message as string)}
+        />
+      )}
     </div>
   );
 };
 
-export default ControlledInput;
+export default Input;

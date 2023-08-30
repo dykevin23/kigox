@@ -106,7 +106,7 @@ const Join = () => {
               placeholder="닉네임을 입력해주세요.(10자 이내)"
               required="닉네임을 입력해주세요.(10자 이내)"
             />
-            <Input name="email" readonly={true} />
+            <Input name="email" readOnly={true} />
             <div className="flex justify-between">
               <Input
                 name="birthday"
@@ -141,7 +141,6 @@ const Join = () => {
               onClick={joinMethods.handleSubmit(onValid, onInvalid)}
             >
               회원가입
-              {/* <Button label="회원가입" type="submit" /> */}
             </div>
           </Form>
         </FormProvider>
