@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 
 import { CategoryList } from "@components/common/category";
-import { TextField } from "@components/common/elements/Input";
+import { ControlledInput } from "@components/common/elements";
 import { GoBack, Layout } from "@components/layout";
 import SearchHistory from "@components/search/SearchHistory";
 import { insertHistory, searchProducts } from "@services/search";
@@ -98,18 +98,16 @@ const SearchInput = (props: SearchInputProps) => {
     }
   };
 
+  // "appearance-none w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-yellow-300 focus:border-yellow-300 border-gray-300 placeholder-gray-400 pl-10",
   return (
-    <TextField
+    <ControlledInput
+      name="search"
+      value={keyword}
+      onChange={handleChange}
+      onClick={onClick}
+      onBlur={onBlur}
+      onKeyDown={handleKeyDown}
       prefix={<GoBack />}
-      inputProps={{
-        value: keyword,
-        onChange: handleChange,
-        className:
-          "appearance-none w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-yellow-300 focus:border-yellow-300 border-gray-300 placeholder-gray-400 pl-10",
-        onClick: onClick,
-        onBlur: onBlur,
-        onKeyDown: handleKeyDown,
-      }}
     />
   );
 };

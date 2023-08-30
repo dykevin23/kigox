@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TextField } from "./Input";
+import ControlledInput from "./Input";
 
 interface MessageInputProps {
   onSubmit: (message: string) => void;
@@ -24,15 +24,12 @@ const MessageInput = ({ onSubmit }: MessageInputProps) => {
   };
 
   return (
-    <TextField
-      inputProps={{
-        value: msg,
-        placeholder: "메세지를 입력하세요.",
-        className:
-          "appearance-none w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-yellow-300 focus:border-yellow-300 border-gray-300 placeholder-gray-400 ",
-        onChange: handleChange,
-        onKeyDown: handleKeyDown,
-      }}
+    <ControlledInput
+      name="message"
+      value={msg}
+      placeholder="메세지를 입력하세요."
+      onChange={handleChange}
+      onKeyDown={handleKeyDown}
     />
   );
 };

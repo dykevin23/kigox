@@ -10,6 +10,8 @@ interface InputProps {
   prefix?: React.ReactNode;
   suffix?: React.ReactNode;
   onClick?: () => void;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -23,6 +25,8 @@ const ControlledInput = (props: InputProps) => {
     prefix,
     suffix,
     onClick,
+    onKeyDown,
+    onBlur,
     onChange,
   } = props;
 
@@ -42,6 +46,8 @@ const ControlledInput = (props: InputProps) => {
           readOnly={readOnly}
           onClick={onClick}
           onChange={onChange}
+          onKeyDown={onKeyDown}
+          onBlur={onBlur}
         />
         {suffix ? (
           <div className="absolute inset-y-0 flex right-3 items-center pl-3 pointer-events-none">
