@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import { useModal } from "@common/hooks";
 import { IChild } from "types/userTypes";
-import { Radio } from "./elements";
+import { ControlledRadio } from "./elements";
 
 const ChildSelector = () => {
   const { data: session, update } = useSession();
@@ -56,7 +56,7 @@ const ChildSelector = () => {
 interface SelectChildrenProps {
   childrens: IChild[];
   activeChildId: string;
-  onChange: Function;
+  onChange: (value: any) => void;
 }
 const SelectChildren = ({
   childrens,
@@ -64,7 +64,7 @@ const SelectChildren = ({
   onChange,
 }: SelectChildrenProps) => {
   return (
-    <div>
+    <div className="flex flex-col gap-3">
       {childrens.map((child: IChild, index: number) => (
         <Child
           key={index}
@@ -80,14 +80,14 @@ const SelectChildren = ({
 interface ChildProps {
   child: IChild;
   isSelected: boolean;
-  onChange: Function;
+  onChange: (value: any) => void;
 }
 const Child = ({ child, isSelected, onChange }: ChildProps) => {
   return (
-    <div>
+    <div className="flex mx-3 justify-between">
       <span>{child.nickname}</span>
-      <Radio
-        name="isSelected"
+      <ControlledRadio
+        name="activeChild"
         value={child.id}
         isSelected={isSelected}
         onChange={onChange}

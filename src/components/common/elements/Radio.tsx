@@ -1,5 +1,5 @@
-import { ChangeEvent, useEffect } from "react";
-import { useFormContext } from "react-hook-form";
+import { cls } from "@common/utils/helper/utils";
+import { RadioField } from "./fields";
 
 interface RadioGroupOptions {
   label?: string;
@@ -10,54 +10,82 @@ interface RadioGroupOptions {
 interface RadioGroupProps {
   name: string;
   options: RadioGroupOptions[];
-  defaultValue?: any;
+  value?: any;
   vertical?: boolean;
+  reverse?: boolean;
+  onChange: (value: any) => void;
 }
-
-export const RadioGroup = (props: RadioGroupProps) => {
-  const { name, options, defaultValue = "" } = props;
-  const { setValue } = useFormContext();
-  useEffect(() => {
-    setValue(name, defaultValue);
-  }, [defaultValue]);
+export const ControlledRadioGroup = (props: RadioGroupProps) => {
+  const {
+    name,
+    options,
+    value,
+    vertical = false,
+    reverse = false,
+    onChange,
+  } = props;
   return (
-    <div className="flex w-full items-center ml-2 gap-2">
-      {options.map((option) => {
-        return (
-          <div key={option.value} className="flex flex-row gap-1">
-            <Radio name={name} value={option.value} />
-            {option?.label && <span className="text-sm">{option.label}</span>}
-          </div>
-        );
-      })}
+    <div
+      className={cls(
+        "flex w-full items-center ml-2 gap-3",
+        vertical ? "flex-col" : "flex-row"
+      )}
+    >
+      {options?.map((option) => (
+        <ControlledRadio
+          name={name}
+          key={option.value}
+          label={option.label}
+          value={option.value}
+          isSelected={option.value === value}
+          reverse={reverse}
+          onChange={onChange}
+        />
+      ))}
     </div>
   );
 };
 
 interface RadioProps {
+  name: string;
   label?: string;
   value: any;
-  name: string;
-  isSelected?: boolean;
-  onChange?: Function;
+  isSelected: boolean;
+  reverse?: boolean;
+  onChange: (value: any) => void;
 }
-export const Radio = (props: RadioProps) => {
-  const { value, name, isSelected, onChange } = props;
+export const ControlledRadio = (props: RadioProps) => {
+  const {
+    name,
+    label = "",
+    value,
+    isSelected = false,
+    reverse = false,
+    onChange,
+  } = props;
 
-  const { register } = useFormContext();
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onChange?.(event.target.value);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value },
+    } = event;
+    onChange(value);
   };
-  return register ? (
-    <input type="radio" id={name} value={value} {...register(name)} />
-  ) : (
-    <input
-      type="radio"
-      id={name}
-      value={value}
-      checked={isSelected}
-      onChange={handleChange}
-    />
+
+  return (
+    <div
+      className={cls(
+        "flex items-center gap-2",
+        reverse ? "flex-row-reverse" : "flex-row"
+      )}
+      onClick={() => onChange(value)}
+    >
+      <RadioField
+        id={name}
+        value={value}
+        onChange={handleChange}
+        checked={isSelected}
+      />
+      {label && <span className="text-sm">{label}</span>}
+    </div>
   );
 };
