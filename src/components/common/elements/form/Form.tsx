@@ -11,7 +11,7 @@ const Form = (props: FormProps) => {
   return (
     <form onSubmit={onSubmit} className="flex flex-col pt-3 m-3 gap-2">
       {children}
-      {label && <Button label={label} type="submit" />}
+      {label && <Button label={label} isSubmit />}
     </form>
   );
 };
