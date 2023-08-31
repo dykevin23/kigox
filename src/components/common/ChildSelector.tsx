@@ -32,6 +32,7 @@ const ChildSelector = () => {
   return session?.activeChildId ? (
     <>
       <div
+        className="flex justify-center items-center pl-2 gap-1"
         onClick={() => {
           if (isCanChange) {
             show({
@@ -47,7 +48,28 @@ const ChildSelector = () => {
           }
         }}
       >
-        {session.activeChildId}
+        <span>
+          {
+            session.user.children.find(
+              (item: IChild) => item.id === parseInt(session.activeChildId)
+            ).nickname
+          }
+        </span>
+        <svg
+          className="h-3 w-3 font-medium"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+          ></path>
+        </svg>
       </div>
     </>
   ) : null;
