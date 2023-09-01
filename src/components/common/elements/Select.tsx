@@ -1,69 +1,54 @@
 import { useState } from "react";
-import { useFormContext } from "react-hook-form";
-import { cls } from "@common/utils/helper/utils";
 
-export interface SelectOptions {
-  label: string;
+import { SelectProps } from "./form/Select";
+import { Option, SelectField, SelectOption } from "./fields";
+import HelperText from "./HelperText";
+
+interface ControlledSelectProps extends SelectProps {
   value: any;
-  disabled?: boolean;
+  error?: string;
+  onChange: React.ChangeEventHandler<HTMLSelectElement>;
 }
 
-interface SelectProps {
-  name: string;
-  options: SelectOptions[];
-  required?: boolean | string;
-  useInitOption?: boolean;
-  value?: any;
-  onChange?: React.ChangeEventHandler<HTMLSelectElement>;
-}
-
-const Select = (props: SelectProps) => {
+const ControlledSelect = (props: ControlledSelectProps) => {
   const {
     name,
     options,
     required = false,
     useInitOption = false,
     value,
+    error = "",
     onChange,
   } = props;
 
-  const {
-    register,
-    formState: { errors },
-  } = useFormContext();
-
-  const [initOption] = useState<SelectOptions[]>(
-    useInitOption ? [{ label: "선택하세요.", value: "" }] : []
+  const [initOption] = useState<SelectOption[]>(
+    useInitOption
+      ? [
+          {
+            label:
+              typeof useInitOption === "string" ? useInitOption : "선택하세요.",
+            value: "",
+          },
+        ]
+      : []
   );
 
   return (
     <div className="flex flex-col gap-1">
-      <select
-        {...register(name, { required: required })}
-        className={cls(
-          "appearance-none w-full px-3 py-2 border rounded-md shadow-sm border-gray-300 ",
-          errors[name]
-            ? "focus:outline-none focus:ring-red-500 focus:border-red-500 border-red-500 placeholder-red-500"
-            : "focus:outline-none focus:ring-yellow-300 focus:border-yellow-300"
-        )}
-        value={value}
-        onChange={onChange}
-      >
-        {initOption.concat(options).map((option) => {
-          return (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          );
-        })}
-      </select>
-      {errors[name] && (
-        <span className="flex items-start text-xs text-red-500">
-          <>{errors[name]?.message}</>
-        </span>
-      )}
+      <SelectField error={error} onChange={onChange}>
+        {initOption
+          .concat(options)
+          ?.map((option: SelectOption) => (
+            <Option
+              key={option.value}
+              {...option}
+              isSelected={option.value === value}
+            />
+          ))}
+      </SelectField>
+      {error && <HelperText type="error" message={error} />}
     </div>
   );
 };
 
-export default Select;
+export default ControlledSelect;

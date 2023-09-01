@@ -10,6 +10,6 @@ export { default as Message } from "@components/common/elements/Message";
 export { default as MessageInput } from "@components/common/elements/MessageInput";
 export { default as Modal } from "@components/common/elements/Modal";
 export * from "@components/common/elements/Radio";
-export { default as Select } from "@components/common/elements/Select";
+export { default as ControlledSelect } from "@components/common/elements/Select";
 export { default as TextArea } from "@components/common/elements/TextArea";
 export * from "@components/common/elements/form/index";
