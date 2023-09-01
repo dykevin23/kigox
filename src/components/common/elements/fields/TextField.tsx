@@ -4,6 +4,7 @@ const TextField = ({ readOnly, error, register, className, ...rest }: any) => {
   return (
     <input
       {...register}
+      readOnly={readOnly}
       className={cls(
         "appearance-none w-full px-3 py-2 border rounded-md shadow-sm ",
         readOnly
