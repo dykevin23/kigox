@@ -100,7 +100,10 @@ const Join = () => {
     <>
       <div className="h-screen max-h-screen">
         <FormProvider {...joinMethods}>
-          <Form>
+          <Form
+            label="회원가입"
+            onSubmit={joinMethods.handleSubmit(onValid, onInvalid)}
+          >
             <Input
               name="nickname"
               placeholder="닉네임을 입력해주세요.(10자 이내)"
@@ -135,13 +138,6 @@ const Join = () => {
             <Select name="incomeRange" options={incomeRangeOptions} />
 
             <Children childrens={childrenFields} />
-
-            <div
-              className="flex items-center justify-center cursor-pointer pt-3 pb-3 border-t bg-yellow-300 fixed bottom-0 w-full max-w-xl"
-              onClick={joinMethods.handleSubmit(onValid, onInvalid)}
-            >
-              회원가입
-            </div>
           </Form>
         </FormProvider>
       </div>

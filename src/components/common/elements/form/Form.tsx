@@ -9,10 +9,15 @@ interface FormProps {
 const Form = (props: FormProps) => {
   const { label = "", onSubmit, children } = props;
   return (
-    <form onSubmit={onSubmit} className="flex flex-col pt-3 m-3 gap-2">
-      {children}
-      {label && <Button label={label} isSubmit />}
-    </form>
+    <>
+      <form className="flex flex-col pt-3 pb-20 m-3 gap-2">{children}</form>
+      <div
+        className="fixed bottom-0 w-full flex items-center justify-center h-14 bg-yellow-300"
+        onClick={onSubmit}
+      >
+        <span className="text-lg font-medium">{label}</span>
+      </div>
+    </>
   );
 };
 
