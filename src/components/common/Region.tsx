@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import { useFormContext } from "react-hook-form";
 
 import { RegionResponse, getRegionGus, getRegionSidos } from "@services/region";
-import { Select } from "./elements";
+import { ControlledSelect, Select } from "./elements";
 
 interface RegionProps {
   name: string;
@@ -59,7 +59,7 @@ const Region = ({ name, required = false }: RegionProps) => {
   return (
     <div className="flex gap-2">
       <div className="w-1/2">
-        <Select
+        <ControlledSelect
           name="sido"
           value={sido}
           options={

@@ -14,8 +14,8 @@ import PostCode, { AddressCoords } from "@components/common/PostCode";
 import { duplicateCheckNickName, join } from "@services/auth";
 import { IChild } from "types/userTypes";
 import { Input, Form, RadioGroup, Select } from "@components/common/elements";
-import { SelectOptions } from "@components/common/elements/Select";
 import Children from "@components/auth/Children";
+import { SelectOption } from "@components/common/elements/fields";
 
 export interface JoinForm extends AddressCoords {
   nickname: string;
@@ -33,9 +33,9 @@ const Join = () => {
   const { data: session } = useSession();
   const router = useRouter();
 
-  const [incomeRangeOptions, setIncomeRangeOptions] = useState<SelectOptions[]>(
-    [{ label: "", value: "" }]
-  );
+  const [incomeRangeOptions, setIncomeRangeOptions] = useState<SelectOption[]>([
+    { label: "", value: "" },
+  ]);
 
   useEffect(() => {
     console.log("### session => ", session);
