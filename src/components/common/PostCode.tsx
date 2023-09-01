@@ -1,9 +1,8 @@
-import { FieldErrors, UseFormRegister } from "react-hook-form";
-import DaumPostCode, { useDaumPostcodePopup } from "react-daum-postcode";
+import DaumPostCode from "react-daum-postcode";
 
 import { kakaoApi } from "@common/utils/client/kakaoInstances";
 import { Button, Input } from "@components/common/elements";
-import { JoinForm } from "@pages/auth/join";
+import { useModal } from "@common/hooks";
 
 export interface AddressCoords {
   longitude: string | null;
@@ -21,10 +20,7 @@ interface PostCodeProps {
 
 const PostCode = (props: PostCodeProps) => {
   const { onComplete } = props;
-
-  const open = useDaumPostcodePopup(
-    "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
-  );
+  const { show, hide } = useModal();
 
   const handleComplete = async (data: any) => {
     const result: any = await kakaoApi({
@@ -44,10 +40,17 @@ const PostCode = (props: PostCodeProps) => {
         longitude: documents && documents.length > 0 ? documents[0].x : "0",
         latitude: documents && documents.length > 0 ? documents[0].y : "0",
       });
+
+      hide();
     }
   };
 
-  const handleClick = () => open({ onComplete: handleComplete });
+  const handleClick = () => {
+    show({
+      type: "slide",
+      component: <DaumPostCode onComplete={handleComplete} />,
+    });
+  };
 
   return (
     <div className="flex flex-col gap-2">
