@@ -22,7 +22,8 @@ export default function Home() {
     ["products", session?.activeChildId],
     ({ pageParam = 1 }) => products({ pageNo: pageParam }),
     {
-      enabled: Boolean(session?.activeChildId),
+      // enabled: Boolean(session?.activeChildId),
+      enabled: false,
       getNextPageParam: (lastPage, pages) => {
         const lastPageLength = lastPage.length;
         return lastPageLength > 0 ? pages.length + 1 : false;
@@ -70,7 +71,6 @@ export default function Home() {
           </div>
           {hasNextPage && (
             <Button
-              type="button"
               label="more"
               onClick={() => fetchNextPage()}
               disabled={isFetchingNextPage}
