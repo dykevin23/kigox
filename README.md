@@ -24,6 +24,11 @@ validation: React-hook-form
 ### Devleop log
 
 ```
+2023년 9월 5일
+리팩토링 작업중
+- 컴포넌트
+- 회원가입
+
 2023년 8월 25일
 - Spinner 추가
 - Slide modal 애니메이션 관련 animate.css 적용(모달 진행중)
