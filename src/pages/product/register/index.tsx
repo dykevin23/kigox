@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useMutation } from "react-query";
 import { FieldErrors, FormProvider, useForm } from "react-hook-form";
 
-import { Layout } from "@components/layout";
+import { Container, Layout } from "@components/layout";
 import { registProduct } from "@services/products";
 import { deleteFile, uploadImageFiles } from "@common/utils/helper/fileHelper";
 import ProductInputForm, {
@@ -69,7 +69,7 @@ const Register = () => {
       hasGnbMenu={false}
       headerProps={{ left: "goBack", center: <div>상품등록</div> }}
     >
-      <div className="flex flex-col gap-2 ">
+      <Container>
         <FormProvider {...registerMethods}>
           <Form
             onSubmit={registerMethods.handleSubmit(onValid, onInValid)}
@@ -78,7 +78,7 @@ const Register = () => {
             <ProductInputForm />
           </Form>
         </FormProvider>
-      </div>
+      </Container>
     </Layout>
   );
 };

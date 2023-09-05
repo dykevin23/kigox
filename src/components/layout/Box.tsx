@@ -3,7 +3,7 @@ interface BoxProps {
 }
 
 const Box = ({ children }: BoxProps) => {
-  return <div className="mx-2">{children}</div>;
+  return <div className="m-2">{children}</div>;
 };
 
 export default Box;

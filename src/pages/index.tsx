@@ -3,7 +3,14 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useInfiniteQuery } from "react-query";
 
-import { Box, Layout, Like, Search } from "@components/layout";
+import {
+  Box,
+  Container,
+  Divider,
+  Layout,
+  Like,
+  Search,
+} from "@components/layout";
 import Product from "@components/products/product";
 import { products } from "@services/products";
 import { Button, FloatingButton } from "@components/common/elements";
@@ -22,8 +29,8 @@ export default function Home() {
     ["products", session?.activeChildId],
     ({ pageParam = 1 }) => products({ pageNo: pageParam }),
     {
-      // enabled: Boolean(session?.activeChildId),
-      enabled: false,
+      enabled: Boolean(session?.activeChildId),
+      // enabled: false,
       getNextPageParam: (lastPage, pages) => {
         const lastPageLength = lastPage.length;
         return lastPageLength > 0 ? pages.length + 1 : false;
@@ -54,12 +61,14 @@ export default function Home() {
         ),
       }}
     >
-      <div className="flex flex-col gap-2">
+      <Container>
         <Box>
           <div className="flex items-center justify-center bg-slate-400 h-40">
             slide 영역
           </div>
         </Box>
+
+        <Divider />
 
         <Box>
           <div className="flex flex-col space-y-3 divide-y">
@@ -77,7 +86,7 @@ export default function Home() {
             />
           )}
         </Box>
-      </div>
+      </Container>
 
       <FloatingButton href="/product/register">
         <svg

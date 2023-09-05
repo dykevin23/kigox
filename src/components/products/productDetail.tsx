@@ -10,6 +10,7 @@ import { selectChannel, createChannel } from "@services/chat";
 import { IChannel } from "types/chatTypes";
 import { useFirestoreMutation } from "@common/hooks";
 import { favProduct } from "@services/products";
+import { Container } from "@components/layout";
 
 interface ProductDetailProps {
   product?: IProduct;
@@ -92,7 +93,7 @@ const ProductDetail = (props: ProductDetailProps) => {
   }, [isSuccessCreateChannel, variables]);
 
   return (
-    <div className="flex flex-col gap-2">
+    <Container>
       <ImageView imagePath={product?.image} />
 
       <div className="w-full h-40 bg-yellow-300 px-3 py-2">
@@ -115,7 +116,7 @@ const ProductDetail = (props: ProductDetailProps) => {
       <Button label="좋아요" onClick={handleFav} />
       {isChatable && <Button label="채팅하기" onClick={handleChat} />}
       {isEditable && <Button label="수정하기" />}
-    </div>
+    </Container>
   );
 };
 

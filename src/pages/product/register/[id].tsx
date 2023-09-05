@@ -4,7 +4,7 @@ import { useMutation, useQuery } from "react-query";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { Form } from "@components/common/elements";
-import { Layout } from "@components/layout";
+import { Container, Layout } from "@components/layout";
 import { modifyProduct, productDetail } from "@services/products";
 import { uploadImageFiles } from "@common/utils/helper/fileHelper";
 import ProductInputForm, {
@@ -87,13 +87,13 @@ const Modify = () => {
       hasGnbMenu={false}
       headerProps={{ left: "goBack", center: <div>상품수정</div> }}
     >
-      <div className="flex flex-col gap-2 ">
+      <Container>
         <FormProvider {...modifyMethods}>
           <Form onSubmit={modifyMethods.handleSubmit(onValid)} label="수정">
             <ProductInputForm />
           </Form>
         </FormProvider>
-      </div>
+      </Container>
     </Layout>
   );
 };

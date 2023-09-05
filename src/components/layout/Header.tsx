@@ -19,26 +19,22 @@ const Header = (props: HeaderProps) => {
   const { data: session } = useSession();
 
   return (
-    <Box>
-      <div className="flex bg-white w-full max-w-xl fixed top-0 border-b-2 items-center justify-start h-12">
-        {custom ? (
-          <div className="flex justify-center w-full">{custom}</div>
-        ) : (
-          <>
-            <div className="flex justify-start w-full  bg-red-500">
-              {left === "childSelector" && session?.activeChildId && (
-                <ChildSelector />
-              )}
-              {left === "goBack" && <GoBack />}
-            </div>
-            <div className="flex justify-center w-full  bg-blue-500">
-              {center}
-            </div>
-            <div className="flex justify-end w-full  bg-green-500">{right}</div>
-          </>
-        )}
-      </div>
-    </Box>
+    <div className="flex bg-white w-full max-w-xl fixed top-0 border-b-2 items-center justify-start h-12 p-2">
+      {custom ? (
+        <div className="flex justify-center w-full">{custom}</div>
+      ) : (
+        <>
+          <div className="flex justify-start w-full">
+            {left === "childSelector" && session?.activeChildId && (
+              <ChildSelector />
+            )}
+            {left === "goBack" && <GoBack />}
+          </div>
+          <div className="flex justify-center w-full">{center}</div>
+          <div className="flex justify-end w-full gap-2">{right}</div>
+        </>
+      )}
+    </div>
   );
 };
 

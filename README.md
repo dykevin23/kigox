@@ -28,6 +28,7 @@ validation: React-hook-form
 리팩토링 작업중
 - 컴포넌트
 - 회원가입
+- 레이아웃
 
 2023년 8월 25일
 - Spinner 추가

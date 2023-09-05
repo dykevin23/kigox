@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
-import { Layout } from "@components/layout";
+import { Container, Layout } from "@components/layout";
 import ProductDetail from "@components/products/productDetail";
 import { productDetail } from "@services/products";
 import { IProduct } from "types/productTypes";
@@ -37,9 +37,9 @@ const Product = () => {
         ),
       }}
     >
-      <div className="flex flex-col gap-2 ">
+      <Container>
         <ProductDetail product={product} />
-      </div>
+      </Container>
     </Layout>
   );
 };

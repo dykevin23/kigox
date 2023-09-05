@@ -3,7 +3,7 @@ import { useMutation, useQuery } from "react-query";
 
 import { CategoryList } from "@components/common/category";
 import { ControlledInput } from "@components/common/elements";
-import { GoBack, Layout } from "@components/layout";
+import { Container, GoBack, Layout } from "@components/layout";
 import SearchHistory from "@components/search/SearchHistory";
 import { insertHistory, searchProducts } from "@services/search";
 
@@ -60,7 +60,7 @@ const Search = () => {
         ),
       }}
     >
-      <div className="flex flex-col gap-2">
+      <Container>
         <div>search</div>
         {visibleElement === "category" && (
           <div>
@@ -70,7 +70,7 @@ const Search = () => {
         )}
         {visibleElement === "history" && <SearchHistory />}
         {/* {visibleElement === 'products'} */}
-      </div>
+      </Container>
     </Layout>
   );
 };

@@ -16,6 +16,7 @@ import { IChild } from "types/userTypes";
 import { Input, Form, RadioGroup, Select } from "@components/common/elements";
 import Children from "@components/auth/Children";
 import { SelectOption } from "@components/common/elements/fields";
+import { Card } from "@components/layout";
 
 export interface JoinForm extends AddressCoords {
   nickname: string;
@@ -105,7 +106,7 @@ const Join = () => {
               label="회원가입"
               onSubmit={joinMethods.handleSubmit(onValid, onInvalid)}
             >
-              <div className="flex flex-col bg-white p-3 gap-2 rounded-md">
+              <Card>
                 <div className="flex gap-2 items-center">
                   <div className="w-1 h-6 bg-amber-800" />
                   <span className="text-lg font-medium text-amber-800">
@@ -148,10 +149,10 @@ const Join = () => {
                   options={incomeRangeOptions}
                   required="소득정보를 선택하세요."
                 />
-              </div>
-              <div className="flex flex-col bg-white p-3 gap-2 rounded-md">
+              </Card>
+              <Card>
                 <Children childrens={childrenFields} />
-              </div>
+              </Card>
             </Form>
           </FormProvider>
         </div>

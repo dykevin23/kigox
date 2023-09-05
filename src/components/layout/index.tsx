@@ -1,4 +1,7 @@
 export { default as Box } from "@components/layout/Box";
+export { default as Card } from "@components/layout/Card";
+export { default as Container } from "@components/layout/Container";
+export { default as Divider } from "@components/layout/Divider";
 export { default as Edit } from "@components/layout/Edit";
 export { GoBack } from "@components/layout/Header";
 export { default as Layout } from "@components/layout/Layout";
