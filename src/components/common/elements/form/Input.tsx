@@ -48,7 +48,7 @@ const Input = (props: InputProps) => {
           placeholder={placeholder}
           readOnly={readOnly}
           onClick={onClick}
-          error={fieldError[name]}
+          error={error || fieldError[name]}
           register={register(name, { required: required })}
           className={["currency"].includes(inputType) ? "text-right pr-8" : ""}
         />

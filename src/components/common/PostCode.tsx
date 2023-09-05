@@ -58,7 +58,12 @@ const PostCode = (props: PostCodeProps) => {
         <Input name="zonecode" readOnly placeholder="우편번호" />
         <Button label="우편번호 검색" onClick={handleClick} />
       </div>
-      <Input name="address" readOnly placeholder="주소 입력" />
+      <Input
+        name="address"
+        readOnly
+        placeholder="주소 입력"
+        required="주소를 입력하세요."
+      />
       <Input
         name="detailAddress"
         placeholder="상세주소 입력"

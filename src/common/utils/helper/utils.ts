@@ -13,6 +13,7 @@ export const getFieldArrayError = (
   return (
     errors[key] &&
     (errors[key] as any)[index] &&
-    (errors[key] as any)[index][field]
+    (errors[key] as any)[index][field] &&
+    (errors[key] as any)[index][field].message
   );
 };

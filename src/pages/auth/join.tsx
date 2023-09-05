@@ -143,7 +143,11 @@ const Join = () => {
                   }}
                 />
 
-                <Select name="incomeRange" options={incomeRangeOptions} />
+                <Select
+                  name="incomeRange"
+                  options={incomeRangeOptions}
+                  required="소득정보를 선택하세요."
+                />
               </div>
               <div className="flex flex-col bg-white p-3 gap-2 rounded-md">
                 <Children childrens={childrenFields} />
