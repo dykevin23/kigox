@@ -63,8 +63,13 @@ const Child = (props: ChildProps) => {
     <div className="flex flex-col gap-1 ">
       <div className="flex justify-between mx-2 items-center">
         <span>{`자녀${childIndex + 1}`}</span>
-        <div className="w-15">
-          <Button label="삭제" onClick={onDelete} />
+        <div className="w-40 flex items-center justify-end">
+          <Button
+            label="삭제"
+            onClick={onDelete}
+            size="small"
+            type="tetriary"
+          />
         </div>
       </div>
 

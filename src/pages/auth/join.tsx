@@ -98,57 +98,59 @@ const Join = () => {
 
   return (
     <>
-      <div className="h-screen max-h-full bg-yellow-300">
-        <FormProvider {...joinMethods}>
-          <Form
-            label="회원가입"
-            onSubmit={joinMethods.handleSubmit(onValid, onInvalid)}
-          >
-            <div className="flex flex-col bg-white p-3 gap-2 rounded-md">
-              <div className="flex gap-2 items-center">
-                <div className="w-1 h-6 bg-amber-800" />
-                <span className="text-lg font-medium text-amber-800">
-                  부모정보
-                </span>
-              </div>
-              <Input
-                name="nickname"
-                placeholder="닉네임을 입력해주세요.(10자 이내)"
-                required="닉네임을 입력해주세요.(10자 이내)"
-              />
-              <Input name="email" readOnly={true} />
-              <div className="flex justify-between">
+      <div className="h-screen bg-slate-100">
+        <div className="max-h-full overflow-y-auto">
+          <FormProvider {...joinMethods}>
+            <Form
+              label="회원가입"
+              onSubmit={joinMethods.handleSubmit(onValid, onInvalid)}
+            >
+              <div className="flex flex-col bg-white p-3 gap-2 rounded-md">
+                <div className="flex gap-2 items-center">
+                  <div className="w-1 h-6 bg-amber-800" />
+                  <span className="text-lg font-medium text-amber-800">
+                    부모정보
+                  </span>
+                </div>
                 <Input
-                  name="birthday"
-                  placeholder="생년월일(YYYY-MM-DD)"
-                  required="생년월일을 입력해주세요."
+                  name="nickname"
+                  placeholder="닉네임을 입력해주세요.(10자 이내)"
+                  required="닉네임을 입력해주세요.(10자 이내)"
                 />
-                <RadioGroup
-                  name="gender"
-                  options={[
-                    { label: "남자", value: "male" },
-                    { label: "여자", value: "female" },
-                  ]}
-                  defaultValue="male"
+                <Input name="email" readOnly={true} />
+                <div className="flex justify-between">
+                  <Input
+                    name="birthday"
+                    placeholder="생년월일(YYYY-MM-DD)"
+                    required="생년월일을 입력해주세요."
+                  />
+                  <RadioGroup
+                    name="gender"
+                    options={[
+                      { label: "남자", value: "male" },
+                      { label: "여자", value: "female" },
+                    ]}
+                    defaultValue="male"
+                  />
+                </div>
+
+                <PostCode
+                  onComplete={(data) => {
+                    joinMethods.setValue("zonecode", data.zonecode);
+                    joinMethods.setValue("address", data.address);
+                    joinMethods.setValue("longitude", data.longitude);
+                    joinMethods.setValue("latitude", data.latitude);
+                  }}
                 />
+
+                <Select name="incomeRange" options={incomeRangeOptions} />
               </div>
-
-              <PostCode
-                onComplete={(data) => {
-                  joinMethods.setValue("zonecode", data.zonecode);
-                  joinMethods.setValue("address", data.address);
-                  joinMethods.setValue("longitude", data.longitude);
-                  joinMethods.setValue("latitude", data.latitude);
-                }}
-              />
-
-              <Select name="incomeRange" options={incomeRangeOptions} />
-            </div>
-            <div className="flex flex-col bg-white p-3 gap-2 rounded-md">
-              <Children childrens={childrenFields} />
-            </div>
-          </Form>
-        </FormProvider>
+              <div className="flex flex-col bg-white p-3 gap-2 rounded-md">
+                <Children childrens={childrenFields} />
+              </div>
+            </Form>
+          </FormProvider>
+        </div>
       </div>
 
       {/* {isOpenPostCode && <PostCode onClose={() => setIsOpenPostCode(false)} />} */}

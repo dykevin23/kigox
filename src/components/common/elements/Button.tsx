@@ -1,10 +1,12 @@
 import { cls } from "@common/utils/helper/utils";
 
 type ButtonTypes = "primary" | "secondary" | "tetriary" | "light" | "dark";
+type ButtonSizes = "default" | "large" | "medium" | "small";
 interface ButtonProps {
   label: string;
   isSubmit?: boolean;
   type?: ButtonTypes;
+  size?: ButtonSizes;
   disabled?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
@@ -14,6 +16,7 @@ const Button = (props: ButtonProps) => {
     label,
     isSubmit = false,
     type = "secondary",
+    size = "default",
     disabled = false,
     onClick,
   } = props;
@@ -34,11 +37,24 @@ const Button = (props: ButtonProps) => {
     }
   };
 
+  const getSizeClass = (size: ButtonSizes) => {
+    if (size === "large") {
+      return "w-1/3 py-2 px-2 text-lg font-medium";
+    } else if (size === "medium") {
+      return "w-1/4 py-1 px-2 text-sm font-normal";
+    } else if (size === "small") {
+      return "w-1/5 py-1 px-1 text-xs font-normal";
+    }
+
+    return "w-full py-2 text-sm px-4 font-medium";
+  };
+
   return (
     <button
       className={cls(
-        "border border-transparent w-full py-2 text-sm px-4 rounded-md font-medium  focus:outline-none",
-        getStyleClass(type)
+        "border border-transparent rounded-md focus:outline-none",
+        getStyleClass(type),
+        getSizeClass(size)
       )}
       type={isSubmit ? "submit" : "button"}
       disabled={disabled}
