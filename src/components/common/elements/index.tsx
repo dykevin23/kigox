@@ -1,5 +1,6 @@
 export { default as Accordion } from "@components/common/elements/Accordion";
 export { default as Button } from "@components/common/elements/Button";
+export { default as Chips } from "@components/common/elements/Chips";
 export { default as FloatingButton } from "@components/common/elements/FloatingButton";
 export { default as HelperText } from "@components/common/elements/HelperText";
 export { default as ImageUpload } from "@components/common/elements/ImageUpload";

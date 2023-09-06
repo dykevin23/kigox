@@ -68,8 +68,6 @@ export default function Home() {
           </div>
         </Box>
 
-        <Divider />
-
         <Box>
           <div className="flex flex-col space-y-3 divide-y">
             {productList?.pages

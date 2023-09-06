@@ -1,6 +1,8 @@
-import { TRADE_METHOD } from "@common/constants/server";
-import { ImageView } from "@components/common/elements";
 import Link from "next/link";
+
+import { TRADE_METHOD } from "@common/constants/server";
+import { getUpdatedAt } from "@common/utils/helper/dateHelper";
+import { Chips, ImageView } from "@components/common/elements";
 import { IProduct } from "types/productTypes";
 
 interface ProductProps {
@@ -8,20 +10,35 @@ interface ProductProps {
 }
 const Product = (props: ProductProps) => {
   const {
-    product: { id, title, price, tradeMethod, image = "", favCount = 0 },
+    product: {
+      id,
+      title,
+      price,
+      tradeMethod,
+      image = "",
+      favCount = 0,
+      status,
+      updatedAt,
+    },
   } = props;
 
   return (
-    <Link href={`/product/${id}`} className="flex gap-2 pt-3 w-full">
+    <Link href={`/product/${id}`} className="flex gap-2 pt-2 w-full">
       <div className="bg-slate-300 h-28 w-28 rounded-md">
         <ImageView imagePath={image} />
       </div>
-      <div className="flex flex-col w-64">
-        <span>{title}</span>
-        <span>{price}원</span>
-        <span>{TRADE_METHOD[tradeMethod]} (판매중)</span>
+      <div className="flex flex-col w-64 justify-center">
+        <span className="text-sm pb-2">{title}</span>
+        <span className="text-sm font-medium">{price}원</span>
+        <div className="flex pt-1 gap-1">
+          <Chips label={TRADE_METHOD[tradeMethod]} type="primary" />
+          <Chips
+            label={status === "sale" ? "(판매중)" : "(판매완료)"}
+            type="info"
+          />
+        </div>
         <div className="flex justify-between pt-4">
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 text-sm">
             <svg
               className="h-4 w-4"
               fill="none"
@@ -40,7 +57,7 @@ const Product = (props: ProductProps) => {
             {favCount}
           </div>
 
-          <span>11시간 전</span>
+          <span className="text-sm">{getUpdatedAt(updatedAt)}</span>
         </div>
       </div>
     </Link>
