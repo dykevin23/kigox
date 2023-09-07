@@ -4,6 +4,7 @@ export { default as Container } from "@components/layout/Container";
 export { default as Divider } from "@components/layout/Divider";
 export { default as Edit } from "@components/layout/Edit";
 export { GoBack } from "@components/layout/Header";
+export { default as InfiniteScroll } from "@components/layout/InfiniteScroll";
 export { default as Layout } from "@components/layout/Layout";
 export { default as Like } from "@components/layout/Like";
 export { default as Search } from "@components/layout/Search";

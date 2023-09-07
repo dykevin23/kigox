@@ -6,7 +6,7 @@ import { useInfiniteQuery } from "react-query";
 import {
   Box,
   Container,
-  Divider,
+  InfiniteScroll,
   Layout,
   Like,
   Search,
@@ -32,6 +32,7 @@ export default function Home() {
       enabled: Boolean(session?.activeChildId),
       // enabled: false,
       getNextPageParam: (lastPage, pages) => {
+        console.log("### getNextPageParam => ", lastPage, pages);
         const lastPageLength = lastPage.length;
         return lastPageLength > 0 ? pages.length + 1 : false;
       },
@@ -47,6 +48,13 @@ export default function Home() {
       }
     }
   }, [session]);
+
+  const handleScroll = () => {
+    console.log("### handleScroll => ", hasNextPage, isFetchingNextPage);
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  };
 
   return (
     <Layout
@@ -69,20 +77,15 @@ export default function Home() {
         </Box>
 
         <Box>
-          <div className="flex flex-col space-y-3 divide-y">
-            {productList?.pages
-              .flatMap((page) => page)
-              ?.map((product) => (
-                <Product key={product.id} product={product} />
-              ))}
-          </div>
-          {hasNextPage && (
-            <Button
-              label="more"
-              onClick={() => fetchNextPage()}
-              disabled={isFetchingNextPage}
-            />
-          )}
+          <InfiniteScroll onScroll={handleScroll}>
+            <div className="flex flex-col space-y-3 divide-y">
+              {productList?.pages
+                .flatMap((page) => page)
+                ?.map((product) => (
+                  <Product key={product.id} product={product} />
+                ))}
+            </div>
+          </InfiniteScroll>
         </Box>
       </Container>
 
