@@ -57,7 +57,7 @@ const Product = (props: ProductProps) => {
             {favCount}
           </div>
 
-          <span className="text-sm">{getUpdatedAt(updatedAt)}</span>
+          <span className="text-sm">{getUpdatedAt(updatedAt as string)}</span>
         </div>
       </div>
     </Link>

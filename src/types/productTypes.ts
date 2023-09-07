@@ -13,5 +13,5 @@ export interface IProduct {
   childId: number;
   image: string;
   favCount?: number;
-  updatedAt: string;
+  updatedAt?: string;
 }
