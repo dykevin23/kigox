@@ -24,6 +24,10 @@ validation: React-hook-form
 ### Devleop log
 
 ```
+2023년 9월 8일
+리팩토링 작업중
+- 상품목록, infinite scroll update
+
 2023년 9월 5일
 리팩토링 작업중
 - 컴포넌트
