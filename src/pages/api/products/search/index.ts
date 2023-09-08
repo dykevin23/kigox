@@ -21,6 +21,11 @@ async function handler(
       ],
     },
     include: {
+      _count: {
+        select: {
+          Fav: true,
+        },
+      },
       File: {
         select: {
           filePath: true,
@@ -45,6 +50,8 @@ async function handler(
       status: product.status,
       childId: product.childId,
       image: product?.File[0].filePath,
+      favCount: product._count.Fav,
+      updatedAt: new Date(product.updatedAt).toISOString(),
     });
   }
 

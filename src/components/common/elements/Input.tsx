@@ -1,5 +1,6 @@
 import React from "react";
 import { TextField } from "./fields";
+import { cls } from "@common/utils/helper/utils";
 
 interface InputProps {
   name: string;
@@ -48,6 +49,11 @@ const ControlledInput = (props: InputProps) => {
           onChange={onChange}
           onKeyDown={onKeyDown}
           onBlur={onBlur}
+          className={cls(
+            "",
+            prefix ? "pl-10" : "",
+            suffix ? "text-right pr-8" : ""
+          )}
         />
         {suffix ? (
           <div className="absolute inset-y-0 flex right-3 items-center pl-3 pointer-events-none">

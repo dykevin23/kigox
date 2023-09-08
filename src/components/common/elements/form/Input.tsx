@@ -1,6 +1,8 @@
 import { useFormContext } from "react-hook-form";
+
 import { TextField } from "../fields";
 import HelperText from "../HelperText";
+import { cls } from "@common/utils/helper/utils";
 
 type InputTypes = "textField" | "currency";
 interface InputProps {
@@ -50,7 +52,11 @@ const Input = (props: InputProps) => {
           onClick={onClick}
           error={error || fieldError[name]}
           register={register(name, { required: required })}
-          className={["currency"].includes(inputType) ? "text-right pr-8" : ""}
+          className={cls(
+            "",
+            prefix ? "pl-10" : "",
+            suffix || ["currency"].includes(inputType) ? "text-right pr-8" : ""
+          )}
         />
         {suffix || ["currency"].includes(inputType) ? (
           <div className="absolute inset-y-0 flex right-3 items-center pl-3 pointer-events-none">

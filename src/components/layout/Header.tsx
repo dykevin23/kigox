@@ -1,8 +1,7 @@
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 import ChildSelector from "@components/common/ChildSelector";
-import Box from "./Box";
-import { useSession } from "next-auth/react";
 
 type HeaderLeft = "childSelector" | "goBack";
 
