@@ -1,17 +1,26 @@
 import { callApi } from "@common/utils/client/axiosInstances";
-import { ResponseType } from "@common/utils/server/withHandler";
+import {
+  PaginationResponse,
+  ResponseType,
+} from "@common/utils/server/withHandler";
 import { ProductRequestBody, ProductsRequestParams } from "@pages/api/products";
 import { IMainCategory } from "types/metadataType";
 import { IProduct } from "types/productTypes";
 
-export const products = async ({ pageNo = 1 }: ProductsRequestParams) => {
-  const { products } = await callApi<ResponseType<IProduct[]>>({
+export const products = async ({
+  pageNo = 1,
+}: ProductsRequestParams): Promise<PaginationResponse<IProduct[]>> => {
+  const { products, isLast } = await callApi<ResponseType<IProduct[]>>({
     url: "/api/products",
     method: "GET",
     params: { pageNo },
   });
 
-  return products;
+  return {
+    products: products as IProduct[],
+    isLast,
+    pageNo,
+  };
 };
 
 export const category = async () => {

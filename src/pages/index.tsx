@@ -13,31 +13,25 @@ import {
 } from "@components/layout";
 import Product from "@components/products/product";
 import { products } from "@services/products";
-import { Button, FloatingButton } from "@components/common/elements";
+import { FloatingButton } from "@components/common/elements";
 import { IProduct } from "types/productTypes";
+import { PaginationResponse } from "@common/utils/server/withHandler";
 
 export default function Home() {
   const { data: session } = useSession();
   const router = useRouter();
 
-  const {
-    data: productList,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useInfiniteQuery<IProduct[]>(
-    ["products", session?.activeChildId],
-    ({ pageParam = 1 }) => products({ pageNo: pageParam }),
-    {
-      enabled: Boolean(session?.activeChildId),
-      // enabled: false,
-      getNextPageParam: (lastPage, pages) => {
-        console.log("### getNextPageParam => ", lastPage, pages);
-        const lastPageLength = lastPage.length;
-        return lastPageLength > 0 ? pages.length + 1 : false;
-      },
-    }
-  );
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery<PaginationResponse<IProduct[]>>(
+      ["products", session?.activeChildId],
+      ({ pageParam = 1 }) => products({ pageNo: pageParam }),
+      {
+        enabled: Boolean(session?.activeChildId),
+        // enabled: false,
+        getNextPageParam: (lastPage, pages) =>
+          lastPage.isLast ? false : lastPage.pageNo + 1,
+      }
+    );
 
   useEffect(() => {
     if (session) {
@@ -50,10 +44,7 @@ export default function Home() {
   }, [session]);
 
   const handleScroll = () => {
-    console.log("### handleScroll => ", hasNextPage, isFetchingNextPage);
-    if (hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
+    fetchNextPage();
   };
 
   return (
@@ -77,9 +68,14 @@ export default function Home() {
         </Box>
 
         <Box>
-          <InfiniteScroll onScroll={handleScroll}>
-            <div className="flex flex-col space-y-3 divide-y">
-              {productList?.pages
+          <InfiniteScroll
+            hasNextPage={hasNextPage}
+            isFetching={isFetchingNextPage}
+            onScroll={() => handleScroll()}
+          >
+            <div className="flex flex-col space-y-3 divide-y mb-24">
+              {data?.pages
+                .map((item) => item.products)
                 .flatMap((page) => page)
                 ?.map((product) => (
                   <Product key={product.id} product={product} />

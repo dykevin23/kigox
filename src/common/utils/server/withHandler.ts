@@ -8,6 +8,12 @@ export interface ResponseType<T> {
   [key: string]: any;
 }
 
+export interface PaginationResponse<T> {
+  isLast: boolean;
+  pageNo: number;
+  [key: string]: any;
+}
+
 type method = "GET" | "POST" | "DELETE" | "PUT" | "PATCH";
 
 interface ConfigType {

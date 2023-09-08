@@ -2,17 +2,23 @@ import { useEffect } from "react";
 
 interface InfiniteScrollProps {
   children: React.ReactNode;
+  hasNextPage: boolean | undefined;
+  isFetching: boolean;
   onScroll: () => void;
 }
 
-const InfiniteScroll = ({ children, onScroll }: InfiniteScrollProps) => {
+const InfiniteScroll = ({
+  children,
+  hasNextPage,
+  isFetching,
+  onScroll,
+}: InfiniteScrollProps) => {
   const handleScroll = () => {
     if (
       window.innerHeight + window.scrollY >=
       document.documentElement.scrollHeight
     ) {
-      console.log("### fetch");
-      onScroll();
+      if (hasNextPage && !isFetching) onScroll();
     }
   };
 
@@ -21,7 +27,7 @@ const InfiniteScroll = ({ children, onScroll }: InfiniteScrollProps) => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [hasNextPage]);
 
   return <div>{children}</div>;
 };

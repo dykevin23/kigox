@@ -111,6 +111,12 @@ async function handler(
     });
 
     const childIds = disparityRateResult.map((item) => item.childId);
+    const allProducts: IProduct[] = await client.$queryRaw`
+      SELECT *
+      FROM Product A
+      ORDER BY FIND_IN_SET(childId, ${childIds.join(",")})
+    `;
+
     const products: IProduct[] = await client.$queryRaw`
       SELECT
         *,
@@ -121,8 +127,8 @@ async function handler(
          FROM Fav C
          WHERE C.productId = A.id) as favCount
       FROM Product A
-      ORDER BY FIND_IN_SET(childId, ${childIds.join(",")})
-      LIMIT 5 OFFSET ${(parseInt(pageNo as string) - 1) * 5 + 1}
+      ORDER BY FIND_IN_SET(childId, ${childIds.join(",")}), A.id desc
+      LIMIT 5 OFFSET ${(parseInt(pageNo as string) - 1) * 5}
     `;
 
     res.json({
@@ -130,6 +136,7 @@ async function handler(
       products: products.map((item) => {
         return { ...item, favCount: Number(item.favCount) };
       }),
+      isLast: allProducts.length <= parseInt(pageNo as string) * 5,
     });
   }
 
