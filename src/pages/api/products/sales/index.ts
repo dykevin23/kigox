@@ -44,6 +44,7 @@ async function handler(
       childId: product.childId,
       image: product?.File[0].filePath,
       favCount: product._count.Fav,
+      updatedAt: new Date(product.updatedAt).toISOString(),
     });
   }
 
