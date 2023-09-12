@@ -10,20 +10,28 @@ async function handler(
   session: any
 ) {
   const { method, body } = req;
-  const history = await client.search.findMany({
-    where: {
-      childId: parseInt(session.activeChildId),
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
 
   if (method === "GET") {
+    const history = await client.search.findMany({
+      where: {
+        childId: parseInt(session.activeChildId),
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
     res.json({ ok: true, history });
   }
 
   if (method === "POST") {
+    const history = await client.search.findMany({
+      where: {
+        childId: parseInt(session.activeChildId),
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
     const insertHistory = async () => {
       await client.search.create({
         data: {
@@ -52,9 +60,20 @@ async function handler(
 
     res.json({ ok: true });
   }
+
+  if (method === "DELETE") {
+    console.log(session.activeChildId);
+    const result = await client.search.deleteMany({
+      where: { childId: parseInt(session.activeChildId) },
+    });
+
+    console.log(result);
+
+    res.json({ ok: true });
+  }
 }
 
 export default withHandler({
-  methods: ["GET", "POST"],
+  methods: ["GET", "POST", "DELETE"],
   handler,
 });

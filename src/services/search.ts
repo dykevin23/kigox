@@ -36,3 +36,10 @@ export const deleteHistory = async (id: number) => {
     method: "DELETE",
   });
 };
+
+export const deleteAllHistory = async () => {
+  return await callApi({
+    url: "/api/products/search/history",
+    method: "DELETE",
+  });
+};

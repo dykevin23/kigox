@@ -1,7 +1,11 @@
 import { useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
-import { deleteHistory, searchHistory } from "@services/search";
+import {
+  deleteAllHistory,
+  deleteHistory,
+  searchHistory,
+} from "@services/search";
 import { ISearchHistory } from "types/searchTypes";
 import { Box } from "@components/layout";
 
@@ -16,6 +20,12 @@ const SearchHistory = () => {
     "deleteHistory",
     deleteHistory
   );
+
+  const {
+    mutate: mutateDeleteAll,
+    isLoading: isLoadingDeleteAll,
+    isSuccess: isSuccessDeleteAll,
+  } = useMutation("deleteAllHistory", deleteAllHistory);
 
   const handleDelete = (id: number) => {
     if (isLoading) return;
@@ -53,12 +63,27 @@ const SearchHistory = () => {
     }
   };
 
+  const handleDeleteAll = (event: React.MouseEvent<HTMLSpanElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (isLoadingDeleteAll) return;
+    mutateDeleteAll();
+  };
+
+  useEffect(() => {
+    if (isSuccessDeleteAll) {
+      queryClient.invalidateQueries("searchHistory");
+    }
+  }, [isSuccessDeleteAll]);
+
   return history && history.length > 0 ? (
     <>
       <Box>
         <div className="flex items-center justify-between px-2">
           <span className="text-sm text-gray-600">최근검색</span>
-          <span className="text-sm text-gray-600">전체삭제</span>
+          <span className="text-sm text-gray-600" onClick={handleDeleteAll}>
+            전체삭제
+          </span>
         </div>
       </Box>
       <Box>

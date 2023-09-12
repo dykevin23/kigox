@@ -32,9 +32,11 @@ const Search = () => {
     }
   };
   const handleBlur = () => {
-    if (visibleElement === "history" && keyword === "") {
-      setVisibleElement("category");
-    }
+    setTimeout(() => {
+      if (visibleElement === "history" && keyword === "") {
+        setVisibleElement("category");
+      }
+    }, 100);
   };
 
   const handleChangeKeyword = (value: string) => {
