@@ -8,7 +8,7 @@ const TextField = ({ readOnly, error, register, className, ...rest }: any) => {
       className += " focus:ring-red-500 focus:border-red-500 border-red-500";
     } else {
       if (readOnly) {
-        className += " border-gray-300 placeholder-gray-400";
+        className += " placeholder-gray-400";
       } else {
         className += " focus:ring-yellow-300 focus:border-yellow-300 ";
       }

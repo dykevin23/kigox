@@ -24,6 +24,12 @@ validation: React-hook-form
 ### Devleop log
 
 ```
+2023년 9월 13일
+리팩토링 작업중
+- 검색
+- 상품등록/수정 validation & 디자인
+- 화폐단위 표기 적용(상품 관련부분)
+
 2023년 9월 8일
 리팩토링 작업중
 - 상품목록, infinite scroll update

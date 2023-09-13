@@ -2,7 +2,7 @@ import { useFormContext } from "react-hook-form";
 
 import { TextField } from "../fields";
 import HelperText from "../HelperText";
-import { cls } from "@common/utils/helper/utils";
+import { cls, convertCurrency } from "@common/utils/helper/utils";
 
 type InputTypes = "textField" | "currency";
 interface InputProps {
@@ -33,8 +33,19 @@ const Input = (props: InputProps) => {
 
   const {
     register,
+    setValue,
+    trigger,
     formState: { errors: fieldError },
   } = useFormContext();
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (inputType === "currency") {
+      setValue(name, convertCurrency(event.target.value));
+    } else {
+      setValue(name, event.target.value);
+    }
+    trigger();
+  };
 
   return (
     <div className="flex flex-col gap-1">
@@ -57,6 +68,7 @@ const Input = (props: InputProps) => {
             prefix ? "pl-10" : "",
             suffix || ["currency"].includes(inputType) ? "text-right pr-8" : ""
           )}
+          onChange={handleChange}
         />
         {suffix || ["currency"].includes(inputType) ? (
           <div className="absolute inset-y-0 flex right-3 items-center pl-3 pointer-events-none">

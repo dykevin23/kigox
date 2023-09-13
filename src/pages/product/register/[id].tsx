@@ -12,6 +12,7 @@ import ProductInputForm, {
 } from "@components/products/productInputForm";
 import { IProduct } from "types/productTypes";
 import { ProductRequestBody } from "@pages/api/products";
+import { convertCurrency } from "@common/utils/helper/utils";
 
 const Modify = () => {
   const router = useRouter();
@@ -37,7 +38,7 @@ const Modify = () => {
       modifyMethods.setValue("title", product.title);
       modifyMethods.setValue("mainCategory", product.mainCategory);
       modifyMethods.setValue("middleCategory", product.middleCategory);
-      modifyMethods.setValue("price", product.price);
+      modifyMethods.setValue("price", convertCurrency(product.price));
       modifyMethods.setValue("tradeMethod", product.tradeMethod);
       modifyMethods.setValue("tradeRegion", product.tradeRegion);
       modifyMethods.setValue("recommendAge", product.recommendAge);

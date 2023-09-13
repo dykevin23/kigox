@@ -37,7 +37,7 @@ const Register = () => {
         middleCategory: data.middleCategory,
         tradeMethod: data.tradeMethod,
         tradeRegion: data.tradeRegion,
-        price: data.price,
+        price: data.price.replace(/,/g, ""),
         recommendAge: data.recommendAge,
         gender: data.gender,
         description: data.description,
@@ -57,11 +57,11 @@ const Register = () => {
 
   const deleteImageFile = async () => {
     const file = registerMethods.getValues("images");
-    const deleteResult = await deleteFile(file[0].name);
+    await deleteFile(file[0].name);
 
-    // if (deleteResult) {
-    //   router.push("/", undefined, { shallow: true });
-    // }
+    setTimeout(() => {
+      router.push("/", undefined, { shallow: true });
+    }, 1000);
   };
 
   return (

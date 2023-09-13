@@ -61,7 +61,7 @@ const ImageUpload = (props: ImageUploadProps) => {
           onClick={() => {
             inputRef.current?.click();
           }}
-          className="w-full cursor-pointer text-gray-600 hover:border-orange-500 hover:text-orange-500 flex items-center justify-center border-2 border-dashed border-gray-300 h-48 rounded-md"
+          className="w-full cursor-pointer text-gray-600 hover:border-yellow-300 hover:text-yellow-300 flex items-center justify-center border-2 border-dashed border-gray-300 h-48 rounded-md"
         >
           <svg
             className="h-12 w-12"

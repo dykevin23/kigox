@@ -4,6 +4,7 @@ import { TRADE_METHOD } from "@common/constants/server";
 import { getUpdatedAt } from "@common/utils/helper/dateHelper";
 import { Chips, ImageView } from "@components/common/elements";
 import { IProduct } from "types/productTypes";
+import { convertCurrency } from "@common/utils/helper/utils";
 
 interface ProductProps {
   product: IProduct;
@@ -29,7 +30,7 @@ const Product = (props: ProductProps) => {
       </div>
       <div className="flex flex-col w-64 justify-center">
         <span className="text-sm pb-2">{title}</span>
-        <span className="text-sm font-medium">{price}원</span>
+        <span className="text-sm font-medium">{convertCurrency(price)}원</span>
         <div className="flex pt-1 gap-1">
           <Chips label={TRADE_METHOD[tradeMethod]} type="primary" />
           <Chips
