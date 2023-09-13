@@ -1,16 +1,22 @@
 import { callApi } from "@common/utils/client/axiosInstances";
-import { ResponseType } from "@common/utils/server/withHandler";
+import {
+  PaginationResponse,
+  ResponseType,
+} from "@common/utils/server/withHandler";
 import { IProduct } from "types/productTypes";
 import { ISearchHistory } from "types/searchTypes";
 
-export const searchProducts = async (keyword: string) => {
-  const { products } = await callApi<ResponseType<IProduct[]>>({
+export const searchProducts = async (
+  keyword: string,
+  pageNo: number
+): Promise<PaginationResponse<IProduct[]>> => {
+  const { products, isLast } = await callApi<ResponseType<IProduct[]>>({
     url: "/api/products/search",
     method: "GET",
-    params: { keyword },
+    params: { keyword, pageNo: String(pageNo) },
   });
 
-  return products;
+  return { products, isLast, pageNo };
 };
 
 export const searchHistory = async () => {

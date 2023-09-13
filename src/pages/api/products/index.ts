@@ -43,7 +43,7 @@ async function handler(
   session: any
 ) {
   const {
-    query: { pageNo },
+    query: { pageNo = "1" },
     body,
     method,
   } = req;

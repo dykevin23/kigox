@@ -10,10 +10,21 @@ async function handler(
   session: any
 ) {
   const {
-    query: { keyword },
+    query: { keyword, pageNo = "1" },
   } = req;
 
+  const allProducts = await client.product.findMany({
+    where: {
+      OR: [
+        { title: { contains: keyword as string } },
+        { description: { contains: keyword as string } },
+      ],
+    },
+  });
+
   const products = await client.product.findMany({
+    take: 5,
+    skip: (parseInt(pageNo as string) - 1) * 5,
     where: {
       OR: [
         { title: { contains: keyword as string } },
@@ -55,7 +66,11 @@ async function handler(
     });
   }
 
-  res.json({ ok: true, products: list });
+  res.json({
+    ok: true,
+    products: list,
+    isLast: allProducts.length <= parseInt(pageNo as string) * 5,
+  });
 }
 
 export default withHandler({

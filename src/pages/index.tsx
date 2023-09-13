@@ -28,8 +28,9 @@ export default function Home() {
       {
         enabled: Boolean(session?.activeChildId),
         // enabled: false,
-        getNextPageParam: (lastPage, pages) =>
-          lastPage.isLast ? false : lastPage.pageNo + 1,
+        getNextPageParam: (lastPage) => {
+          return lastPage.isLast ? false : lastPage.pageNo + 1;
+        },
       }
     );
 

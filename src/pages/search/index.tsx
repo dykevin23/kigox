@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useInfiniteQuery, useMutation, useQueryClient } from "react-query";
 
 import { CategoryList } from "@components/common/category";
 import { ControlledInput } from "@components/common/elements";
-import { Box, Container, GoBack, Layout } from "@components/layout";
+import {
+  Box,
+  Container,
+  GoBack,
+  InfiniteScroll,
+  Layout,
+} from "@components/layout";
 import SearchHistory from "@components/search/SearchHistory";
 import { insertHistory, searchProducts } from "@services/search";
 import Product from "@components/products/product";
 import { IProduct } from "types/productTypes";
+import { PaginationResponse } from "@common/utils/server/withHandler";
 
 type SearchElement = "history" | "category" | "products";
 
@@ -18,11 +25,17 @@ const Search = () => {
   const [visibleElement, setVisibleElement] =
     useState<SearchElement>("category");
 
-  const { data: products, isSuccess } = useQuery<IProduct[]>(
-    ["searchProducts", searchParams],
-    () => searchProducts(searchParams),
-    { enabled: Boolean(searchParams) }
-  );
+  const { data, isSuccess, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery<PaginationResponse<IProduct[]>>(
+      ["searchProducts", searchParams],
+      ({ pageParam = 1 }) => searchProducts(searchParams, pageParam),
+      {
+        enabled: Boolean(searchParams),
+        getNextPageParam: (lastPage) => {
+          return lastPage.isLast ? false : lastPage.pageNo + 1;
+        },
+      }
+    );
 
   const { mutate, isLoading } = useMutation("insertHistory", insertHistory);
 
@@ -60,6 +73,8 @@ const Search = () => {
     if (isSuccess) setVisibleElement("products");
   }, [isSuccess]);
 
+  const handleScroll = () => fetchNextPage();
+
   return (
     <Layout hasGnbMenu hasHeader={false}>
       <div className="flex justify-center w-full mb-1">
@@ -83,11 +98,20 @@ const Search = () => {
           {visibleElement === "history" && <SearchHistory />}
           {visibleElement === "products" && (
             <Box>
-              <div className="flex flex-col space-y-3 divide-y mb-24">
-                {products?.map((product) => (
-                  <Product key={product.id} product={product} />
-                ))}
-              </div>
+              <InfiniteScroll
+                hasNextPage={hasNextPage}
+                isFetching={isFetchingNextPage}
+                onScroll={() => handleScroll()}
+              >
+                <div className="flex flex-col space-y-3 divide-y mb-24">
+                  {data?.pages
+                    .map((item) => item.products)
+                    .flatMap((page) => page)
+                    ?.map((product) => (
+                      <Product key={product.id} product={product} />
+                    ))}
+                </div>
+              </InfiniteScroll>
             </Box>
           )}
         </div>
