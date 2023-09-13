@@ -10,34 +10,48 @@ async function handler(
 ) {
   const {
     query: { productId },
+    method,
   } = req;
 
-  const product = await client.fav.findFirst({
-    where: {
-      productId: parseInt(productId as string),
-      childId: parseInt(session.activeChildId),
-    },
-  });
-
-  if (product) {
-    await client.fav.delete({
+  if (method === "GET") {
+    const count = await client.fav.count({
       where: {
-        id: product.id,
-      },
-    });
-  } else {
-    await client.fav.create({
-      data: {
         productId: parseInt(productId as string),
         childId: parseInt(session.activeChildId),
       },
     });
+
+    res.json({ ok: true, isFav: count > 0 });
   }
 
-  res.json({ ok: true });
+  if (method === "POST") {
+    const product = await client.fav.findFirst({
+      where: {
+        productId: parseInt(productId as string),
+        childId: parseInt(session.activeChildId),
+      },
+    });
+
+    if (product) {
+      await client.fav.delete({
+        where: {
+          id: product.id,
+        },
+      });
+    } else {
+      await client.fav.create({
+        data: {
+          productId: parseInt(productId as string),
+          childId: parseInt(session.activeChildId),
+        },
+      });
+    }
+
+    res.json({ ok: true });
+  }
 }
 
 export default withHandler({
-  methods: ["POST"],
+  methods: ["GET", "POST"],
   handler,
 });

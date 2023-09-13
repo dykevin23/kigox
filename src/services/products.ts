@@ -69,7 +69,7 @@ export const salesProducts = async () => {
   return products;
 };
 
-export const favProduct = async (productId: string) => {
+export const favProduct = async (productId: number) => {
   return await callApi({
     url: `/api/products/${productId}/fav`,
     method: "POST",
@@ -83,4 +83,13 @@ export const favsProducts = async () => {
   });
 
   return products;
+};
+
+export const isFavProduct = async (productId: number) => {
+  const { isFav } = await callApi<ResponseType<boolean>>({
+    url: `/api/products/${productId}/fav`,
+    method: "GET",
+  });
+
+  return isFav;
 };

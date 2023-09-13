@@ -55,7 +55,7 @@ export default function Home() {
         left: "childSelector",
         right: (
           <>
-            <Like />
+            <Like isRouting />
             <Search />
           </>
         ),
