@@ -9,7 +9,10 @@ import {
 import { ISearchHistory } from "types/searchTypes";
 import { Box } from "@components/layout";
 
-const SearchHistory = () => {
+interface SearchHistoryProps {
+  onSearch: (history: string) => void;
+}
+const SearchHistory = ({ onSearch }: SearchHistoryProps) => {
   const queryClient = useQueryClient();
   const { data: history } = useQuery<ISearchHistory[]>(
     "searchHistory",
@@ -35,6 +38,9 @@ const SearchHistory = () => {
   const handleClick =
     (value: string) => (event: React.MouseEvent<HTMLDivElement>) => {
       event.preventDefault();
+      event.stopPropagation();
+
+      onSearch(value);
     };
 
   useEffect(() => {

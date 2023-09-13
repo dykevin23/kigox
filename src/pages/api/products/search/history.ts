@@ -62,12 +62,9 @@ async function handler(
   }
 
   if (method === "DELETE") {
-    console.log(session.activeChildId);
-    const result = await client.search.deleteMany({
+    await client.search.deleteMany({
       where: { childId: parseInt(session.activeChildId) },
     });
-
-    console.log(result);
 
     res.json({ ok: true });
   }
