@@ -19,6 +19,9 @@ async function handler(
         { title: { contains: keyword as string } },
         { description: { contains: keyword as string } },
       ],
+      NOT: {
+        childId: parseInt(session.activeChildId),
+      },
     },
   });
 
@@ -30,6 +33,9 @@ async function handler(
         { title: { contains: keyword as string } },
         { description: { contains: keyword as string } },
       ],
+      NOT: {
+        childId: parseInt(session.activeChildId),
+      },
     },
     include: {
       _count: {

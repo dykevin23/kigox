@@ -114,6 +114,7 @@ async function handler(
     const allProducts: IProduct[] = await client.$queryRaw`
       SELECT *
       FROM Product A
+      WHERE A.childId != ${parseInt(session.activeChildId)}
       ORDER BY FIND_IN_SET(childId, ${childIds.join(",")})
     `;
 
@@ -127,6 +128,7 @@ async function handler(
          FROM Fav C
          WHERE C.productId = A.id) as favCount
       FROM Product A
+      WHERE A.childId != ${parseInt(session.activeChildId)}
       ORDER BY FIND_IN_SET(childId, ${childIds.join(",")}), A.id desc
       LIMIT 5 OFFSET ${(parseInt(pageNo as string) - 1) * 5}
     `;
