@@ -69,6 +69,19 @@ export const salesProducts = async () => {
   return products;
 };
 
+export const otherSalesProductsByUser = async (
+  userId: number,
+  productId: number
+) => {
+  const { products } = await callApi<ResponseType<IProduct[]>>({
+    url: `/api/products/sales/users/${userId}`,
+    method: "GET",
+    params: { excludeProductId: productId },
+  });
+
+  return products;
+};
+
 export const favProduct = async (productId: number) => {
   return await callApi({
     url: `/api/products/${productId}/fav`,

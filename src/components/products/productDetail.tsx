@@ -13,6 +13,8 @@ import { Box, Card, Container } from "@components/layout";
 import { convertCurrency } from "@common/utils/helper/utils";
 import { GENDER, TRADE_METHOD } from "@common/constants/server";
 import { getUser } from "@services/users";
+import { otherSalesProductsByUser } from "@services/products";
+import Product from "./product";
 
 interface ProductDetailProps {
   product?: IProduct;
@@ -34,9 +36,20 @@ const ProductDetail = (props: ProductDetailProps) => {
     { enabled: Boolean(product?.childId) }
   );
 
+  const { data: otherSalesProducts } = useQuery(
+    ["otherSalesProductsByUser", salesUser?.id, product?.id],
+    () =>
+      otherSalesProductsByUser(salesUser?.id as number, product?.id as number),
+    { enabled: Boolean(salesUser?.id) }
+  );
+
   useEffect(() => {
     console.log("### salesUser => ", salesUser);
   }, [salesUser]);
+
+  useEffect(() => {
+    console.log("### otherSalesProducts => ", otherSalesProducts);
+  }, [otherSalesProducts]);
 
   const { data, isSuccess } = useQuery<IChannel>(
     ["selectChannel", partnerId],
@@ -139,6 +152,17 @@ const ProductDetail = (props: ProductDetailProps) => {
           </List.Item>
         </List>
       </Box>
+
+      {otherSalesProducts && otherSalesProducts.length > 0 && (
+        <Box>
+          <span>판매자의 다른상품</span>
+          <div className="flex flex-col space-y-3 divide-y mb-24">
+            {otherSalesProducts?.map((product: IProduct) => (
+              <Product key={product.id} product={product} />
+            ))}
+          </div>
+        </Box>
+      )}
 
       {isChatable && <Button label="채팅하기" onClick={handleChat} />}
     </Container>
