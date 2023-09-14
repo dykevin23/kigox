@@ -3,28 +3,40 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useMutation, useQuery } from "react-query";
 
-import { Button, ImageView } from "@components/common/elements";
+import { Button, ImageView, List } from "@components/common/elements";
 import { IProduct } from "types/productTypes";
-import { IChild } from "types/userTypes";
+import { IChild, IUser } from "types/userTypes";
 import { selectChannel, createChannel } from "@services/chat";
 import { IChannel } from "types/chatTypes";
 import { useFirestoreMutation } from "@common/hooks";
-import { favProduct } from "@services/products";
-import { Container } from "@components/layout";
+import { Box, Card, Container } from "@components/layout";
+import { convertCurrency } from "@common/utils/helper/utils";
+import { GENDER, TRADE_METHOD } from "@common/constants/server";
+import { getUser } from "@services/users";
 
 interface ProductDetailProps {
   product?: IProduct;
+  isEditable: boolean;
 }
 
 const ProductDetail = (props: ProductDetailProps) => {
-  const { product } = props;
+  const { product, isEditable = false } = props;
 
   const router = useRouter();
   const { data: session } = useSession();
 
-  const [isEditable, setIsEditable] = useState(false);
   const [isChatable, setIsChatable] = useState(false);
   const [partnerId, setPartnerId] = useState<string>("");
+
+  const { data: salesUser } = useQuery<IUser>(
+    ["getUser", product?.childId],
+    () => getUser(product?.childId as number),
+    { enabled: Boolean(product?.childId) }
+  );
+
+  useEffect(() => {
+    console.log("### salesUser => ", salesUser);
+  }, [salesUser]);
 
   const { data, isSuccess } = useQuery<IChannel>(
     ["selectChannel", partnerId],
@@ -42,14 +54,11 @@ const ProductDetail = (props: ProductDetailProps) => {
   const { mutateFb, isLoadingFb, isSuccessFb, id } = useFirestoreMutation();
 
   useEffect(() => {
-    const isMyProduct =
-      parseInt(session?.activeChildId as string) === product?.childId;
     const isOtherParent =
       session?.user.children.filter(
         (item: IChild) => item.id === product?.childId
       ).length === 0;
 
-    setIsEditable(isMyProduct);
     setIsChatable(isOtherParent);
   }, [session, product]);
 
@@ -84,27 +93,54 @@ const ProductDetail = (props: ProductDetailProps) => {
 
   return (
     <Container>
-      <ImageView imagePath={product?.image} />
-
-      <div className="w-full h-40 bg-yellow-300 px-3 py-2">
-        <div className="flex">
-          <span>
-            {product?.title} (
-            {product?.status === "sale" ? "판매중" : "판매완료"})
-          </span>
+      <Box>
+        <div className="h-72">
+          <ImageView imagePath={product?.image} />
         </div>
-        <div className="w-full h-16">{product?.description}</div>
-      </div>
-      <div className="flex justify-end">
-        <span>{product?.price}원</span>
-      </div>
-      <div className="flex justify-between">
-        <span>{product?.gender}</span>
-        <span>{product?.tradeRegion}</span>
-      </div>
+      </Box>
+
+      <Box>
+        <Card bgColor="bg-slate-200">
+          <div className="flex items-center">
+            <span className="text-lg font-medium">{product?.title}</span>
+            <span className="text-sm pl-1">
+              ({product?.status === "sale" ? "판매중" : "판매완료"})
+            </span>
+          </div>
+          <div className="w-full h-16">{product?.description}</div>
+        </Card>
+      </Box>
+
+      <Box>
+        <List>
+          <List.Item justifyContent="between">
+            <List.ItemLabel>가격</List.ItemLabel>
+            <List.ItemValue>
+              {convertCurrency(product?.price as string)} 원
+            </List.ItemValue>
+          </List.Item>
+          {product?.gender && (
+            <List.Item justifyContent="between">
+              <List.ItemLabel>성별</List.ItemLabel>
+              <List.ItemValue>
+                {GENDER[product?.gender as string]}아
+              </List.ItemValue>
+            </List.Item>
+          )}
+          <List.Item justifyContent="between">
+            <List.ItemLabel>거래선호방식</List.ItemLabel>
+            <List.ItemValue>
+              {TRADE_METHOD[product?.tradeMethod as string]}
+            </List.ItemValue>
+          </List.Item>
+          <List.Item justifyContent="between">
+            <List.ItemLabel>거래지역</List.ItemLabel>
+            <List.ItemValue>{product?.tradeRegion}</List.ItemValue>
+          </List.Item>
+        </List>
+      </Box>
 
       {isChatable && <Button label="채팅하기" onClick={handleChat} />}
-      {isEditable && <Button label="수정하기" />}
     </Container>
   );
 };

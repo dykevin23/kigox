@@ -1,4 +1,5 @@
 import { callApi } from "@common/utils/client/axiosInstances";
+import { ResponseType } from "@common/utils/server/withHandler";
 import { UserAddressRequestBody } from "@pages/api/users/[id]/address";
 import { IUser } from "types/userTypes";
 
@@ -11,6 +12,15 @@ export const getUserList = async () => {
     url: "/api/users",
     method: "GET",
   });
+};
+
+export const getUser = async (childId: number) => {
+  const { user } = await callApi<ResponseType<IUser>>({
+    url: `/api/users/${childId}`,
+    method: "GET",
+  });
+
+  return user;
 };
 
 export const updateUserAddressCoords = async (data: UserAddressRequestBody) => {

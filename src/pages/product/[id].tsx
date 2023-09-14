@@ -68,7 +68,10 @@ const Product = () => {
       }}
     >
       <Container>
-        <ProductDetail product={product} />
+        <ProductDetail
+          product={product}
+          isEditable={session?.activeChildId === product?.childId}
+        />
       </Container>
     </Layout>
   );
