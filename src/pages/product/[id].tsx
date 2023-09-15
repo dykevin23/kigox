@@ -32,10 +32,6 @@ const Product = () => {
     isSuccess: isSuccessFavProduct,
   } = useMutation("favProduct", favProduct);
 
-  useEffect(() => {
-    if (isSuccess) console.log("### product => ", product);
-  }, [product, isSuccess]);
-
   const moveProductEdit = () => {
     router.push(`/product/register/${router.query.id}`);
   };
@@ -68,10 +64,7 @@ const Product = () => {
       }}
     >
       <Container>
-        <ProductDetail
-          product={product}
-          isEditable={session?.activeChildId === product?.childId}
-        />
+        <ProductDetail product={product} />
       </Container>
     </Layout>
   );

@@ -18,11 +18,10 @@ import Product from "./product";
 
 interface ProductDetailProps {
   product?: IProduct;
-  isEditable: boolean;
 }
 
 const ProductDetail = (props: ProductDetailProps) => {
-  const { product, isEditable = false } = props;
+  const { product } = props;
 
   const router = useRouter();
   const { data: session } = useSession();
@@ -42,14 +41,6 @@ const ProductDetail = (props: ProductDetailProps) => {
       otherSalesProductsByUser(salesUser?.id as number, product?.id as number),
     { enabled: Boolean(salesUser?.id) }
   );
-
-  useEffect(() => {
-    console.log("### salesUser => ", salesUser);
-  }, [salesUser]);
-
-  useEffect(() => {
-    console.log("### otherSalesProducts => ", otherSalesProducts);
-  }, [otherSalesProducts]);
 
   const { data, isSuccess } = useQuery<IChannel>(
     ["selectChannel", partnerId],
@@ -113,6 +104,18 @@ const ProductDetail = (props: ProductDetailProps) => {
       </Box>
 
       <Box>
+        <div className="w-full h-20 flex px-2 items-center justify-between">
+          <div className="flex gap-3 items-center">
+            <div className="w-12 h-12 text-white bg-gray-400 rounded-full flex items-center justify-center"></div>
+            <span>{salesUser?.profile[0].nickname}</span>
+          </div>
+          {isChatable && product?.status === "sale" && (
+            <Button size="medium" label="채팅하기" onClick={handleChat} />
+          )}
+        </div>
+      </Box>
+
+      <Box>
         <Card bgColor="bg-slate-200">
           <div className="flex items-center">
             <span className="text-lg font-medium">{product?.title}</span>
@@ -156,15 +159,13 @@ const ProductDetail = (props: ProductDetailProps) => {
       {otherSalesProducts && otherSalesProducts.length > 0 && (
         <Box>
           <span>판매자의 다른상품</span>
-          <div className="flex flex-col space-y-3 divide-y mb-24">
+          <div className="flex flex-col space-y-3 divide-y">
             {otherSalesProducts?.map((product: IProduct) => (
               <Product key={product.id} product={product} />
             ))}
           </div>
         </Box>
       )}
-
-      {isChatable && <Button label="채팅하기" onClick={handleChat} />}
     </Container>
   );
 };
