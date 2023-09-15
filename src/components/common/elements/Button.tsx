@@ -39,11 +39,11 @@ const Button = (props: ButtonProps) => {
 
   const getSizeClass = (size: ButtonSizes) => {
     if (size === "large") {
-      return "w-1/3 py-2 px-2 text-lg font-medium";
+      return "py-2 px-2 text-lg font-medium";
     } else if (size === "medium") {
-      return "w-1/4 py-1 px-2 text-sm font-normal";
+      return "py-1 px-2 text-sm font-normal";
     } else if (size === "small") {
-      return "w-1/5 py-1 px-1 text-xs font-normal";
+      return "py-1 px-1 text-xs font-normal";
     }
 
     return "w-full py-2 text-sm px-4 font-medium";

@@ -2,8 +2,9 @@ import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 
 import ChildSelector from "@components/common/ChildSelector";
+import Search from "./Search";
 
-type HeaderLeft = "childSelector" | "goBack";
+type HeaderLeft = "childSelector" | "goBack" | "search";
 
 export interface HeaderProps {
   custom?: React.ReactNode;
@@ -28,6 +29,7 @@ const Header = (props: HeaderProps) => {
               <ChildSelector />
             )}
             {left === "goBack" && <GoBack />}
+            {left === "search" && <Search />}
           </div>
           <div className="flex justify-center w-full">{center}</div>
           <div className="flex justify-end w-full gap-2">{right}</div>

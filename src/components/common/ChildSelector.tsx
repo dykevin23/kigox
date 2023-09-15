@@ -80,7 +80,7 @@ interface SelectChildrenProps {
   activeChildId: string;
   onChange: (value: any) => void;
 }
-const SelectChildren = ({
+export const SelectChildren = ({
   childrens,
   activeChildId,
   onChange,
