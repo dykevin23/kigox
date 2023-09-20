@@ -44,7 +44,7 @@ const Input = (props: InputProps) => {
     } else {
       setValue(name, event.target.value);
     }
-    trigger();
+    trigger(name);
   };
 
   return (
