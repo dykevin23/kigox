@@ -14,6 +14,7 @@ export const getToday = () => {
 
 export const convertUtcToDate = (value: string) => {
   if (!value) return "";
+
   const timestamp = new Date(value);
 
   // UTC+9 타임존에 맞게 변환
@@ -21,7 +22,33 @@ export const convertUtcToDate = (value: string) => {
   const localTimestamp = new Date(timestamp.getTime() + utcOffset * 60000);
 
   // 변환된 시간을 원하는 포맷으로 표시
-  return localTimestamp.toISOString();
+  const localDateTime = localTimestamp.toISOString();
+
+  const date = localDateTime.split("T")[0].replace(/\D/g, "");
+  const time = localDateTime.split("T")[1].split(".")[0];
+
+  const today = getToday();
+
+  if (today.substring(0, 4) !== date.substring(0, 4)) {
+    return `${date.substring(0, 4)}. ${date
+      .substring(4, 6)
+      .replace(/\D/g, "")}. ${date.substring(6, 8).replace(/\D/g, "")}`;
+  } else {
+    if (today.substring(6, 8) === date.substring(6, 8)) {
+      return time.substring(0, 5);
+    } else {
+      if (
+        parseInt(today.substring(6, 8).replace(/\D/g, "")) - 1 ===
+        parseInt(date.substring(6, 8).replace(/\D/g, ""))
+      ) {
+        return "어제";
+      } else {
+        return `${parseInt(
+          date.substring(4, 6).replace(/\D/g, "")
+        )} 월 ${parseInt(date.substring(6, 8).replace(/\D/g, ""))} 일`;
+      }
+    }
+  }
 };
 
 export const getUpdatedAt = (updatedAt: string) => {

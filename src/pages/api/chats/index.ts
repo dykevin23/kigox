@@ -11,6 +11,14 @@ export interface CreateChannelRequestBody {
   createForId: string;
 }
 
+interface IChatInfo {
+  index: number;
+  userId: number;
+  isRead: boolean;
+  createAt: string;
+  message: string;
+}
+
 async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType<IChannel[]>>,
@@ -41,21 +49,38 @@ async function handler(
       const newChat = Object.assign({}, chat);
 
       const chatRef = collection(db, `channel/${chat.channelId}/chat`);
-      const q = query(chatRef, orderBy("createAt", "desc"), limit(1));
+      const q = query(chatRef, orderBy("createAt", "asc"));
 
       const querySnapshot = await getDocs(q);
+      let chats: IChatInfo[] = [];
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        Object.assign(newChat, {
-          lastUpdatedAt: data.createAt.toDate(),
-          lastMessage: data.message,
+
+        chats.push({
+          index: chats.length + 1,
+          userId: data.userId,
+          createAt: data.createAt.toDate(),
+          message: data.message,
+          isRead: data.isRead,
         });
       });
+
+      if (chats.length > 0) {
+        Object.assign(newChat, {
+          lastMessage: chats[chats.length - 1].message,
+          lastUpdatedAt: chats[chats.length - 1].createAt,
+          newChatCount: chats.filter(
+            (item) =>
+              item.userId !== parseInt(session.activeChildId as string) &&
+              !item.isRead
+          ).length,
+        });
+      }
 
       const user = await client.user.findFirst({
         where: {
           id:
-            session.activeChildId === chat.createById
+            parseInt(session.activeChildId as string) === chat.createById
               ? chat.createFor.userId
               : chat.createBy.userId,
         },

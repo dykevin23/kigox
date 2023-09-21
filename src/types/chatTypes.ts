@@ -10,6 +10,7 @@ export interface IChannel {
   partner?: IUser;
   lastMessage?: string;
   lastUpdatedAt?: string;
+  newChatCount?: number;
 }
 
 export interface IChat {

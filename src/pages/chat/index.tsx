@@ -13,9 +13,9 @@ const Chat = () => {
       <div className="flex flex-col gap-2 h-full">
         <Box>
           <div className="flex flex-col space-y-3 divide-y">
-            {chatList?.map((chat) => (
-              <Channel key={chat.id} chat={chat} />
-            ))}
+            {chatList
+              ?.filter((chat) => chat.lastMessage)
+              .map((chat) => <Channel key={chat.id} chat={chat} />)}
           </div>
         </Box>
       </div>
