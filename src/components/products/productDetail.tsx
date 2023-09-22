@@ -76,7 +76,13 @@ const ProductDetail = (props: ProductDetailProps) => {
         router.push(`/chat/${data.channelId}`);
       } else {
         if (isLoadingFb) return;
-        mutateFb({ data: {}, dataPath: "channel" });
+        mutateFb({
+          data: {
+            createById: parseInt(session?.activeChildId as string),
+            createForId: product?.childId,
+          },
+          dataPath: "channel",
+        });
       }
     }
   }, [data, isSuccess]);

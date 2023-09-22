@@ -37,7 +37,7 @@ const Channel = () => {
       dataPath: `channel/${router.query.id}/chat`,
       data: {
         message: message.trim(),
-        userId: data?.createById,
+        userId: parseInt(session?.activeChildId as string),
         isRead: false,
         createAt: serverTimestamp(),
       },
@@ -51,7 +51,7 @@ const Channel = () => {
         left: "goBack",
       }}
     >
-      <div className="flex flex-col h-full bg-yellow-300">
+      <div className="flex flex-col h-full bg-slate-200">
         <div className="flex flex-col w-full gap-3 p-2 overflow-y-auto ">
           {chatList?.map((chat) => {
             return (
