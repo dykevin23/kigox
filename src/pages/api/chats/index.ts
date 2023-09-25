@@ -9,6 +9,7 @@ import { IChannel } from "types/chatTypes";
 export interface CreateChannelRequestBody {
   channelId: string;
   createForId: string;
+  productId: number;
 }
 
 interface IChatInfo {
@@ -107,7 +108,9 @@ async function handler(
         channelId: body.channelId,
         createById: parseInt(session.activeChildId),
         createForId: parseInt(body.createForId),
+        productId: parseInt(body.productId),
       },
+
     });
     res.json({ ok: true });
   }
