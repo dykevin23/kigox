@@ -43,8 +43,8 @@ const ProductDetail = (props: ProductDetailProps) => {
   );
 
   const { data, isSuccess } = useQuery<IChannel>(
-    ["selectChannel", partnerId],
-    () => selectChannel(partnerId),
+    ["selectChannel", partnerId, product?.id],
+    () => selectChannel(partnerId, product?.id as number),
     { enabled: Boolean(partnerId) }
   );
 
@@ -90,7 +90,7 @@ const ProductDetail = (props: ProductDetailProps) => {
   useEffect(() => {
     if (isSuccessFb) {
       if (!isLoading) {
-        mutate({ channelId: id, createForId: partnerId });
+        mutate({ channelId: id, createForId: partnerId, productId: product?.id as number });
       }
     }
   }, [id, isSuccessFb]);
