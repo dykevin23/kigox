@@ -71,7 +71,7 @@ model StandardData {
 }
 
 model Product {
-  id             Int      @id @default(autoincrement())
+  id             Int       @id @default(autoincrement())
   title          String
   mainCategory   String
   middleCategory String
@@ -80,15 +80,16 @@ model Product {
   tradeRegion    String
   recommedAge    String
   gender         String
-  description    String   @db.MediumText
+  description    String    @db.MediumText
   status         String
-  child          Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
+  child          Child     @relation(fields: [childId], references: [id], onDelete: Cascade)
   childId        Int
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
   Buy            Buy[]
   File           File[]
   Fav            Fav[]
+  Channel        Channel[]
 }
 
 model MainCategory {
@@ -139,6 +140,8 @@ model Channel {
   createById  Int
   createFor   Child    @relation(name: "receiveChannels", fields: [createForId], references: [id], onDelete: Cascade)
   createForId Int
+  productId   Int
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   channelId   String   @unique
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
