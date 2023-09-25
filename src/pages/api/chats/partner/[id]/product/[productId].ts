@@ -9,11 +9,12 @@ async function handler(
   session: any
 ) {
   const {
-    query: { id },
+    query: { id, productId },
   } = req;
 
   const chat = await client.channel.findFirst({
     where: {
+      productId: parseInt(productId as string),
       OR: [
         {
           createById: parseInt(session.activeChildId),

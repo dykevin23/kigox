@@ -20,9 +20,9 @@ export const createChannel = async (data: CreateChannelRequestBody) => {
   });
 };
 
-export const selectChannel = async (id: string) => {
+export const selectChannel = async (id: string, productId: number) => {
   const { chat } = await callApi<ResponseType<IChannel>>({
-    url: `/api/chats/partner/${id}`,
+    url: `/api/chats/partner/${id}/product/${productId}`,
     method: "GET",
   });
 
