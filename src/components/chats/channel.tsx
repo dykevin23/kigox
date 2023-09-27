@@ -1,10 +1,10 @@
 import Link from "next/link";
 
 import { convertUtcToDate } from "@common/utils/helper/dateHelper";
-import { IChannel } from "types/chatTypes";
+import { IChannelList } from "types/chatTypes";
 
 interface ChannelProps {
-  chat: IChannel;
+  chat: IChannelList;
 }
 
 const Channel = (props: ChannelProps) => {

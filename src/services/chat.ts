@@ -3,15 +3,6 @@ import { ResponseType } from "@common/utils/server/withHandler";
 import { CreateChannelRequestBody } from "@pages/api/chats";
 import { IChannel } from "types/chatTypes";
 
-export const chats = async () => {
-  const { chats } = await callApi<ResponseType<IChannel[]>>({
-    url: "/api/chats",
-    method: "GET",
-  });
-
-  return chats;
-};
-
 export const createChannel = async (data: CreateChannelRequestBody) => {
   return await callApi({
     url: "/api/chats",
@@ -36,4 +27,14 @@ export const channel = async (id: string) => {
   });
 
   return chat;
+};
+
+export const getChannels = async (ids: string[]) => {
+  const { channels } = await callApi<ResponseType<IChannel[]>>({
+    url: "/api/chats/channels",
+    method: "POST",
+    data: { channelIds: ids },
+  });
+
+  return channels;
 };

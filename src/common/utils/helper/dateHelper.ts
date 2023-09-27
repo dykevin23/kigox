@@ -12,8 +12,9 @@ export const getToday = () => {
   return `${year}${setMonthDay(month)}${setMonthDay(day)}`;
 };
 
-export const convertUtcToDate = (value: string) => {
-  if (!value) return "";
+type UseType = "default" | "channel";
+export const convertUtcToDate = (value: string, useType: UseType) => {
+  if (!value || !useType) return "";
 
   const timestamp = new Date(value);
 
@@ -26,28 +27,31 @@ export const convertUtcToDate = (value: string) => {
 
   const date = localDateTime.split("T")[0].replace(/\D/g, "");
   const time = localDateTime.split("T")[1].split(".")[0];
-
   const today = getToday();
 
-  if (today.substring(0, 4) !== date.substring(0, 4)) {
-    return `${date.substring(0, 4)}. ${date
-      .substring(4, 6)
-      .replace(/\D/g, "")}. ${date.substring(6, 8).replace(/\D/g, "")}`;
-  } else {
-    if (today.substring(6, 8) === date.substring(6, 8)) {
-      return time.substring(0, 5);
+  if (useType === "channel") {
+    if (today.substring(0, 4) !== date.substring(0, 4)) {
+      return `${date.substring(0, 4)}. ${date
+        .substring(4, 6)
+        .replace(/\D/g, "")}. ${date.substring(6, 8).replace(/\D/g, "")}`;
     } else {
-      if (
-        parseInt(today.substring(6, 8).replace(/\D/g, "")) - 1 ===
-        parseInt(date.substring(6, 8).replace(/\D/g, ""))
-      ) {
-        return "어제";
+      if (today.substring(6, 8) === date.substring(6, 8)) {
+        return time.substring(0, 5);
       } else {
-        return `${parseInt(
-          date.substring(4, 6).replace(/\D/g, "")
-        )} 월 ${parseInt(date.substring(6, 8).replace(/\D/g, ""))} 일`;
+        if (
+          parseInt(today.substring(6, 8).replace(/\D/g, "")) - 1 ===
+          parseInt(date.substring(6, 8).replace(/\D/g, ""))
+        ) {
+          return "어제";
+        } else {
+          return `${parseInt(
+            date.substring(4, 6).replace(/\D/g, "")
+          )}월 ${parseInt(date.substring(6, 8).replace(/\D/g, ""))}일`;
+        }
       }
     }
+  } else if (useType === "default") {
+    return `${date} ${time.replace(/\D/g, "")}`;
   }
 };
 

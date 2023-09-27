@@ -16,9 +16,34 @@ async function handler(
     where: {
       channelId: id as string,
     },
+    select: {
+      id: true,
+      channelId: true,
+      createById: true,
+      createForId: true,
+      createBy: true,
+      createFor: true,
+    },
   });
 
-  res.json({ ok: true, chat: chat });
+  const user = await client.user.findFirst({
+    where: {
+      id:
+        parseInt(session.activeChildId as string) === chat?.createById
+          ? chat?.createFor.userId
+          : chat?.createBy.userId,
+    },
+    include: {
+      Profile: {
+        select: {
+          id: true,
+          nickname: true,
+        },
+      },
+    },
+  });
+
+  res.json({ ok: true, chat: { ...chat, partner: user } });
 }
 
 export default withHandler({
