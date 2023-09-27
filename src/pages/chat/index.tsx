@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import useChatQuery from "@common/hooks/useChatQuery";
 import { useQuery } from "react-query";
 import { getChannels } from "@services/chat";
-import { IChannelList } from "types/chatTypes";
+import { IChannel, IChannelList } from "types/chatTypes";
 import { useSession } from "next-auth/react";
 
 const Chat = () => {
@@ -16,7 +16,7 @@ const Chat = () => {
 
   const [channels, setChannels] = useState<IChannelList[]>([]);
 
-  const { data, isSuccess } = useQuery(
+  const { data, isSuccess } = useQuery<IChannel[]>(
     "channels",
     () =>
       getChannels(

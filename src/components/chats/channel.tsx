@@ -32,7 +32,7 @@ const Channel = (props: ChannelProps) => {
         </div>
         <div className="flex flex-col justify-start items-end">
           <span className="text-sm font-medium text-slate-900 pt-1 pb-2">
-            {convertUtcToDate(lastUpdatedAt)}
+            {convertUtcToDate(lastUpdatedAt, "channel")}
           </span>
           {newChatCount > 0 && (
             <div className="w-4 h-4 rounded-full bg-red-400 flex items-center justify-center p-2.5">
